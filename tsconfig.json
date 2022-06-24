@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,10 +20,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "paths": {
-      "@providers": ["./src/app/providers"],
-      "@providers/*": ["./src/app/providers/*"]
-    }
+    "incremental": true
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }

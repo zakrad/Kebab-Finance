@@ -12,7 +12,6 @@ import {
   ILayoutCSSClasses,
   ILayoutHTMLAttributes,
 } from './LayoutModels'
-import {Web3Provider} from '../../../app/providers'
 
 export interface LayoutContextModel {
   config: ILayout
@@ -75,9 +74,7 @@ const LayoutProvider: React.FC = ({children}) => {
   }, [])
 
   return (
-    <Web3Provider>
       <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>
-    </Web3Provider>
   )
 }
 

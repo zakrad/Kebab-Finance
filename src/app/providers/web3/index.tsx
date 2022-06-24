@@ -1,7 +1,6 @@
 import {createContext, FunctionComponent, useContext, useEffect, useState} from 'react'
-// import detectEthereumProvider from '@metamask/detect-provider'
-// import Web3 from 'web3'
 import {createDefaultState, Web3State} from './utils'
+import {ethers} from 'ethers'
 
 const Web3Context = createContext<Web3State>(createDefaultState())
 
@@ -10,31 +9,19 @@ const Web3Provider: FunctionComponent = ({children}) => {
 
   useEffect(() => {
     function initWeb3() {
-      const ethereum = window.ethereum
-    }
+      const provider = new ethers.providers.Web3Provider(window.ethereum as any)
 
+      setWeb3Api({
+        ethereum: window.ethereum,
+        provider,
+        contract: null,
+        isLoading: false,
+      })
+    }
     initWeb3()
   }, [])
 
-  //   useEffect(() => {
-  //     const loadProvider = async () => {
-  //       const provider = await detectEthereumProvider()
-  //       if (provider) {
-  //         const web3 = new Web3(provider)
-  //         setWeb3Api({
-  //           provider,
-  //           web3,
-  //           contract: null,
-  //           isLoading: false,
-  //         })
-  //       } else {
-  //         setWeb3Api((api) => ({...api, isLoading: false}))
-  //         console.error('Please, install metamask')
-  //       }
-  //     }
-  //   }, [])
-
-  return <Web3Context.Provider value={{web3Api}}>{children}</Web3Context.Provider>
+  return <Web3Context.Provider value={web3Api}>{children}</Web3Context.Provider>
 }
 
 export function useWeb3() {

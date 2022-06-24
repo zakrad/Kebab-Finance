@@ -15,6 +15,7 @@ import {
   TablesWidget10,
   MixedWidget8,
 } from '../../../_metronic/partials/widgets'
+import {useWeb3} from 'src/app/providers/web3'
 
 const DashboardPage: FC = () => (
   <>
@@ -89,6 +90,16 @@ const DashboardPage: FC = () => (
 
 const DashboardWrapper: FC = () => {
   const intl = useIntl()
+  const {provider} = useWeb3()
+
+  const getAccounts = async () => {
+    const accounts = await provider!.listAccounts()
+    console.log(accounts[0])
+  }
+
+  if (provider) {
+    getAccounts()
+  }
 
   return (
     <>
