@@ -10,7 +10,7 @@ const Web3Provider: FunctionComponent = ({children}) => {
 
   useEffect(() => {
     function initWeb3() {
-      const ethereum = window.ethereum;
+      const ethereum = window.ethereum
     }
 
     initWeb3()
@@ -34,4 +34,11 @@ const Web3Provider: FunctionComponent = ({children}) => {
   //     }
   //   }, [])
 
-  return <Web3Context.Provider value={{web3Api}}>{children}<
+  return <Web3Context.Provider value={{web3Api}}>{children}</Web3Context.Provider>
+}
+
+export function useWeb3() {
+  return useContext(Web3Context)
+}
+
+export default Web3Provider
