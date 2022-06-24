@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import React, {FC} from 'react'
-import {useWeb3} from 'src/app/providers/web3'
+import {useAccount} from 'src/app/modules/web3'
 import {KTSVG, toAbsoluteUrl} from '../../../helpers'
 import {HeaderNotificationsMenu, HeaderUserMenu, QuickLinks, Search} from '../../../partials'
 import {useLayout} from '../../core'
@@ -12,9 +12,8 @@ const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
 
 const Topbar: FC = () => {
   const {config} = useLayout()
-  const {hooks} = useWeb3()
-  const {data} = hooks.useAccount('Hi')
-  console.log(data)
+  const {account} = useAccount()
+  console.log(account.data)
 
   return (
     <div className='d-flex align-items-stretch flex-shrink-0'>
