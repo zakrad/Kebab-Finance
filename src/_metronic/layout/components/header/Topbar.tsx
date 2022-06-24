@@ -14,7 +14,6 @@ const Topbar: FC = () => {
   const {config} = useLayout()
 
   const {account} = useAccount()
-  console.log(account.data)
 
   return (
     <div className='d-flex align-items-stretch flex-shrink-0'>
