@@ -43,28 +43,28 @@ export const createWeb3State = ({
   }
 }
 
-const NETWORK_ID = 1337
+// const NETWORK_ID = 1337
 
-export const loadContract = async (
-  name: string, // NftMarket
-  provider: providers.Web3Provider
-): Promise<Contract> => {
-  if (!NETWORK_ID) {
-    return Promise.reject('Network ID is not defined!')
-  }
+// export const loadContract = async (
+//   name: string, // NftMarket
+//   provider: providers.Web3Provider
+// ): Promise<Contract> => {
+//   if (!NETWORK_ID) {
+//     return Promise.reject('Network ID is not defined!')
+//   }
 
-  const res = await fetch(`/contracts/${name}.json`)
-  const Artifact = await res.json()
+//   const res = await fetch(`/contracts/${name}.json`)
+//   const Artifact = await res.json()
 
-  if (Artifact.networks[NETWORK_ID].address) {
-    const contract = new ethers.Contract(
-      Artifact.networks[NETWORK_ID].address,
-      Artifact.abi,
-      provider
-    )
+//   if (Artifact.networks[NETWORK_ID].address) {
+//     const contract = new ethers.Contract(
+//       Artifact.networks[NETWORK_ID].address,
+//       Artifact.abi,
+//       provider
+//     )
 
-    return contract
-  } else {
-    return Promise.reject(`Contract: [${name}] cannot be loaded!`)
-  }
-}
+//     return contract
+//   } else {
+//     return Promise.reject(`Contract: [${name}] cannot be loaded!`)
+//   }
+// }
