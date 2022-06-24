@@ -12,6 +12,7 @@ const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
 
 const Topbar: FC = () => {
   const {config} = useLayout()
+
   const {account} = useAccount()
   console.log(account.data)
 

@@ -1,5 +1,5 @@
 import {MetaMaskInpageProvider} from '@metamask/providers'
-import {Contract, ethers, providers} from 'ethers'
+// import {Contract, ethers, providers} from 'ethers'
 import {setupHooks, Web3Hooks} from 'src/app/modules/web3/setupHooks'
 import {Web3Dependencies} from 'types/hooks'
 
