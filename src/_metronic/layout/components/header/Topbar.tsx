@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import React, {FC} from 'react'
-import {useAccount} from 'src/app/modules'
+import {useWeb3} from 'src/app/providers/web3'
 import {KTSVG, toAbsoluteUrl} from '../../../helpers'
 import {HeaderNotificationsMenu, HeaderUserMenu, QuickLinks, Search} from '../../../partials'
 import {useLayout} from '../../core'
@@ -12,7 +12,8 @@ const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
 
 const Topbar: FC = () => {
   const {config} = useLayout()
-  const {data} = useAccount('sss')
+  const {hooks} = useWeb3()
+  const {data} = hooks.useAccount('Hi')
   console.log(data)
 
   return (
