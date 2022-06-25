@@ -22,7 +22,7 @@ const Topbar: FC = () => {
 
       {/* Quick links */}
 
-      {false ? (
+      {true ? (
         <div
           className={clsx('d-flex align-items-center', toolbarButtonMarginClass)}
           id='kt_header_user_menu_toggle'
