@@ -1,7 +1,11 @@
 import useSWR from 'swr'
 import {CryptoHookFactory} from 'types/hooks'
 
-type AccountHookFactory = CryptoHookFactory<string>
+type UseAccountResponse = {
+  connect: () => void
+}
+
+type AccountHookFactory = CryptoHookFactory<string, UseAccountResponse>
 
 export type UseAccountHook = ReturnType<AccountHookFactory>
 // deps -> provider, ethereum, contract (web3State)
