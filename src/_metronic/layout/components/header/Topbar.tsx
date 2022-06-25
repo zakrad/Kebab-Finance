@@ -39,13 +39,20 @@ const Topbar: FC = () => {
           <HeaderUserMenu />
         </div>
       ) : (
-        <button
-          onClick={() => {
-            alert('C')
-          }}
+        <div
+          className={clsx('d-flex align-items-center', toolbarButtonMarginClass)}
+          id='kt_header_user_menu_toggle'
         >
-          Connect
-        </button>
+          <button
+            type='button'
+            className='btn btn-success'
+            onClick={() => {
+              account.connect()
+            }}
+          >
+            Connect
+          </button>
+        </div>
       )}
 
       {/* begin::Aside Toggler */}

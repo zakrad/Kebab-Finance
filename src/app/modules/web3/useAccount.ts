@@ -6,7 +6,7 @@ type AccountHookFactory = CryptoHookFactory<string>
 export type UseAccountHook = ReturnType<AccountHookFactory>
 // deps -> provider, ethereum, contract (web3State)
 export const hookFactory: AccountHookFactory =
-  ({provider}) =>
+  ({provider, ethereum}) =>
   () => {
     const swrRes = useSWR(
       provider ? 'web3/useAccount' : null,
@@ -24,5 +24,16 @@ export const hookFactory: AccountHookFactory =
       }
     )
 
-    return swrRes
+    const connect = async () => {
+      try {
+        ethereum?.request({method: 'eth_requestAccounts'})
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    return {
+      ...swrRes,
+      connect,
+    }
   }
