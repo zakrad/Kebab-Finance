@@ -4,6 +4,7 @@ import {useAccount} from 'src/app/modules/web3'
 import {KTSVG, toAbsoluteUrl} from '../../../helpers'
 import {HeaderUserMenu} from '../../../partials'
 import {useLayout} from '../../core'
+import Walletbar from './Walletbar'
 
 const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
   toolbarUserAvatarHeightClass = 'symbol-30px symbol-md-40px'
@@ -22,8 +23,7 @@ const Topbar: FC = () => {
 
       {/* Quick links */}
 
-      {true ? (
-        <div
+      {/* <div
           className={clsx('d-flex align-items-center', toolbarButtonMarginClass)}
           id='kt_header_user_menu_toggle'
         >
@@ -37,23 +37,14 @@ const Topbar: FC = () => {
             <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='metronic' />
           </div>
           <HeaderUserMenu />
-        </div>
-      ) : (
-        <div
-          className={clsx('d-flex align-items-center', toolbarButtonMarginClass)}
-          id='kt_header_user_menu_toggle'
-        >
-          <button
-            type='button'
-            className='btn btn-success'
-            onClick={() => {
-              account.connect()
-            }}
-          >
-            Connect
-          </button>
-        </div>
-      )}
+        </div> */}
+
+      <Walletbar
+        isInstalled={account.isInstalled}
+        isLoading={account.isLoading}
+        connect={account.connect}
+        account={account.data}
+      />
 
       {/* begin::Aside Toggler */}
       {config.header.left === 'menu' && (
