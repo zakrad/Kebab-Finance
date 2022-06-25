@@ -1,13 +1,8 @@
-import clsx from 'clsx'
 import React, {FC} from 'react'
 import {useAccount} from 'src/app/modules/web3'
-import {KTSVG, toAbsoluteUrl} from '../../../helpers'
-import {HeaderUserMenu} from '../../../partials'
+import {KTSVG} from '../../../helpers'
 import {useLayout} from '../../core'
 import Walletbar from './Walletbar'
-
-const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
-  toolbarUserAvatarHeightClass = 'symbol-30px symbol-md-40px'
 
 const Topbar: FC = () => {
   const {config} = useLayout()
@@ -22,22 +17,6 @@ const Topbar: FC = () => {
       {/* NOTIFICATIONS */}
 
       {/* Quick links */}
-
-      {/* <div
-          className={clsx('d-flex align-items-center', toolbarButtonMarginClass)}
-          id='kt_header_user_menu_toggle'
-        >
-          <div
-            className={clsx('cursor-pointer symbol', toolbarUserAvatarHeightClass)}
-            data-kt-menu-trigger='click'
-            data-kt-menu-attach='parent'
-            data-kt-menu-placement='bottom-end'
-            data-kt-menu-flip='bottom'
-          >
-            <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='metronic' />
-          </div>
-          <HeaderUserMenu />
-        </div> */}
 
       <Walletbar
         isInstalled={account.isInstalled}
