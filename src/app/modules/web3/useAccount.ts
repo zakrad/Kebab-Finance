@@ -28,6 +28,7 @@ export const hookFactory: AccountHookFactory =
       },
       {
         revalidateOnFocus: false,
+        shouldRetryOnError: false,
       }
     )
 
