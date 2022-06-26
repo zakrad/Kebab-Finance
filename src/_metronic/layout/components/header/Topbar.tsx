@@ -15,14 +15,14 @@ const Topbar: FC = () => {
       {/* Activities */}
       {/* NOTIFICATIONS */}
       {/* Quick links */}
-
+      {network.data} ---
+      {`is suport: ${network.isSupported}`} --- target : {network.targetNetwork}
       <Walletbar
         isInstalled={account.isInstalled}
         isLoading={account.isLoading}
         connect={account.connect}
         account={account.data}
       />
-
       {/* begin::Aside Toggler */}
       {config.header.left === 'menu' && (
         <div className='d-flex align-items-center d-lg-none ms-2 me-n3' title='Show header menu'>

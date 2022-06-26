@@ -14,8 +14,13 @@ const NETWORKS: {[k: string]: string} = {
   1337: 'Ganache',
 }
 
+const targetId = 1
+const targetNetwork = NETWORKS[targetId]
+
 type UseNetworkResponse = {
   isLoading: boolean
+  isSupported: boolean
+  targetNetwork: string
 }
 
 type NetworkHookFactory = CryptoHookFactory<string, UseNetworkResponse>
@@ -44,6 +49,8 @@ export const hookFactory: NetworkHookFactory =
       ...swr,
       data,
       isValidating,
+      targetNetwork,
+      isSupported: data === targetNetwork,
       isLoading: isLoading || isValidating,
     }
   }

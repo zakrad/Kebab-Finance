@@ -24,10 +24,11 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
       <div className={clsx('d-flex align-items-center', toolbarButtonMarginClass)}>
         <button
           type='button'
-          className='btn btn-bg-light btn-active-color-muted'
+          className='btn btn-bg-light btn-active-color-muted indicator-label'
           onClick={() => {}}
         >
-          Loading ...
+          Please Wait...{' '}
+          <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
         </button>
       </div>
     )
