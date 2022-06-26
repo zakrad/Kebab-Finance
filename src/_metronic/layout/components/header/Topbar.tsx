@@ -1,13 +1,13 @@
 import React, {FC} from 'react'
-import {useAccount} from 'src/app/modules/web3'
+import {useAccount, useNetwork} from 'src/app/modules/web3'
 import {KTSVG} from '../../../helpers'
 import {useLayout} from '../../core'
 import Walletbar from './Walletbar'
 
 const Topbar: FC = () => {
   const {config} = useLayout()
-
   const {account} = useAccount()
+  const {network} = useNetwork()
 
   return (
     <div className='d-flex align-items-stretch flex-shrink-0'>
