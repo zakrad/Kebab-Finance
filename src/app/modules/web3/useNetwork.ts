@@ -1,6 +1,19 @@
 import useSWR from 'swr'
 import {CryptoHookFactory} from 'types/hooks'
 
+const NETWORKS: {[k: string]: string} = {
+  1: 'Ethereum',
+  3: 'Ropsten Test Network',
+  4: 'Rinkeby Test Network',
+  5: 'Goerli Test Network',
+  42: 'Kovan Test Network',
+  56: 'Binance Smart Chain',
+  43114: 'Avalanche',
+  137: 'Polygon',
+  42161: 'Arbitrum',
+  1337: 'Ganache',
+}
+
 type UseNetworkResponse = {
   isLoading: boolean
 }
@@ -15,7 +28,12 @@ export const hookFactory: NetworkHookFactory =
     const {data, isValidating, ...swr} = useSWR(
       provider ? 'web3/useNetwork' : null,
       async () => {
-        return 'Testing Network'
+        const chainId = (await provider!.getNetwork()).chainId
+
+        if (!chainId) {
+          throw 'Cannot retreive network. Please, refresh the browser or connect to other one.'
+        }
+        return NETWORKS[chainId]
       },
       {
         revalidateOnFocus: false,

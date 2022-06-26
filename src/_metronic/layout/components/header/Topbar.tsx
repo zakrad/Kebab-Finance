@@ -13,9 +13,7 @@ const Topbar: FC = () => {
     <div className='d-flex align-items-stretch flex-shrink-0'>
       {/* Search */}
       {/* Activities */}
-
       {/* NOTIFICATIONS */}
-
       {/* Quick links */}
 
       <Walletbar
