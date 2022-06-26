@@ -36,21 +36,40 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
 
   if (account) {
     return (
-      <div
-        className={clsx('d-flex align-items-center', toolbarButtonMarginClass)}
-        id='kt_header_user_menu_toggle'
-      >
-        <div
-          className={clsx('cursor-pointer symbol', toolbarUserAvatarHeightClass)}
-          data-kt-menu-trigger='click'
-          data-kt-menu-attach='parent'
-          data-kt-menu-placement='bottom-end'
-          data-kt-menu-flip='bottom'
-        >
-          <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='metronic' />
+      <>
+        <div className={clsx('d-flex align-items-center ', toolbarButtonMarginClass)}>
+          <select
+            className='form-select form-select-solid'
+            data-control='select2'
+            data-placeholder='Select an option'
+            data-hide-search='true'
+          >
+            <option></option>
+            <option value='1' selected>
+              Ethereum
+            </option>
+            <option value='2'>Polygon</option>
+            <option value='3'>Binance Smart Chain</option>
+            <option value='4'>Avalanche</option>
+            <option value='5'>Ropsten Test Network</option>
+          </select>
         </div>
-        <HeaderUserMenu />
-      </div>
+        <div
+          className={clsx('d-flex align-items-center ', toolbarButtonMarginClass)}
+          id='kt_header_user_menu_toggle'
+        >
+          <div
+            className={clsx('cursor-pointer symbol', toolbarUserAvatarHeightClass)}
+            data-kt-menu-trigger='click'
+            data-kt-menu-attach='parent'
+            data-kt-menu-placement='bottom-end'
+            data-kt-menu-flip='bottom'
+          >
+            <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='metronic' />
+          </div>
+          <HeaderUserMenu />
+        </div>
+      </>
     )
   }
 
