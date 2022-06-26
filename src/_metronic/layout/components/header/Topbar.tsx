@@ -27,6 +27,9 @@ const Topbar: FC = () => {
         isLoading={account.isLoading}
         connect={account.connect}
         account={account.data}
+        isSupported={network.isSupported}
+        targetNetwork={network.targetNetwork}
+        network={network.data}
       />
       {/* begin::Aside Toggler */}
       {config.header.left === 'menu' && (

@@ -1,4 +1,4 @@
-import {FunctionComponent} from 'react'
+import {FunctionComponent, useEffect, useState} from 'react'
 import clsx from 'clsx'
 import {HeaderUserMenu} from 'src/_metronic/partials'
 import {toAbsoluteUrl} from 'src/_metronic/helpers'
@@ -8,6 +8,9 @@ type WalletbarProps = {
   isInstalled: boolean
   account: string | undefined
   connect: () => void
+  isSupported: boolean
+  targetNetwork: string
+  network: string | undefined
 }
 
 const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
@@ -18,7 +21,37 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
   isLoading,
   connect,
   account,
+  isSupported,
+  targetNetwork,
+  network,
 }) => {
+  const [selectedNetwork, setSelectedNetwork] = useState(network)
+  const handleSelect = (e: any) => {
+    setSelectedNetwork(e.target.value)
+    console.log(selectedNetwork)
+  }
+
+  useEffect(() => {
+    if (selectedNetwork === 'Polygon') {
+      window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
+            chainId: '0x89',
+            rpcUrls: ['https://polygon-rpc.com/'],
+            chainName: 'Matic Mainnet',
+            nativeCurrency: {
+              name: 'MATIC',
+              symbol: 'MATIC',
+              decimals: 18,
+            },
+            blockExplorerUrls: ['https://explorer.matic.network'],
+          },
+        ],
+      })
+    }
+  }, [selectedNetwork])
+
   if (isLoading) {
     return (
       <div className={clsx('d-flex align-items-center', toolbarButtonMarginClass)}>
@@ -40,18 +73,14 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
         <div className={clsx('d-flex align-items-center ', toolbarButtonMarginClass)}>
           <select
             className='form-select form-select-solid'
-            data-control='select2'
-            data-placeholder='Select an option'
-            data-hide-search='true'
+            onChange={handleSelect}
+            defaultValue='Ethereum'
           >
-            <option></option>
-            <option value='1' selected>
-              Ethereum
-            </option>
-            <option value='2'>Polygon</option>
-            <option value='3'>Binance Smart Chain</option>
-            <option value='4'>Avalanche</option>
-            <option value='5'>Ropsten Test Network</option>
+            <option value='Ethereum'>Ethereum</option>
+            <option value='Polygon'>Polygon</option>
+            <option value='Binance Smart Chain'>Binance Smart Chain</option>
+            <option value='Avalanche'>Avalanche</option>
+            <option value='Ropsten Test Network'>Ropsten Test Network</option>
           </select>
         </div>
         <div
