@@ -15,8 +15,13 @@ const Topbar: FC = () => {
       {/* Activities */}
       {/* NOTIFICATIONS */}
       {/* Quick links */}
-      {network.data} ---
-      {`is suport: ${network.isSupported}`} --- target : {network.targetNetwork}
+      {network.isLoading
+        ? 'Please Wait...'
+        : !account.isInstalled
+        ? 'Install MetaMask'
+        : !network.isSupported
+        ? 'wrong network'
+        : `is suport: ${network.isSupported} + ${network.data} + target : ${network.targetNetwork}`}
       <Walletbar
         isInstalled={account.isInstalled}
         isLoading={account.isLoading}
