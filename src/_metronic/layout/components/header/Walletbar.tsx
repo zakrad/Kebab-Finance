@@ -2,7 +2,6 @@ import {FunctionComponent, useEffect, useState} from 'react'
 import clsx from 'clsx'
 import {HeaderUserMenu} from 'src/_metronic/partials'
 import {toAbsoluteUrl} from 'src/_metronic/helpers'
-import Select from 'react-select'
 
 type WalletbarProps = {
   isLoading: boolean
@@ -16,14 +15,6 @@ type WalletbarProps = {
 
 const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
   toolbarUserAvatarHeightClass = 'symbol-30px symbol-md-40px'
-
-const options = [
-  {value: 'C++', label: 'C++'},
-  {value: 'JAVA', label: 'JAVA'},
-  {value: 'Javascript', label: 'Javascript'},
-  {value: 'Python', label: 'Python'},
-  {value: 'Swift', label: 'Swift'},
-]
 
 const Walletbar: FunctionComponent<WalletbarProps> = ({
   isInstalled,
@@ -134,18 +125,17 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
     return (
       <>
         <div className={clsx('d-flex align-items-center ', toolbarButtonMarginClass)}>
-          <Select
+          <select
             className='form-select form-select-solid'
             onChange={handleSelect}
             defaultValue={selectedNetwork}
-            options={options}
-          />
-          {/* <option value='Ethereum'>Ethereum</option>
+          >
+            <option value='Ethereum'>Ethereum</option>
             <option value='Polygon'>Polygon</option>
             <option value='Binance Smart Chain'>Binance Smart Chain</option>
             <option value='Avalanche'>Avalanche</option>
             <option value='Ropsten Test Network'>Ropsten Test Network</option>
-          </Select> */}
+          </select>
         </div>
         <div
           className={clsx('d-flex align-items-center ', toolbarButtonMarginClass)}
