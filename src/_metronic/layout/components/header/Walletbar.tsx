@@ -2,6 +2,7 @@ import {FunctionComponent, useEffect, useState} from 'react'
 import clsx from 'clsx'
 import {HeaderUserMenu} from 'src/_metronic/partials'
 import {toAbsoluteUrl} from 'src/_metronic/helpers'
+import Select from 'react-select'
 
 type WalletbarProps = {
   isLoading: boolean
@@ -16,6 +17,14 @@ type WalletbarProps = {
 const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
   toolbarUserAvatarHeightClass = 'symbol-30px symbol-md-40px'
 
+const options = [
+  {value: 'C++', label: 'C++'},
+  {value: 'JAVA', label: 'JAVA'},
+  {value: 'Javascript', label: 'Javascript'},
+  {value: 'Python', label: 'Python'},
+  {value: 'Swift', label: 'Swift'},
+]
+
 const Walletbar: FunctionComponent<WalletbarProps> = ({
   isInstalled,
   isLoading,
@@ -28,27 +37,81 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
   const [selectedNetwork, setSelectedNetwork] = useState(network)
   const handleSelect = (e: any) => {
     setSelectedNetwork(e.target.value)
-    console.log(selectedNetwork)
   }
 
   useEffect(() => {
+    console.log(selectedNetwork)
     if (selectedNetwork === 'Polygon') {
-      window.ethereum.request({
-        method: 'wallet_addEthereumChain',
-        params: [
-          {
-            chainId: '0x89',
-            rpcUrls: ['https://polygon-rpc.com/'],
-            chainName: 'Matic Mainnet',
-            nativeCurrency: {
-              name: 'MATIC',
-              symbol: 'MATIC',
-              decimals: 18,
+      try {
+        window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainId: '0x89',
+              rpcUrls: ['https://polygon-rpc.com/'],
+              chainName: 'Matic Mainnet',
+              nativeCurrency: {
+                name: 'MATIC',
+                symbol: 'MATIC',
+                decimals: 18,
+              },
+              blockExplorerUrls: ['https://explorer.matic.network'],
             },
-            blockExplorerUrls: ['https://explorer.matic.network'],
-          },
-        ],
-      })
+          ],
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    } else if (selectedNetwork === 'Binance Smart Chain') {
+      try {
+        window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainId: '0x38',
+              rpcUrls: ['https://bsc-dataseed.binance.org'],
+              chainName: 'Binance Smart Chain',
+              nativeCurrency: {
+                name: 'Binance Coin',
+                symbol: 'BNB',
+                decimals: 18,
+              },
+              blockExplorerUrls: ['https://bscscan.com'],
+            },
+          ],
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    } else if (selectedNetwork === 'Avalanche') {
+      try {
+        window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainId: '0xA86A',
+              rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+              chainName: 'Avalanche Mainnet C-Chain',
+              nativeCurrency: {
+                name: 'Avalanche',
+                symbol: 'AVAX',
+                decimals: 18,
+              },
+              blockExplorerUrls: ['https://snowtrace.io/'],
+            },
+          ],
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    } else if (selectedNetwork === 'Ropsten Test Network') {
+      try {
+        console.log('connect to ethereum')
+      } catch (error) {
+        console.log(error)
+      }
+    } else if (selectedNetwork === 'Ethereum') {
+      console.log('connect to ethereum')
     }
   }, [selectedNetwork])
 
@@ -71,17 +134,18 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
     return (
       <>
         <div className={clsx('d-flex align-items-center ', toolbarButtonMarginClass)}>
-          <select
+          <Select
             className='form-select form-select-solid'
             onChange={handleSelect}
-            defaultValue='Ethereum'
-          >
-            <option value='Ethereum'>Ethereum</option>
+            defaultValue={selectedNetwork}
+            options={options}
+          />
+          {/* <option value='Ethereum'>Ethereum</option>
             <option value='Polygon'>Polygon</option>
             <option value='Binance Smart Chain'>Binance Smart Chain</option>
             <option value='Avalanche'>Avalanche</option>
             <option value='Ropsten Test Network'>Ropsten Test Network</option>
-          </select>
+          </Select> */}
         </div>
         <div
           className={clsx('d-flex align-items-center ', toolbarButtonMarginClass)}
