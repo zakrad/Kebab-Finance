@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {KTSVG} from '../../../helpers'
 import {Dropdown1} from '../../content/dropdown/Dropdown1'
 import {useAccount, useNetwork} from 'src/app/modules/web3'
@@ -13,6 +13,9 @@ type Props = {
 const ListsWidget5: React.FC<Props> = ({className}) => {
   const {account} = useAccount()
   const {network} = useNetwork()
+  const [txs, setTxs] = useState<number | null>(null)
+  let historical: any[] = []
+
   const etherscanProvider = new ethers.providers.EtherscanProvider(
     'homestead',
     'HVP7WPKI5VGRM42W9RPDNWGTICDFTQ48HS'
@@ -21,17 +24,16 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
 
   useEffect(() => {
     async function getHistory(address: string) {
-      let historical: any[] = []
-
       await etherscanProvider.getHistory(address).then((history) => {
         history.forEach((tx) => {
           historical.push(tx)
         })
       })
-      historical = historical.slice(-10)
-      console.log(historical)
+      setTxs(historical.length)
+      const last10tx = historical.slice(-10)
+      console.log(last10tx)
     }
-    getHistory('0x124A5bF679B064Ae041Bb4118D67a0be1219aB18')
+    getHistory('0xc39573Ba11744D76E11493793c77f3A20BB8f3e5')
   }, [])
   // const getHistory = async (address: string) => {
   //   await etherscanProvider.getHistory(address).then((history) => {
@@ -49,8 +51,8 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
       {/* begin::Header */}
       <div className='card-header align-items-center border-0 mt-4'>
         <h3 className='card-title align-items-start flex-column'>
-          <span className='fw-bolder mb-2 text-dark'>Activities</span>
-          <span className='text-muted fw-bold fs-7'>890,344 Sales</span>
+          <span className='fw-bolder mb-2 text-dark'>Last 10 Transactions</span>
+          <span className='text-muted fw-bold fs-7'>{txs} Transactions</span>
         </h3>
         <div className='card-toolbar'>
           {/* begin::Menu */}
