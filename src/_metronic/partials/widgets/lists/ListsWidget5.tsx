@@ -1,10 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useEffect, useState} from 'react'
-import {KTSVG} from '../../../helpers'
-import {Dropdown1} from '../../content/dropdown/Dropdown1'
 import {useAccount, useNetwork} from 'src/app/modules/web3'
 import {ethers} from 'ethers'
-import {BlockTag, TransactionResponse} from '@ethersproject/abstract-provider'
 
 type Props = {
   className: string
@@ -12,8 +9,8 @@ type Props = {
 
 const ListsWidget5: React.FC<Props> = ({className}) => {
   const {account} = useAccount()
-  const {network} = useNetwork()
   const [txs, setTxs] = useState<number | null>(null)
+  const [l10, setl10] = useState<string[]>([])
   let historical: any[] = []
 
   const etherscanProvider = new ethers.providers.EtherscanProvider(
@@ -29,9 +26,14 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
           historical.push(tx)
         })
       })
+      historical.forEach((tx) => {
+        tx.time = new Date(tx.timestamp!)
+      })
+
       setTxs(historical.length)
       const last10tx = historical.slice(-10)
-      console.log(last10tx)
+      setl10(last10tx)
+      console.log(l10)
     }
     getHistory('0xc39573Ba11744D76E11493793c77f3A20BB8f3e5')
   }, [])
@@ -51,23 +53,9 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
       {/* begin::Header */}
       <div className='card-header align-items-center border-0 mt-4'>
         <h3 className='card-title align-items-start flex-column'>
-          <span className='fw-bolder mb-2 text-dark'>Last 10 Transactions</span>
-          <span className='text-muted fw-bold fs-7'>{txs} Transactions</span>
+          <span className='fw-bolder mb-2 text-dark'>Last Transactions</span>
+          <span className='text-muted fw-bold fs-7'>Total {txs} Transactions</span>
         </h3>
-        <div className='card-toolbar'>
-          {/* begin::Menu */}
-          <button
-            type='button'
-            className='btn btn-sm btn-icon btn-color-primary btn-active-light-primary'
-            data-kt-menu-trigger='click'
-            data-kt-menu-placement='bottom-end'
-            data-kt-menu-flip='top-end'
-          >
-            <KTSVG path='/media/icons/duotune/general/gen024.svg' className='svg-icon-2' />
-          </button>
-          <Dropdown1 />
-          {/* end::Menu */}
-        </div>
       </div>
       {/* end::Header */}
       {/* begin::Body */}
