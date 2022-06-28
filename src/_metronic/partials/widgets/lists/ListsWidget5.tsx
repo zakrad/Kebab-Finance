@@ -1,13 +1,49 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React, {useEffect} from 'react'
 import {KTSVG} from '../../../helpers'
 import {Dropdown1} from '../../content/dropdown/Dropdown1'
+import {useAccount, useNetwork} from 'src/app/modules/web3'
+import {ethers} from 'ethers'
+import {BlockTag, TransactionResponse} from '@ethersproject/abstract-provider'
 
 type Props = {
   className: string
 }
 
 const ListsWidget5: React.FC<Props> = ({className}) => {
+  const {account} = useAccount()
+  const {network} = useNetwork()
+  const etherscanProvider = new ethers.providers.EtherscanProvider(
+    'homestead',
+    'HVP7WPKI5VGRM42W9RPDNWGTICDFTQ48HS'
+  )
+  const address = account.data
+
+  useEffect(() => {
+    async function getHistory(address: string) {
+      let historical: any[] = []
+
+      await etherscanProvider.getHistory(address).then((history) => {
+        history.forEach((tx) => {
+          historical.push(tx)
+        })
+      })
+      historical = historical.slice(-10)
+      console.log(historical)
+    }
+    getHistory('0x124A5bF679B064Ae041Bb4118D67a0be1219aB18')
+  }, [])
+  // const getHistory = async (address: string) => {
+  //   await etherscanProvider.getHistory(address).then((history) => {
+  //     history.forEach((tx) => {
+  //       historical.push(tx)
+  //     })
+  //   })
+  //   historical = historical.slice(-10)
+  //   console.log(historical)
+  //   return historical
+  // }
+
   return (
     <div className={`card ${className}`}>
       {/* begin::Header */}
