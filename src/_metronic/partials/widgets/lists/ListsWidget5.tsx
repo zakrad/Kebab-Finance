@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useEffect, useState} from 'react'
-import {useAccount, useNetwork} from 'src/app/modules/web3'
+import {useAccount} from 'src/app/modules/web3'
 import {ethers} from 'ethers'
 
 type Props = {
@@ -10,7 +10,28 @@ type Props = {
 const ListsWidget5: React.FC<Props> = ({className}) => {
   const {account} = useAccount()
   const [txs, setTxs] = useState<number | null>(null)
-  const [l10, setl10] = useState<string[]>([])
+  const [last, setLast] = useState<
+    object[]
+    // Array<{
+    //   accessList: boolean
+    //   blockHash: string
+    //   blockNumber: number
+    //   chainId: number
+    //   confirmations: number
+    //   creates: boolean
+    //   data: string
+    //   from: string
+    //   gasLimit: {_hex: string; _isBigNumber: boolean}
+    //   gasPrice: {_hex: string; _isBigNumber: boolean}
+    //   hash: string
+    //   nonce: number
+    //   timestamp: number
+    //   to: string
+    //   transactionIndex: number
+    //   type: number
+    //   value: {_hex: string; _isBigNumber: boolean}
+    // }>
+  >([])
   let historical: any[] = []
 
   const etherscanProvider = new ethers.providers.EtherscanProvider(
@@ -26,16 +47,14 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
           historical.push(tx)
         })
       })
-      historical.forEach((tx) => {
-        tx.time = new Date(tx.timestamp!)
-      })
-
+      // historical.forEach((tx) => {
+      //   tx.time = new Date(tx.timestamp!)
+      // })
       setTxs(historical.length)
-      const last10tx = historical.slice(-10)
-      setl10(last10tx)
-      console.log(l10)
+      setLast(historical.slice(-10))
+      // console.log(lastTx)
     }
-    getHistory('0xc39573Ba11744D76E11493793c77f3A20BB8f3e5')
+    getHistory('0x47fA47B59276765705FC4a3640D4880F98A081fa')
   }, [])
   // const getHistory = async (address: string) => {
   //   await etherscanProvider.getHistory(address).then((history) => {
@@ -54,7 +73,9 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
       <div className='card-header align-items-center border-0 mt-4'>
         <h3 className='card-title align-items-start flex-column'>
           <span className='fw-bolder mb-2 text-dark'>Last Transactions</span>
-          <span className='text-muted fw-bold fs-7'>Total {txs} Transactions</span>
+          <span className='text-muted fw-bold fs-7'>
+            Total {txs} {console.log(last)} Transactions
+          </span>
         </h3>
       </div>
       {/* end::Header */}
@@ -79,23 +100,21 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
             {/* end::Text */}
           </div>
           {/* end::Item */}
-          {/* begin::Item */}
-          <div className='timeline-item'>
-            {/* begin::Label */}
-            <div className='timeline-label fw-bolder text-gray-800 fs-6'>10:00</div>
-            {/* end::Label */}
-            {/* begin::Badge */}
-            <div className='timeline-badge'>
-              <i className='fa fa-genderless text-success fs-1'></i>
-            </div>
-            {/* end::Badge */}
-            {/* begin::Content */}
-            <div className='timeline-content d-flex'>
-              <span className='fw-bolder text-gray-800 ps-3'>AEOL meeting</span>
-            </div>
-            {/* end::Content */}
-          </div>
-          {/* end::Item */}
+          {last.map(() => {
+            return (
+              <>
+                <div className='timeline-item'>
+                  <div className='timeline-label fw-bolder text-gray-800 fs-6'>08:42</div>
+                  <div className='timeline-badge'>
+                    <i className='fa fa-genderless text-warning fs-1'></i>
+                  </div>
+                  <div className='fw-mormal timeline-content text-muted ps-3'>
+                    Outlines keep you honest. And keep structure
+                  </div>
+                </div>
+              </>
+            )
+          })}
           {/* begin::Item */}
           <div className='timeline-item'>
             {/* begin::Label */}
