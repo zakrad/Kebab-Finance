@@ -3,7 +3,7 @@ import React, {useEffect, useRef} from 'react'
 import ApexCharts, {ApexOptions} from 'apexcharts'
 import {KTSVG} from '../../../helpers'
 import {getCSSVariableValue} from '../../../assets/ts/_utils'
-import {Dropdown1} from '../../content/dropdown/Dropdown1'
+import {AppService} from '../../../../app/modules/services/covalent.service'
 
 type Props = {
   className: string
@@ -12,8 +12,18 @@ type Props = {
   chartHeight: string
 }
 
+const appService = new AppService()
+
 const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, strokeColor}) => {
   const chartRef = useRef<HTMLDivElement | null>(null)
+
+  const AddressHistoricalValue = async (address: string) => {
+    const value = await appService.getHistoricalValue(address)
+    console.log(value)
+    return value
+  }
+
+  AddressHistoricalValue('0x2f877d11c8A7dccdd78F408106D126b065A4BDcF')
 
   useEffect(() => {
     if (!chartRef.current) {
@@ -41,20 +51,6 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
       {/* begin::Header */}
       <div className={`card-header border-0 py-5 bg-${chartColor}`}>
         <h3 className='card-title fw-bolder text-white'>Sales Statistics</h3>
-        <div className='card-toolbar'>
-          {/* begin::Menu */}
-          <button
-            type='button'
-            className='btn btn-sm btn-icon btn-color-white btn-active-white btn-active-color- border-0 me-n3'
-            data-kt-menu-trigger='click'
-            data-kt-menu-placement='bottom-end'
-            data-kt-menu-flip='top-end'
-          >
-            <KTSVG path='/media/icons/duotune/general/gen024.svg' className='svg-icon-2' />
-          </button>
-          <Dropdown1 />
-          {/* end::Menu */}
-        </div>
       </div>
       {/* end::Header */}
       {/* begin::Body */}

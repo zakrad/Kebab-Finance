@@ -2,6 +2,7 @@
 import React, {useEffect, useState} from 'react'
 import {useAccount} from 'src/app/modules/web3'
 import {BigNumber, ethers} from 'ethers'
+import {AppService} from '../../../../app/modules/services/covalent.service'
 
 type Props = {
   className: string
@@ -34,11 +35,21 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
   >([])
   let historical: any[] = []
 
+  // const appService = new AppService()
+
   const etherscanProvider = new ethers.providers.EtherscanProvider(
     'homestead',
     'HVP7WPKI5VGRM42W9RPDNWGTICDFTQ48HS'
   )
   const address = account.data
+
+  // const addressTokens = async (address: string) => {
+  //   const tokens = await appService.getAddressTokens(address)
+  //   console.log(tokens)
+  //   return tokens
+  // }
+
+  // addressTokens('0x2f877d11c8A7dccdd78F408106D126b065A4BDcF')
 
   useEffect(() => {
     async function getHistory(address: string) {
@@ -47,25 +58,11 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
           historical.push(tx)
         })
       })
-      // historical.forEach((tx) => {
-      //   tx.time = new Date(tx.timestamp!)
-      // })
       setTxs(historical.length)
       setLast(historical.slice(-10).reverse())
-      // console.log(lastTx)
     }
-    getHistory('0x3845badAde8e6dFF049820680d1F14bD3903a5d0')
+    getHistory('0x2f877d11c8A7dccdd78F408106D126b065A4BDcF')
   }, [])
-  // const getHistory = async (address: string) => {
-  //   await etherscanProvider.getHistory(address).then((history) => {
-  //     history.forEach((tx) => {
-  //       historical.push(tx)
-  //     })
-  //   })
-  //   historical = historical.slice(-10)
-  //   console.log(historical)
-  //   return historical
-  // }
 
   return (
     <div className={`card ${className}`}>
@@ -73,9 +70,7 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
       <div className='card-header align-items-center border-0 mt-4'>
         <h3 className='card-title align-items-start flex-column'>
           <span className='fw-bolder mb-2 text-dark'>Last Transactions</span>
-          <span className='text-muted fw-bold fs-7'>
-            Total {txs} {console.log(last)} Transactions
-          </span>
+          <span className='text-muted fw-bold fs-7'>Total {txs} Transactions</span>
         </h3>
       </div>
       {/* end::Header */}
@@ -94,7 +89,7 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
                     <i
                       className={
                         'fa ' +
-                        (tx.to === '0x3845badAde8e6dFF049820680d1F14bD3903a5d0'
+                        (tx.to === '0x2f877d11c8A7dccdd78F408106D126b065A4BDcF'
                           ? 'fa-arrow-circle-down text-success '
                           : 'fa-arrow-circle-up text-danger ') +
                         'fs-1'
@@ -104,7 +99,7 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
                   <div
                     className={
                       'fw-mormal timeline-content ps-3 ' +
-                      (tx.to === '0x3845badAde8e6dFF049820680d1F14bD3903a5d0'
+                      (tx.to === '0x2f877d11c8A7dccdd78F408106D126b065A4BDcF'
                         ? 'fw-bolder text-gray-800'
                         : 'text-muted')
                     }
@@ -115,11 +110,11 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
                       ) * 1e4
                     ) / 1e4}{' '}
                     Ether from{' '}
-                    {tx.from === '0x3845badAde8e6dFF049820680d1F14bD3903a5d0'
+                    {tx.from === '0x2f877d11c8A7dccdd78F408106D126b065A4BDcF'
                       ? 'you'
                       : `"${tx.from.substring(0, 7)}..."`}{' '}
                     to{' '}
-                    {tx.to === '0x3845badAde8e6dFF049820680d1F14bD3903a5d0'
+                    {tx.to === '0x2f877d11c8A7dccdd78F408106D126b065A4BDcF'
                       ? 'you'
                       : `"${tx.to.substring(0, 7)}..."`}
                   </div>
