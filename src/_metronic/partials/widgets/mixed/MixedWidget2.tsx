@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import ApexCharts, {ApexOptions} from 'apexcharts'
 import {KTSVG} from '../../../helpers'
 import {getCSSVariableValue} from '../../../assets/ts/_utils'
@@ -16,14 +16,37 @@ const appService = new AppService()
 
 const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, strokeColor}) => {
   const chartRef = useRef<HTMLDivElement | null>(null)
+  const [mbd, setMbd] = useState<Array<any>>([])
 
-  const AddressHistoricalValue = async (address: string) => {
-    const value = await appService.getHistoricalValue(address)
-    console.log(value)
-    return value
-  }
+  let monthlyBalance: any[] = []
+  let quote = [
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  ]
 
-  AddressHistoricalValue('0x2f877d11c8A7dccdd78F408106D126b065A4BDcF')
+  useEffect(() => {
+    async function AddressHistoricalValue(address: string) {
+      const value = await appService.getHistoricalValue(address)
+      setMbd(value.data.items)
+      return value
+    }
+    AddressHistoricalValue('0x2f877d11c8A7dccdd78F408106D126b065A4BDcF')
+  }, [])
+
+  // const AddressHistoricalValue = async (address: string) => {
+  //   const value = await appService.getHistoricalValue(address)
+  //   setMbd(value.data.items)
+  //   return value
+  // }
+
+  console.log(mbd)
+
+  mbd.forEach((token) => {
+    monthlyBalance = token.holdings
+    for (let i = 0; i < 30; i++) {
+      quote[i] += Math.round(monthlyBalance[i].close.quote)
+    }
+  })
+  console.log(quote)
 
   useEffect(() => {
     if (!chartRef.current) {

@@ -81,7 +81,7 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
           {last.map((tx, i) => {
             return (
               <>
-                <div className='timeline-item'>
+                <div className='timeline-item' key={i}>
                   <div className='timeline-label fw-bolder text-gray-800 fs-7'>
                     {new Date(tx.timestamp * 1000).toISOString().substring(5, 10).replace('-', '/')}
                   </div>
