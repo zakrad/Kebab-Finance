@@ -17,8 +17,12 @@ const appService = new AppService()
 const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, strokeColor}) => {
   const chartRef = useRef<HTMLDivElement | null>(null)
   const [mbd, setMbd] = useState<Array<any>>([])
+  const [timestampS, setTimestampS] = useState<string[]>([])
+  const [quoteS, setQuoteS] = useState<number[]>([])
+  const timestamp = useRef<Array<string> | null>(null)
 
   let monthlyBalance: any[] = []
+  // let timestamp: string[] = []
   let quote = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]
@@ -49,14 +53,27 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
   console.log(quote)
 
   useEffect(() => {
+    if (mbd[0] !== undefined) {
+      for (let i = 0; i < 30; i++) {
+        setTimestampS((prev) => [
+          ...prev,
+          new Date(mbd[0].holdings[i].timestamp).toLocaleString('default', {
+            month: 'short',
+            day: 'numeric',
+          }),
+        ])
+      }
+    }
     if (!chartRef.current) {
       return
     }
 
     const chart = new ApexCharts(
       chartRef.current,
-      chartOptions(chartHeight, chartColor, strokeColor)
+      chartOptions(chartHeight, chartColor, strokeColor, quote, timestamp.current!)
     )
+    console.log(timestamp.current)
+
     if (chart) {
       chart.render()
     }
@@ -66,8 +83,35 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
         chart.destroy()
       }
     }
+
+  }, [mbd])
+
+  timestamp.current = timestampS
+  // console.log(timestamp)
+
+  useEffect(() => {
+    if (!chartRef.current) {
+      return
+    }
+
+    const chart = new ApexCharts(
+      chartRef.current,
+      chartOptions(chartHeight, chartColor, strokeColor, quote, timestamp.current!)
+    )
+    console.log(timestamp.current)
+
+    if (chart) {
+      chart.render()
+    }
+
+    return () => {
+      if (chart) {
+        chart.destroy()
+      }
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chartRef])
+  }, [chartRef, mbd])
 
   return (
     <div className={`card ${className}`}>
@@ -149,7 +193,9 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
 const chartOptions = (
   chartHeight: string,
   chartColor: string,
-  strokeColor: string
+  strokeColor: string,
+  quote: Array<number>,
+  timestamp: Array<any>
 ): ApexOptions => {
   const labelColor = getCSSVariableValue('--bs-gray-500')
   const borderColor = getCSSVariableValue('--bs-gray-200')
@@ -159,7 +205,10 @@ const chartOptions = (
     series: [
       {
         name: 'Net Profit',
-        data: [30, 45, 32, 70, 40, 40, 40],
+        data: [
+          488, 482, 514, 545, 522, 524, 526, 511, 453, 457, 467, 463, 1216, 1667, 2217, 2412, 2496,
+          2522, 2917, 3482, 3561, 3913, 4075, 4207, 4132, 4024, 7186, 7164, 7253, 7146,
+        ],
       },
     ],
     chart: {
@@ -203,7 +252,7 @@ const chartOptions = (
       colors: [strokeColor],
     },
     xaxis: {
-      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+      categories: timestamp,
       axisBorder: {
         show: false,
       },
@@ -228,8 +277,8 @@ const chartOptions = (
       },
     },
     yaxis: {
-      min: 0,
-      max: 80,
+      min: -4000,
+      max: 8000,
       labels: {
         show: false,
         style: {
