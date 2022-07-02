@@ -164,7 +164,7 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
                 {/* begin::Title */}
                 <div>
                   <div className='fs-4 text-dark fw-bolder'>$49</div>
-                  <div className='fs-7 text-muted fw-bold'>Average Bid</div>
+                  <div className='fs-7 text-muted fw-bold'>Ether Locked</div>
                 </div>
                 {/* end::Title */}
               </div>
@@ -188,7 +188,7 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
                 {/* begin::Title */}
                 <div>
                   <div className='fs-4 text-dark fw-bolder'>$5.8M</div>
-                  <div className='fs-7 text-muted fw-bold'>All Time Sales</div>
+                  <div className='fs-7 text-muted fw-bold'>Total Locked Value</div>
                 </div>
                 {/* end::Title */}
               </div>

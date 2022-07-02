@@ -3,6 +3,7 @@ import React, {FC} from 'react'
 import {useIntl} from 'react-intl'
 import {PageTitle} from '../../../_metronic/layout/core'
 import {
+  MixedWidget1,
   MixedWidget9,
   MixedWidget10,
   MixedWidget11,
@@ -32,11 +33,7 @@ const DashboardPage: FC = () => (
         <ListsWidget5 className='card-xxl-stretch' />
       </div>
       <div className='col-xxl-4'>
-        <MixedWidget9
-          className='card-xl-stretch mb-xl-8'
-          chartColor='success'
-          chartHeight='150px'
-        />
+        <MixedWidget1 className='card-xl-stretch mb-xl-8' color='primary' />
         {/* <MixedWidget10
           className='card-xl-stretch-50 mb-5 mb-xl-8'
           chartColor='primary'
