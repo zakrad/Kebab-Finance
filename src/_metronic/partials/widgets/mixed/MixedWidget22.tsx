@@ -11,47 +11,66 @@ type Props = {
   strokeColor: string
   chartHeight: string
 }
+
 const appService = new AppService()
 
 const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, strokeColor}) => {
-  const [mbd, setMbd] = useState<Array<any>>([])
   const chartRef = useRef<HTMLDivElement | null>(null)
+  const [mbd, setMbd] = useState<Array<any>>([])
+  const [timestampS, setTimestampS] = useState<string[]>([])
+  const [quoteS, setQuoteS] = useState<number[]>([])
+  const timestamp = useRef<Array<string> | null>(null)
 
   let monthlyBalance: any[] = []
-
+  // let timestamp: string[] = []
   let quote = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]
 
-  let timestamp: string[] = []
-
   useEffect(() => {
     async function AddressHistoricalValue(address: string) {
-      try {
-        const value = await appService.getHistoricalValue(address)
-        setMbd(value.data.items)
-        return value.data.items
-      } catch (e) {
-        console.log(e)
-      }
+      const value = await appService.getHistoricalValue(address)
+      setMbd(value.data.items)
+      return value
     }
     AddressHistoricalValue('0x2f877d11c8A7dccdd78F408106D126b065A4BDcF')
   }, [])
 
-  mbd.forEach((token: any) => {
+  // const AddressHistoricalValue = async (address: string) => {
+  //   const value = await appService.getHistoricalValue(address)
+  //   setMbd(value.data.items)
+  //   return value
+  // }
+
+  console.log(mbd)
+
+  mbd.forEach((token) => {
     monthlyBalance = token.holdings
     for (let i = 0; i < 30; i++) {
       quote[i] += Math.round(monthlyBalance[i].close.quote)
-      timestamp[i] = new Date(monthlyBalance[i].timestamp).toLocaleString('default', {
-        month: 'short',
-        day: 'numeric',
-      })
     }
   })
-
-  console.log(mbd)
+  
   console.log(quote)
-  console.log(timestamp)
+
+  useEffect(() => {
+    if (mbd[0] !== undefined) {
+      for (let i = 0; i < 30; i++) {
+        setTimestampS((prev) => [
+          ...prev,
+          new Date(mbd[0].holdings[i].timestamp).toLocaleString('default', {
+            month: 'short',
+            day: 'numeric',
+          }),
+        ])
+      }
+    }
+  }, [mbd])
+
+  timestamp.current = timestampS
+  // console.log(timestamp)
+
+  console.log(timestamp.current)
 
   useEffect(() => {
     if (!chartRef.current) {
@@ -60,8 +79,9 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
 
     const chart = new ApexCharts(
       chartRef.current,
-      chartOptions(chartHeight, chartColor, strokeColor, quote, timestamp)
+      chartOptions(chartHeight, chartColor, strokeColor, quote, timestamp.current!)
     )
+
     if (chart) {
       chart.render()
     }
@@ -71,6 +91,7 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
         chart.destroy()
       }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chartRef, mbd])
 
@@ -78,7 +99,7 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
     <div className={`card ${className}`}>
       {/* begin::Header */}
       <div className={`card-header border-0 py-5 bg-${chartColor}`}>
-        <h3 className='card-title fw-bolder text-white'>Monthly Value (All known tokens)</h3>
+        <h3 className='card-title fw-bolder text-white'>Sales Statistics</h3>
       </div>
       {/* end::Header */}
       {/* begin::Body */}
@@ -155,8 +176,8 @@ const chartOptions = (
   chartHeight: string,
   chartColor: string,
   strokeColor: string,
-  quote: number[],
-  timestamp: string[]
+  quote: Array<number>,
+  timestamp: Array<any>
 ): ApexOptions => {
   const labelColor = getCSSVariableValue('--bs-gray-500')
   const borderColor = getCSSVariableValue('--bs-gray-200')
@@ -165,8 +186,11 @@ const chartOptions = (
   return {
     series: [
       {
-        name: 'Balance',
-        data: quote.reverse(),
+        name: 'Net Profit',
+        data: [
+          488, 482, 514, 545, 522, 524, 526, 511, 453, 457, 467, 463, 1216, 1667, 2217, 2412, 2496,
+          2522, 2917, 3482, 3561, 3913, 4075, 4207, 4132, 4024, 7186, 7164, 7253, 7146,
+        ],
       },
     ],
     chart: {
@@ -210,7 +234,7 @@ const chartOptions = (
       colors: [strokeColor],
     },
     xaxis: {
-      categories: timestamp.reverse(),
+      categories: timestamp,
       axisBorder: {
         show: false,
       },
@@ -272,7 +296,7 @@ const chartOptions = (
       },
       y: {
         formatter: function (val) {
-          return '$' + val
+          return '$' + val + ' thousands'
         },
       },
       marker: {
