@@ -78,7 +78,7 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
     <div className={`card ${className}`}>
       {/* begin::Header */}
       <div className={`card-header border-0 py-5 bg-${chartColor}`}>
-        <h3 className='card-title fw-bolder text-white'>Monthly Value (All known tokens)</h3>
+        <h3 className='card-title fw-bolder text-white'>Last Month Value</h3>
       </div>
       {/* end::Header */}
       {/* begin::Body */}

@@ -1,25 +1,73 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import ApexCharts, {ApexOptions} from 'apexcharts'
 import {KTSVG} from '../../../helpers'
 import {getCSSVariableValue} from '../../../assets/ts/_utils'
-import {Dropdown1} from '../../content/dropdown/Dropdown1'
+import {AppService} from '../../../../app/modules/services/covalent.service'
 
 type Props = {
   className: string
   chartColor: string
   chartHeight: string
 }
+const appService = new AppService()
 
 const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => {
   const chartRef = useRef<HTMLDivElement | null>(null)
+  const [mbd, setMbd] = useState<Array<any>>([])
+
+  let monthlyBalance: any[] = []
+  let etherBalance: number = 0
+  let USDValue: number = 0
+
+  let quote = [
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  ]
+
+  let timestamp: string[] = []
+
+  useEffect(() => {
+    async function AddressHistoricalValue(address: string) {
+      try {
+        const value = await appService.getHistoricalValue(address)
+        setMbd(value.data.items)
+        return value.data.items
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    AddressHistoricalValue('0x8f6E540d5475743ED27783769DfbC2080aD85C7b')
+  }, [])
+
+  mbd.forEach((token: any) => {
+    monthlyBalance = token.holdings
+    for (let i = 0; i < 30; i++) {
+      quote[i] += Math.round(monthlyBalance[i].close.quote)
+      timestamp[i] = new Date(monthlyBalance[i].timestamp).toLocaleString('default', {
+        month: 'short',
+        day: 'numeric',
+      })
+    }
+    if (token.contract_address === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
+      etherBalance = Math.round((monthlyBalance[0].close.balance / 1e18) * 1e3) / 1e3
+      USDValue = Math.round(monthlyBalance[0].close.quote * 10) / 10
+    }
+  })
+
+  console.log(mbd)
+  console.log(etherBalance)
+  // console.log(quote)
+  // console.log(timestamp)
 
   useEffect(() => {
     if (!chartRef.current) {
       return
     }
 
-    const chart = new ApexCharts(chartRef.current, chartOptions(chartColor, chartHeight))
+    const chart = new ApexCharts(
+      chartRef.current,
+      chartOptions(chartColor, chartHeight, quote, timestamp)
+    )
     if (chart) {
       chart.render()
     }
@@ -30,32 +78,17 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chartRef])
+  }, [chartRef, mbd])
 
   return (
     <div className={`card ${className}`}>
       {/* begin::Beader */}
       <div className='card-header border-0 py-5'>
         <h3 className='card-title align-items-start flex-column'>
-          <span className='card-label fw-bolder fs-3 mb-1'>Sales Statistics</span>
+          <span className='card-label fw-bolder fs-3 mb-1'>Last Month</span>
 
-          <span className='text-muted fw-bold fs-7'>Recent sales statistics</span>
+          <span className='text-muted fw-bold fs-7'>Your Address Value Over Last Month</span>
         </h3>
-
-        <div className='card-toolbar'>
-          {/* begin::Menu */}
-          <button
-            type='button'
-            className='btn btn-sm btn-icon btn-color-primary btn-active-light-primary'
-            data-kt-menu-trigger='click'
-            data-kt-menu-placement='bottom-end'
-            data-kt-menu-flip='top-end'
-          >
-            <KTSVG path='/media/icons/duotune/general/gen024.svg' className='svg-icon-2' />
-          </button>
-          <Dropdown1 />
-          {/* end::Menu */}
-        </div>
       </div>
       {/* end::Header */}
 
@@ -71,18 +104,15 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
                 {/* begin::Symbol */}
                 <div className='symbol symbol-50px me-3'>
                   <div className='symbol-label bg-light-info'>
-                    <KTSVG
-                      path='/media/icons/duotune/art/art007.svg'
-                      className='svg-icon-1 svg-icon-info'
-                    />
+                    <i className='lab la-ethereum fs-3x text-gray-700'></i>
                   </div>
                 </div>
                 {/* end::Symbol */}
 
                 {/* begin::Title */}
                 <div>
-                  <div className='fs-4 text-dark fw-bolder'>$2,034</div>
-                  <div className='fs-7 text-muted fw-bold'>Author Sales</div>
+                  <div className='fs-4 text-dark fw-bolder'>{etherBalance}</div>
+                  <div className='fs-7 text-muted fw-bold'>Ether Balance</div>
                 </div>
                 {/* end::Title */}
               </div>
@@ -94,10 +124,10 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
               <div className='d-flex align-items-center me-2'>
                 {/* begin::Symbol */}
                 <div className='symbol symbol-50px me-3'>
-                  <div className='symbol-label bg-light-danger'>
+                  <div className='symbol-label bg-light-success'>
                     <KTSVG
-                      path='/media/icons/duotune/abstract/abs027.svg'
-                      className='svg-icon-1 svg-icon-danger'
+                      path='/media/icons/duotune/finance/fin010.svg'
+                      className='svg-icon-3x svg-icon-success'
                     />
                   </div>
                 </div>
@@ -105,8 +135,8 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
 
                 {/* begin::Title */}
                 <div>
-                  <div className='fs-4 text-dark fw-bolder'>$706</div>
-                  <div className='fs-7 text-muted fw-bold'>Commision</div>
+                  <div className='fs-4 text-dark fw-bolder'>${USDValue}</div>
+                  <div className='fs-7 text-muted fw-bold'>USD Value</div>
                 </div>
                 {/* end::Title */}
               </div>
@@ -178,7 +208,12 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
   )
 }
 
-const chartOptions = (chartColor: string, chartHeight: string): ApexOptions => {
+const chartOptions = (
+  chartColor: string,
+  chartHeight: string,
+  quote: number[],
+  timestamp: string[]
+): ApexOptions => {
   const labelColor = getCSSVariableValue('--bs-gray-800')
   const strokeColor = getCSSVariableValue('--bs-gray-300')
   const baseColor = getCSSVariableValue('--bs-' + chartColor)
@@ -188,7 +223,7 @@ const chartOptions = (chartColor: string, chartHeight: string): ApexOptions => {
     series: [
       {
         name: 'Net Profit',
-        data: [30, 25, 45, 30, 55, 55],
+        data: quote.reverse(),
       },
     ],
     chart: {
@@ -223,7 +258,7 @@ const chartOptions = (chartColor: string, chartHeight: string): ApexOptions => {
       colors: [baseColor],
     },
     xaxis: {
-      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      categories: timestamp.reverse(),
       axisBorder: {
         show: false,
       },
@@ -251,8 +286,8 @@ const chartOptions = (chartColor: string, chartHeight: string): ApexOptions => {
       },
     },
     yaxis: {
-      min: 0,
-      max: 60,
+      min: Math.round(Math.min(...quote) - Math.min(...quote) * 0.1),
+      max: Math.round(Math.max(...quote) + Math.max(...quote) * 0.1),
       labels: {
         show: false,
         style: {
@@ -288,7 +323,7 @@ const chartOptions = (chartColor: string, chartHeight: string): ApexOptions => {
       },
       y: {
         formatter: function (val) {
-          return '$' + val + ' thousands'
+          return '$' + val
         },
       },
     },

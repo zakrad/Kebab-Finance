@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react'
 import {useAccount} from 'src/app/modules/web3'
 import {BigNumber, ethers} from 'ethers'
-import {AppService} from '../../../../app/modules/services/covalent.service'
+import {AppServiceE} from '../../../../app/modules/services/etherscan.service'
 
 type Props = {
   className: string
@@ -25,7 +25,6 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
       gasPrice: {_hex: string; _isBigNumber: boolean}
       hash: string
       nonce: number
-      time: Date
       timestamp: number
       to: string
       transactionIndex: number
@@ -35,35 +34,23 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
   >([])
   let historical: any[] = []
 
-  // const appService = new AppService()
+  const appServiceE = new AppServiceE()
 
-  const etherscanProvider = new ethers.providers.EtherscanProvider(
-    'homestead',
-    'HVP7WPKI5VGRM42W9RPDNWGTICDFTQ48HS'
-  )
   const address = account.data
-
-  // const addressTokens = async (address: string) => {
-  //   const tokens = await appService.getAddressTokens(address)
-  //   console.log(tokens)
-  //   return tokens
-  // }
-
-  // addressTokens('0x2f877d11c8A7dccdd78F408106D126b065A4BDcF')
 
   useEffect(() => {
     async function getHistory(address: string) {
-      await etherscanProvider.getHistory(address).then((history) => {
+      await appServiceE.etherscanProvider.getHistory(address).then((history) => {
         history.forEach((tx) => {
           historical.push(tx)
         })
       })
       setTxs(historical.length)
-      setLast(historical.slice(-10).reverse())
+      setLast(historical.slice(-8).reverse())
     }
     getHistory('0x2f877d11c8A7dccdd78F408106D126b065A4BDcF')
   }, [])
-   
+
   return (
     <div className={`card ${className}`}>
       {/* begin::Header */}
