@@ -50,12 +50,12 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
     }
     if (token.contract_address === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
       etherBalance = Math.round((monthlyBalance[0].close.balance / 1e18) * 1e3) / 1e3
-      USDValue = Math.round(monthlyBalance[0].close.quote * 10) / 10
+      // USDValue = Math.round(monthlyBalance[0].close.quote * 10) / 10
     }
   })
 
-  console.log(mbd)
-  console.log(etherBalance)
+  // console.log(mbd)
+  // console.log(etherBalance)
   // console.log(quote)
   // console.log(timestamp)
 
@@ -124,10 +124,10 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
               <div className='d-flex align-items-center me-2'>
                 {/* begin::Symbol */}
                 <div className='symbol symbol-50px me-3'>
-                  <div className='symbol-label bg-light-success'>
+                  <div className='symbol-label bg-light-warning'>
                     <KTSVG
-                      path='/media/icons/duotune/finance/fin010.svg'
-                      className='svg-icon-3x svg-icon-success'
+                      path='/media/icons/duotune/graphs/gra010.svg'
+                      className='svg-icon-3x svg-icon-warning'
                     />
                   </div>
                 </div>
@@ -135,8 +135,8 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
 
                 {/* begin::Title */}
                 <div>
-                  <div className='fs-4 text-dark fw-bolder'>${USDValue}</div>
-                  <div className='fs-7 text-muted fw-bold'>USD Value</div>
+                  <div className='fs-4 text-dark fw-bolder'>{mbd.length}</div>
+                  <div className='fs-7 text-muted fw-bold'>Owned Tokens</div>
                 </div>
                 {/* end::Title */}
               </div>

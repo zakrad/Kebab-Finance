@@ -40,16 +40,11 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
 
   useEffect(() => {
     async function getHistory(address: string) {
-      await appServiceE.etherscanProvider
-        .getHistory(address)
-        .then((history) => {
-          history.forEach((tx) => {
-            historical.push(tx)
-          })
+      await appServiceE.etherscanProvider.getHistory(address).then((history) => {
+        history.forEach((tx) => {
+          historical.push(tx)
         })
-        .then((h) => {
-          console.log(historical)
-        })
+      })
       setTxs(historical.length)
       setLast(
         historical
