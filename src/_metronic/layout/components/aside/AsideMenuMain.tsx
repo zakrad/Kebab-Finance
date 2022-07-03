@@ -16,17 +16,22 @@ export function AsideMenuMain() {
         title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
         fontIcon='bi-app-indicator'
       />
-      <AsideMenuItem
+      {/* <AsideMenuItem
         to='/builder'
         icon='/media/icons/duotune/general/gen019.svg'
         title='Layout Builder'
         fontIcon='bi-layers'
-      />
+      /> */}
       <div className='menu-item'>
         <div className='menu-content pt-8 pb-2'>
-          <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Crafted</span>
+          <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Defi Protocols</span>
         </div>
       </div>
+      <AsideMenuItem
+        to='/compound'
+        icon='/media/icons/duotune/ecommerce/cmp.svg'
+        title='Compound'
+      />
       <AsideMenuItemWithSub
         to='/crafted/pages'
         title='Pages'
@@ -85,21 +90,7 @@ export function AsideMenuMain() {
         <AsideMenuItem to='/crafted/widgets/tables' title='Tables' hasBullet={true} />
         <AsideMenuItem to='/crafted/widgets/feeds' title='Feeds' hasBullet={true} />
       </AsideMenuItemWithSub>
-      <div className='menu-item'>
-        <div className='menu-content pt-8 pb-2'>
-          <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Apps</span>
-        </div>
-      </div>
-      <AsideMenuItemWithSub
-        to='/apps/chat'
-        title='Chat'
-        fontIcon='bi-chat-left'
-        icon='/media/icons/duotune/communication/com012.svg'
-      >
-        <AsideMenuItem to='/apps/chat/private-chat' title='Private Chat' hasBullet={true} />
-        <AsideMenuItem to='/apps/chat/group-chat' title='Group Chart' hasBullet={true} />
-        <AsideMenuItem to='/apps/chat/drawer-chat' title='Drawer Chart' hasBullet={true} />
-      </AsideMenuItemWithSub>
+
       <div className='menu-item'>
         <div className='menu-content'>
           <div className='separator mx-1 my-4'></div>

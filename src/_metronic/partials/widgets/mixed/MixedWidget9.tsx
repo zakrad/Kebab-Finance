@@ -154,8 +154,8 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
                 <div className='symbol symbol-50px me-3'>
                   <div className='symbol-label bg-light-success'>
                     <KTSVG
-                      path='/media/icons/duotune/ecommerce/ecm002.svg'
-                      className='svg-icon-1 svg-icon-success'
+                      path='/media/icons/duotune/finance/fin010.svg'
+                      className='svg-icon-3x svg-icon-success'
                     />
                   </div>
                 </div>
@@ -163,8 +163,8 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
 
                 {/* begin::Title */}
                 <div>
-                  <div className='fs-4 text-dark fw-bolder'>$49</div>
-                  <div className='fs-7 text-muted fw-bold'>Ether Locked</div>
+                  <div className='fs-4 text-dark fw-bolder'>${Math.max(...quote)}</div>
+                  <div className='fs-7 text-muted fw-bold'>Highest Value</div>
                 </div>
                 {/* end::Title */}
               </div>
@@ -176,10 +176,10 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
               <div className='d-flex align-items-center me-2'>
                 {/* begin::Symbol */}
                 <div className='symbol symbol-50px me-3'>
-                  <div className='symbol-label bg-light-primary'>
+                  <div className='symbol-label bg-light-danger'>
                     <KTSVG
-                      path='/media/icons/duotune/ecommerce/ecm010.svg'
-                      className='svg-icon-1 svg-icon-primary'
+                      path='/media/icons/duotune/finance/fin010.svg'
+                      className='svg-icon-3x svg-icon-danger'
                     />
                   </div>
                 </div>
@@ -187,8 +187,8 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
 
                 {/* begin::Title */}
                 <div>
-                  <div className='fs-4 text-dark fw-bolder'>$5.8M</div>
-                  <div className='fs-7 text-muted fw-bold'>Total Locked Value</div>
+                  <div className='fs-4 text-dark fw-bolder'>${Math.min(...quote)}</div>
+                  <div className='fs-7 text-muted fw-bold'>Lowest Value</div>
                 </div>
                 {/* end::Title */}
               </div>

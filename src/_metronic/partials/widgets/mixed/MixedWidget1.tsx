@@ -143,38 +143,6 @@ const MixedWidget1: React.FC<Props> = ({className, color}) => {
             {/* end::Description */}
           </div>
           {/* end::Item */}
-          {/* begin::Item */}
-          <div className='d-flex align-items-center'>
-            {/* begin::Symbol */}
-            <div className='symbol symbol-45px w-40px me-5'>
-              <span className='symbol-label bg-lighten'>
-                <KTSVG path='/media/icons/duotune/general/gen005.svg' className='svg-icon-1' />
-              </span>
-            </div>
-            {/* end::Symbol */}
-            {/* begin::Description */}
-            <div className='d-flex align-items-center flex-wrap w-100'>
-              {/* begin::Title */}
-              <div className='mb-1 pe-3 flex-grow-1'>
-                <a href='#' className='fs-5 text-gray-800 text-hover-primary fw-bolder'>
-                  Dispute
-                </a>
-                <div className='text-gray-400 fw-bold fs-7'>3090 Refunds</div>
-              </div>
-              {/* end::Title */}
-              {/* begin::Label */}
-              <div className='d-flex align-items-center'>
-                <div className='fw-bolder fs-5 text-gray-800 pe-1'>$270m</div>
-                <KTSVG
-                  path='/media/icons/duotune/arrows/arr065.svg'
-                  className='svg-icon-5 svg-icon-danger ms-1'
-                />
-              </div>
-              {/* end::Label */}
-            </div>
-            {/* end::Description */}
-          </div>
-          {/* end::Item */}
         </div>
         {/* end::Items */}
       </div>
