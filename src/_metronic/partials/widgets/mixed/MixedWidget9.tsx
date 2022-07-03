@@ -18,7 +18,7 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
 
   let monthlyBalance: any[] = []
   let etherBalance: number = 0
-  let USDValue: number = 0
+  // let USDValue: number = 0
 
   let quote = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
