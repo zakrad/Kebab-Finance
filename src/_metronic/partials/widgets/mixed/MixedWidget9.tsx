@@ -36,7 +36,7 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
         console.log(e)
       }
     }
-    AddressHistoricalValue('0x8f6E540d5475743ED27783769DfbC2080aD85C7b')
+    AddressHistoricalValue('0x5D072ea46C9297777734e1Cc030565702824b5A4')
   }, [])
 
   mbd.forEach((token: any) => {
