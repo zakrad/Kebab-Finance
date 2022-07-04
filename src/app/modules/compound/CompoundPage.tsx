@@ -13,10 +13,10 @@ const CompoundPage: FC = () => {
         <div className='col-md-6 col-xxl-3'>
           <Card3
             avatar='/media/icons/duotune/compound/eth.svg'
-            name='Emma Smith'
-            job='Art Director'
-            avgEarnings='$14,560'
-            totalEarnings='$236,400'
+            name='$200'
+            job='0.4 ETH'
+            avgEarnings='%0.2'
+            totalEarnings='%4.5'
           />
         </div>
         <div className='col-md-6 col-xxl-3'>
