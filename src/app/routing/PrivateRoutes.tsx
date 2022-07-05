@@ -3,7 +3,7 @@ import {Route, Routes, Navigate} from 'react-router-dom'
 import {MasterLayout} from '../../_metronic/layout/MasterLayout'
 import TopBarProgress from 'react-topbar-progress-indicator'
 import {DashboardWrapper} from '../pages/dashboard/DashboardWrapper'
-import {Compound} from '../modules/compound/CompoundPage'
+import {CompoundWrapper} from '../modules/compound/CompoundPage'
 import {MenuTestPage} from '../pages/MenuTestPage'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 
@@ -22,7 +22,7 @@ const PrivateRoutes = () => {
         <Route path='dashboard' element={<DashboardWrapper />} />
         <Route path='builder' element={<BuilderPageWrapper />} />
         <Route path='menu-test' element={<MenuTestPage />} />
-        <Route path='compound' element={<Compound />} />
+        <Route path='compound' element={<CompoundWrapper />} />
         {/* Lazy Modules */}
         <Route
           path='crafted/pages/profile/*'
