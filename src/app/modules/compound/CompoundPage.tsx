@@ -46,7 +46,6 @@ const CompoundPage: FC = () => {
       <div className='row g-6 g-xl-9'>
         <div className='col-md-6 col-xl-3'>
           <Card3
-            avatar='/media/icons/duotune/compound/eth.svg'
             ticker='ETH'
             positionValue={200}
             positionBalance={1.4}
@@ -58,7 +57,6 @@ const CompoundPage: FC = () => {
         </div>
         <div className='col-md-6 col-xl-3'>
           <Card3
-            avatar='/media/icons/duotune/compound/dai.svg'
             ticker='ETH'
             positionValue={200}
             positionBalance={1.4}
@@ -70,7 +68,6 @@ const CompoundPage: FC = () => {
         </div>
         <div className='col-md-6 col-xl-3'>
           <Card3
-            avatar='/media/icons/duotune/compound/usdc.svg'
             ticker='ETH'
             positionValue={200}
             positionBalance={1.4}
@@ -82,7 +79,6 @@ const CompoundPage: FC = () => {
         </div>
         <div className='col-md-6 col-xl-3'>
           <Card3
-            avatar='/media/icons/duotune/compound/usdt.svg'
             ticker='ETH'
             positionValue={200}
             positionBalance={1.4}
@@ -94,7 +90,6 @@ const CompoundPage: FC = () => {
         </div>
         <div className='col-md-6 col-xxl-3'>
           <Card3
-            avatar='/media/icons/duotune/compound/zrx.svg'
             ticker='ETH'
             positionValue={200}
             positionBalance={1.4}
@@ -106,32 +101,6 @@ const CompoundPage: FC = () => {
         </div>
         <div className='col-md-6 col-xxl-3'>
           <Card3
-            avatar='/media/icons/duotune/compound/rep.svg'
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-            online={true}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            avatar='/media/icons/duotune/compound/bat.svg'
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            avatar='/media/icons/duotune/compound/uni.svg'
             ticker='ETH'
             positionValue={200}
             positionBalance={1.4}
@@ -144,7 +113,17 @@ const CompoundPage: FC = () => {
         </div>
         <div className='col-md-6 col-xxl-3'>
           <Card3
-            avatar='/media/icons/duotune/compound/comp.svg'
+            ticker='ETH'
+            positionValue={200}
+            positionBalance={1.4}
+            supplyApy={1}
+            borrowApy={1}
+            compSupplyApy={1}
+            compBorrowApy={1}
+          />
+        </div>
+        <div className='col-md-6 col-xxl-3'>
+          <Card3
             ticker='ETH'
             positionValue={200}
             positionBalance={1.4}
@@ -157,19 +136,6 @@ const CompoundPage: FC = () => {
         </div>
         <div className='col-md-6 col-xxl-3'>
           <Card3
-            avatar='/media/icons/duotune/compound/tusd.svg'
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            avatar='/media/icons/duotune/compound/link.svg'
             ticker='ETH'
             positionValue={200}
             positionBalance={1.4}
@@ -182,7 +148,6 @@ const CompoundPage: FC = () => {
         </div>
         <div className='col-md-6 col-xxl-3'>
           <Card3
-            avatar='/media/icons/duotune/compound/mkr.svg'
             ticker='ETH'
             positionValue={200}
             positionBalance={1.4}
@@ -194,7 +159,18 @@ const CompoundPage: FC = () => {
         </div>
         <div className='col-md-6 col-xxl-3'>
           <Card3
-            avatar='/media/icons/duotune/compound/aave.svg'
+            ticker='ETH'
+            positionValue={200}
+            positionBalance={1.4}
+            supplyApy={1}
+            borrowApy={1}
+            compSupplyApy={1}
+            compBorrowApy={1}
+            online={true}
+          />
+        </div>
+        <div className='col-md-6 col-xxl-3'>
+          <Card3
             ticker='ETH'
             positionValue={200}
             positionBalance={1.4}
@@ -206,7 +182,6 @@ const CompoundPage: FC = () => {
         </div>
         <div className='col-md-6 col-xxl-3'>
           <Card3
-            avatar='/media/icons/duotune/compound/yfi.svg'
             ticker='ETH'
             positionValue={200}
             positionBalance={1.4}
@@ -218,7 +193,17 @@ const CompoundPage: FC = () => {
         </div>
         <div className='col-md-6 col-xxl-3'>
           <Card3
-            avatar='/media/icons/duotune/compound/sushi.svg'
+            ticker='ETH'
+            positionValue={200}
+            positionBalance={1.4}
+            supplyApy={1}
+            borrowApy={1}
+            compSupplyApy={1}
+            compBorrowApy={1}
+          />
+        </div>
+        <div className='col-md-6 col-xxl-3'>
+          <Card3
             ticker='ETH'
             positionValue={200}
             positionBalance={1.4}

@@ -3,7 +3,6 @@ import {FC} from 'react'
 import {toAbsoluteUrl, KTSVG} from '../../../helpers'
 
 type Props = {
-  avatar?: string
   online?: boolean
   positionValue: number
   positionBalance: number
@@ -15,7 +14,6 @@ type Props = {
 }
 
 const Card3: FC<Props> = ({
-  avatar = '',
   online = false,
   positionValue,
   positionBalance,
@@ -31,7 +29,7 @@ const Card3: FC<Props> = ({
         <div className='d-flex mb-4'>
           <div className='mb-5'>
             <div className='symbol symbol-50px symbol-circle'>
-              {<img alt='Pic' src={toAbsoluteUrl(avatar)} />}
+              {<img alt='Pic' src={toAbsoluteUrl(`/media/icons/duotune/compound/${ticker}.svg`)} />}
               {online && (
                 <div className='symbol-badge bg-success start-100 top-100 border-4 h-15px w-15px ms-n3 mt-n3'></div>
               )}
@@ -57,7 +55,7 @@ const Card3: FC<Props> = ({
                   className='mx-1'
                   alt='Pic'
                   width='20px'
-                  src={toAbsoluteUrl('/media/icons/duotune/compound/comp.svg')}
+                  src={toAbsoluteUrl('/media/icons/duotune/compound/COMP.svg')}
                 />
               }
             </div>
