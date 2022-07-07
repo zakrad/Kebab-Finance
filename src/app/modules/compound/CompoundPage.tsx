@@ -48,7 +48,7 @@ const CompoundPage: FC = () => {
       <div className='row g-6 g-xl-9'>
         {apys.map((token, i) => {
           return (
-            <div key={token.ticker} className='col-md-6 col-xxl-3'>
+            <div key={token.ticker} className='col-md-6 col-xl-3'>
               <Card3
                 ticker={token.ticker}
                 positionValue={200}
