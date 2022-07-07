@@ -6,6 +6,7 @@ import {useWeb3} from 'src/app/providers/web3'
 import {Card3} from '../../../_metronic/partials/content/cards/Card3'
 import Compound from '@compound-finance/compound-js'
 import calculateApy from '../services/apy.js'
+import {ProfileHeader} from '../profile/ProfileHeader'
 
 const CompoundPage: FC = () => {
   const [apys, setApys] = useState<Array<any>>([])
@@ -43,11 +44,11 @@ const CompoundPage: FC = () => {
     <>
       {console.log(apys)}
       {/* begin::Row */}
-
+      <ProfileHeader />
       <div className='row g-6 g-xl-9'>
         {apys.map((token, i) => {
           return (
-            <div key={token.ticker} className='col-md-6 col-xl-3'>
+            <div key={token.ticker} className='col-md-6 col-xxl-3'>
               <Card3
                 ticker={token.ticker}
                 positionValue={200}

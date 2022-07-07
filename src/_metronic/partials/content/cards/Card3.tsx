@@ -25,7 +25,7 @@ const Card3: FC<Props> = ({
 }) => {
   return (
     <div className='card'>
-      <div className='card-body d-flex flex-column p-5'>
+      <div className='card-body d-flex flex-column p-4'>
         <div className='d-flex mb-4'>
           <div className='mb-5'>
             <div className='symbol symbol-50px symbol-circle'>
