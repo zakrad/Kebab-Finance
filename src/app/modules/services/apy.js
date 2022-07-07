@@ -105,15 +105,17 @@ async function calculateCompApy(cToken, ticker, underlyingDecimals) {
 async function calculateApy(cToken, ticker) {
     const underlyingDecimals = Compound.decimals[cToken.slice(1, 10)];
     const cTokenAddress = Compound.util.getAddress(cToken);
-    const [supplyApy, borrowApy] = await Promise.all([
+    const [supplyAPY, borrowAPY] = await Promise.all([
         calculateSupplyApy(cTokenAddress),
         calculateBorrowApy(cTokenAddress),
     ]);
     const [compApy] = await Promise.all(
         [calculateCompApy(cTokenAddress, ticker, underlyingDecimals)]
     )
-    const compSupplyApy = compApy[0]
-    const compBorrowApy = compApy[1]
+    const compSupplyApy = Math.round(compApy[0] * 100) / 100
+    const compBorrowApy = Math.round(compApy[1] * 100) / 100
+    const supplyApy = Math.round(supplyAPY * 100) / 100
+    const borrowApy = Math.round(borrowAPY * 100) / 100
     return { ticker, supplyApy, borrowApy, compSupplyApy, compBorrowApy };
 }
 

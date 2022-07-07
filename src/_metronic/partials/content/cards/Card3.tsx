@@ -47,44 +47,52 @@ const Card3: FC<Props> = ({
           </div>
         </div>
         <div className='d-flex flex-center flex-wrap my-0'>
-          <div className='border border-gray-300 border-dashed rounded min-w-100px py-1 mx-1 px-2 mb-3'>
-            <div className='fs-6 fw-bolder text-gray-700'>
-              %{supplyApy} + %{compSupplyApy}
-              {
-                <img
-                  className='mx-1'
-                  alt='Pic'
-                  width='20px'
-                  src={toAbsoluteUrl('/media/icons/duotune/compound/COMP.svg')}
-                />
-              }
-            </div>
+          <div className='border border-gray-300 border-dashed rounded min-w-100px py-1 mx-1 px-1 mb-3'>
+            {compSupplyApy ? (
+              <div className='fs-7 fw-bolder text-gray-700'>
+                {supplyApy}% + {compSupplyApy}%
+                {
+                  <img
+                    className='mx-1'
+                    alt='Pic'
+                    width='20px'
+                    src={toAbsoluteUrl('/media/icons/duotune/compound/COMP.svg')}
+                  />
+                }
+              </div>
+            ) : (
+              <div className='fs-7 fw-bolder text-gray-700'>{supplyApy}%</div>
+            )}
             <div className='fw-bold text-gray-400'>Supply APY</div>
           </div>
 
-          <div className='border border-gray-300 border-dashed rounded min-w-100px py-1 mx-1 px-2 mb-3'>
-            <div className='fs-6 fw-bolder text-gray-700'>
-              %{borrowApy} - %{compBorrowApy}
-              {
-                <img
-                  className='mx-1'
-                  alt='Pic'
-                  width='20px'
-                  src={toAbsoluteUrl('/media/icons/duotune/compound/comp.svg')}
-                />
-              }
-            </div>
+          <div className='border border-gray-300 border-dashed rounded min-w-100px py-1 px-1 mb-3'>
+            {compBorrowApy ? (
+              <div className='fs-7 fw-bolder text-gray-700'>
+                {borrowApy}%- {compBorrowApy}%
+                {
+                  <img
+                    className='mx-1'
+                    alt='Pic'
+                    width='20px'
+                    src={toAbsoluteUrl('/media/icons/duotune/compound/comp.svg')}
+                  />
+                }
+              </div>
+            ) : (
+              <div className='fs-7 fw-bolder text-gray-700'>{borrowApy}%</div>
+            )}
             <div className='fw-bold text-gray-400'>Borrow APY</div>
           </div>
         </div>
         <div className='d-flex flex-center flex-wrap mb-5'>
           <div className='border border-gray-300 border-dashed rounded min-w-100px py-1 mx-1 px-2 mb-3'>
-            <div className='fs-6 fw-bolder text-gray-700'>{supplyApy}</div>
+            <div className='fs-6 fw-bolder text-gray-700'>{2}</div>
             <div className='fw-bold text-gray-400'>Supply APY</div>
           </div>
 
           <div className='border border-gray-300 border-dashed rounded min-w-100px py-1 mx-1 px-2 mb-3'>
-            <div className='fs-6 fw-bolder text-gray-700'>{borrowApy}</div>
+            <div className='fs-6 fw-bolder text-gray-700'>{1}</div>
             <div className='fw-bold text-gray-400'>Borrow APY</div>
           </div>
         </div>

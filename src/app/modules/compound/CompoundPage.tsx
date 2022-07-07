@@ -43,176 +43,23 @@ const CompoundPage: FC = () => {
     <>
       {console.log(apys)}
       {/* begin::Row */}
+
       <div className='row g-6 g-xl-9'>
-        <div className='col-md-6 col-xl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-          />
-        </div>
-        <div className='col-md-6 col-xl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-          />
-        </div>
-        <div className='col-md-6 col-xl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-          />
-        </div>
-        <div className='col-md-6 col-xl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-            online={true}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-            online={true}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-            online={true}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-            online={true}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-          />
-        </div>
-        <div className='col-md-6 col-xxl-3'>
-          <Card3
-            ticker='ETH'
-            positionValue={200}
-            positionBalance={1.4}
-            supplyApy={1}
-            borrowApy={1}
-            compSupplyApy={1}
-            compBorrowApy={1}
-          />
-        </div>
+        {apys.map((token, i) => {
+          return (
+            <div key={token.ticker} className='col-md-6 col-xl-3'>
+              <Card3
+                ticker={token.ticker}
+                positionValue={200}
+                positionBalance={1.4}
+                supplyApy={token.supplyApy}
+                borrowApy={token.borrowApy}
+                compSupplyApy={token.compSupplyApy}
+                compBorrowApy={token.compBorrowApy}
+              />
+            </div>
+          )
+        })}
       </div>
       {/* end::Row */}
     </>
