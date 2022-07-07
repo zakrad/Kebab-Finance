@@ -3,23 +3,25 @@ import {FC} from 'react'
 import {toAbsoluteUrl, KTSVG} from '../../../helpers'
 
 type Props = {
-  color?: string
   avatar?: string
   online?: boolean
   name: string
   job: string
-  avgEarnings: string
-  totalEarnings: string
+  supplyApy: string
+  borrowApy: string
+  compSupplyApy?: number
+  compBorrowApy?: number
 }
 
 const Card3: FC<Props> = ({
-  color = '',
   avatar = '',
   online = false,
   name,
   job,
-  avgEarnings,
-  totalEarnings,
+  supplyApy,
+  borrowApy,
+  compSupplyApy = '',
+  compBorrowApy = '',
 }) => {
   return (
     <div className='card'>
@@ -27,13 +29,7 @@ const Card3: FC<Props> = ({
         <div className='d-flex mb-4'>
           <div className='mb-5'>
             <div className='symbol symbol-50px symbol-circle'>
-              {color ? (
-                <span className={`symbol-label bg-light-${color} text-${color} fs-5 fw-bolder`}>
-                  {name.charAt(0)}
-                </span>
-              ) : (
-                <img alt='Pic' src={toAbsoluteUrl(avatar)} />
-              )}
+              {<img alt='Pic' src={toAbsoluteUrl(avatar)} />}
               {online && (
                 <div className='symbol-badge bg-success start-100 top-100 border-4 h-15px w-15px ms-n3 mt-n3'></div>
               )}
@@ -49,23 +45,39 @@ const Card3: FC<Props> = ({
         </div>
         <div className='d-flex flex-center flex-wrap my-0'>
           <div className='border border-gray-300 border-dashed rounded min-w-100px py-1 mx-1 px-2 mb-3'>
-            <div className='fs-6 fw-bolder text-gray-700'>{avgEarnings}</div>
+            <div className='fs-6 fw-bolder text-gray-700'>
+              {supplyApy} + %{compSupplyApy}
+              {<img
+                  alt='Pic'
+                  width='25px'
+                  src={toAbsoluteUrl('/media/icons/duotune/compound/comp.svg')}
+                />}
+            </div>
             <div className='fw-bold text-gray-400'>Supply APY</div>
           </div>
 
           <div className='border border-gray-300 border-dashed rounded min-w-100px py-1 mx-1 px-2 mb-3'>
-            <div className='fs-6 fw-bolder text-gray-700'>{totalEarnings}</div>
+            <div className='fs-6 fw-bolder text-gray-700'>
+              {borrowApy} - %{compBorrowApy}
+              {
+                <img
+                  alt='Pic'
+                  width='25px'
+                  src={toAbsoluteUrl('/media/icons/duotune/compound/comp.svg')}
+                />
+              }
+            </div>
             <div className='fw-bold text-gray-400'>Borrow APY</div>
           </div>
         </div>
         <div className='d-flex flex-center flex-wrap mb-5'>
           <div className='border border-gray-300 border-dashed rounded min-w-100px py-1 mx-1 px-2 mb-3'>
-            <div className='fs-6 fw-bolder text-gray-700'>{avgEarnings}</div>
+            <div className='fs-6 fw-bolder text-gray-700'>{supplyApy}</div>
             <div className='fw-bold text-gray-400'>Supply APY</div>
           </div>
 
           <div className='border border-gray-300 border-dashed rounded min-w-100px py-1 mx-1 px-2 mb-3'>
-            <div className='fs-6 fw-bolder text-gray-700'>{totalEarnings}</div>
+            <div className='fs-6 fw-bolder text-gray-700'>{borrowApy}</div>
             <div className='fw-bold text-gray-400'>Borrow APY</div>
           </div>
         </div>

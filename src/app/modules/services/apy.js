@@ -5,7 +5,7 @@ const provider = 'https://speedy-nodes-nyc.moralis.io/453da2a22cc39051bdeaaeb2/e
 const comptroller = Compound.util.getAddress(Compound.Comptroller);
 const opf = Compound.util.getAddress(Compound.PriceFeed);
 
-const cTokenDecimals = 8; // always 8
+// const cTokenDecimals = 8; // always 8
 const blocksPerDay = (60 / 13.15) * 60 * 24; // 4 blocks in 1 minute
 const daysPerYear = 365;
 const ethMantissa = Math.pow(10, 18); // 1 * 10 ^ 18
