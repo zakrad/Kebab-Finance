@@ -5,10 +5,11 @@ import {toAbsoluteUrl, KTSVG} from '../../../helpers'
 type Props = {
   avatar?: string
   online?: boolean
-  name: string
-  job: string
-  supplyApy: string
-  borrowApy: string
+  positionValue: number
+  positionBalance: number
+  ticker: string
+  supplyApy: number
+  borrowApy: number
   compSupplyApy?: number
   compBorrowApy?: number
 }
@@ -16,12 +17,13 @@ type Props = {
 const Card3: FC<Props> = ({
   avatar = '',
   online = false,
-  name,
-  job,
+  positionValue,
+  positionBalance,
   supplyApy,
   borrowApy,
   compSupplyApy = '',
   compBorrowApy = '',
+  ticker = '',
 }) => {
   return (
     <div className='card'>
@@ -37,32 +39,39 @@ const Card3: FC<Props> = ({
           </div>
           <div>
             <a href='#' className='fs-3 text-gray-800 text-hover-primary fw-bolder mb-0 mx-3'>
-              {name}
+              ${positionValue}
             </a>
 
-            <div className='fs-5 fw-bold text-gray-400 mb-6 mx-3'>{job}</div>
+            <div className='fs-5 fw-bold text-gray-400 mb-6 mx-3'>
+              {positionBalance + ' '}
+              {ticker}
+            </div>
           </div>
         </div>
         <div className='d-flex flex-center flex-wrap my-0'>
           <div className='border border-gray-300 border-dashed rounded min-w-100px py-1 mx-1 px-2 mb-3'>
             <div className='fs-6 fw-bolder text-gray-700'>
-              {supplyApy} + %{compSupplyApy}
-              {<img
+              %{supplyApy} + %{compSupplyApy}
+              {
+                <img
+                  className='mx-1'
                   alt='Pic'
-                  width='25px'
+                  width='20px'
                   src={toAbsoluteUrl('/media/icons/duotune/compound/comp.svg')}
-                />}
+                />
+              }
             </div>
             <div className='fw-bold text-gray-400'>Supply APY</div>
           </div>
 
           <div className='border border-gray-300 border-dashed rounded min-w-100px py-1 mx-1 px-2 mb-3'>
             <div className='fs-6 fw-bolder text-gray-700'>
-              {borrowApy} - %{compBorrowApy}
+              %{borrowApy} - %{compBorrowApy}
               {
                 <img
+                  className='mx-1'
                   alt='Pic'
-                  width='25px'
+                  width='20px'
                   src={toAbsoluteUrl('/media/icons/duotune/compound/comp.svg')}
                 />
               }
