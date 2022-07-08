@@ -1,6 +1,8 @@
 import Compound from '@compound-finance/compound-js';
+import { useWeb3 } from 'src/app/providers/web3';
 
-const provider = 'https://speedy-nodes-nyc.moralis.io/453da2a22cc39051bdeaaeb2/eth/mainnet';
+
+// const provider = 'https://speedy-nodes-nyc.moralis.io/453da2a22cc39051bdeaaeb2/eth/mainnet';
 
 const comptroller = Compound.util.getAddress(Compound.Comptroller);
 const opf = Compound.util.getAddress(Compound.PriceFeed);
@@ -10,7 +12,7 @@ const blocksPerDay = (60 / 13.15) * 60 * 24; // 4 blocks in 1 minute
 const daysPerYear = 365;
 const ethMantissa = Math.pow(10, 18); // 1 * 10 ^ 18
 
-async function calculateSupplyApy(cToken) {
+async function calculateSupplyApy(cToken, provider) {
     const supplyRatePerBlock = await Compound.eth.read(
         cToken,
         'function supplyRatePerBlock() returns (uint)',
@@ -21,7 +23,7 @@ async function calculateSupplyApy(cToken) {
     return 100 * (Math.pow((supplyRatePerBlock / ethMantissa * blocksPerDay) + 1, daysPerYear) - 1);
 }
 
-async function calculateBorrowApy(cToken) {
+async function calculateBorrowApy(cToken, provider) {
     const borrowRatePerBlock = await Compound.eth.read(
         cToken,
         'function borrowRatePerBlock() returns (uint)',
@@ -32,7 +34,7 @@ async function calculateBorrowApy(cToken) {
     return 100 * (Math.pow((borrowRatePerBlock / ethMantissa * blocksPerDay) + 1, daysPerYear) - 1);
 }
 
-async function calculateCompApy(cToken, ticker, underlyingDecimals) {
+async function calculateCompApy(cToken, ticker, underlyingDecimals, provider) {
     let compSupplySpeed = await Compound.eth.read(
         comptroller,
         'function compSupplySpeeds(address cToken) public returns (uint)',
@@ -102,15 +104,15 @@ async function calculateCompApy(cToken, ticker, underlyingDecimals) {
 }
 
 
-async function calculateApy(cToken, ticker) {
+async function CalculateApy(cToken, ticker, provider) {
     const underlyingDecimals = Compound.decimals[cToken.slice(1, 10)];
     const cTokenAddress = Compound.util.getAddress(cToken);
     const [supplyAPY, borrowAPY] = await Promise.all([
-        calculateSupplyApy(cTokenAddress),
-        calculateBorrowApy(cTokenAddress),
+        calculateSupplyApy(cTokenAddress, provider),
+        calculateBorrowApy(cTokenAddress, provider),
     ]);
     const [compApy] = await Promise.all(
-        [calculateCompApy(cTokenAddress, ticker, underlyingDecimals)]
+        [calculateCompApy(cTokenAddress, ticker, underlyingDecimals, provider)]
     )
     const compSupplyApy = Math.round(compApy[0] * 100) / 100
     const compBorrowApy = Math.round(compApy[1] * 100) / 100
@@ -119,4 +121,4 @@ async function calculateApy(cToken, ticker) {
     return { ticker, supplyApy, borrowApy, compSupplyApy, compBorrowApy };
 }
 
-export default calculateApy;
+export default CalculateApy;

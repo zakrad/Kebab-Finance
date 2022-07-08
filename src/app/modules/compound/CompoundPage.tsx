@@ -5,31 +5,38 @@ import {PageTitle} from '../../../_metronic/layout/core'
 import {useWeb3} from 'src/app/providers/web3'
 import {Card3} from '../../../_metronic/partials/content/cards/Card3'
 import Compound from '@compound-finance/compound-js'
-import calculateApy from '../services/apy.js'
+import Calculateapy from '../services/apy.js'
+import main from '../services/compound.js'
 import {ProfileHeader} from '../profile/ProfileHeader'
 
 const CompoundPage: FC = () => {
   const [apys, setApys] = useState<Array<any>>([])
+  const {provider} = useWeb3()
 
   useEffect(() => {
     async function getServerSideProps() {
       setApys(
         await Promise.all([
-          calculateApy(Compound.cETH, 'ETH'),
-          calculateApy(Compound.cDAI, 'DAI'),
-          calculateApy(Compound.cUSDC, 'USDC'),
-          calculateApy(Compound.cUSDT, 'USDT'),
-          calculateApy(Compound.cZRX, 'ZRX'),
-          calculateApy(Compound.cREP, 'REP'),
-          calculateApy(Compound.cBAT, 'BAT'),
-          calculateApy(Compound.cUNI, 'UNI'),
-          calculateApy(Compound.cCOMP, 'COMP'),
-          calculateApy(Compound.cTUSD, 'TUSD'),
-          calculateApy(Compound.cLINK, 'LINK'),
-          calculateApy(Compound.cMKR, 'MKR'),
-          calculateApy(Compound.cAAVE, 'AAVE'),
-          calculateApy(Compound.cYFI, 'YFI'),
-          calculateApy(Compound.cSUSHI, 'SUSHI'),
+          Calculateapy(Compound.cETH, 'ETH', provider),
+          // calculateApy(Compound.cDAI, 'DAI'),
+          // calculateApy(Compound.cUSDC, 'USDC'),
+          // calculateApy(Compound.cUSDT, 'USDT'),
+          // calculateApy(Compound.cZRX, 'ZRX'),
+          // calculateApy(Compound.cREP, 'REP'),
+          // calculateApy(Compound.cBAT, 'BAT'),
+          // calculateApy(Compound.cUNI, 'UNI'),
+          // calculateApy(Compound.cCOMP, 'COMP'),
+          // calculateApy(Compound.cTUSD, 'TUSD'),
+          // calculateApy(Compound.cLINK, 'LINK'),
+          // calculateApy(Compound.cMKR, 'MKR'),
+          // calculateApy(Compound.cAAVE, 'AAVE'),
+          // calculateApy(Compound.cYFI, 'YFI'),
+          // calculateApy(Compound.cSUSHI, 'SUSHI'),
+          main(Compound.cETH, provider),
+          // main(Compound.cDAI),
+          // main(Compound.cUSDC),
+          // main(Compound.cUSDT),
+          // main(Compound.cWBTC),
         ])
       )
     }
