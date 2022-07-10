@@ -49,21 +49,21 @@ const CompoundPage: FC = () => {
     async function getServerSideProps() {
       setApys(
         await Promise.all([
-          // calculateApy(Compound.cETH, 'ETH'),
+          calculateApy(Compound.cETH, 'ETH'),
           calculateApy(Compound.cDAI, 'DAI'),
-          // calculateApy(Compound.cUSDC, 'USDC'),
-          // calculateApy(Compound.cUSDT, 'USDT'),
-          // calculateApy(Compound.cZRX, 'ZRX'),
-          // calculateApy(Compound.cREP, 'REP'),
-          // calculateApy(Compound.cBAT, 'BAT'),
-          // calculateApy(Compound.cUNI, 'UNI'),
-          // calculateApy(Compound.cCOMP, 'COMP'),
-          // calculateApy(Compound.cTUSD, 'TUSD'),
-          // calculateApy(Compound.cLINK, 'LINK'),
-          // calculateApy(Compound.cMKR, 'MKR'),
-          // calculateApy(Compound.cAAVE, 'AAVE'),
-          // calculateApy(Compound.cYFI, 'YFI'),
-          // calculateApy(Compound.cSUSHI, 'SUSHI'),
+          calculateApy(Compound.cUSDC, 'USDC'),
+          calculateApy(Compound.cUSDT, 'USDT'),
+          calculateApy(Compound.cZRX, 'ZRX'),
+          calculateApy(Compound.cREP, 'REP'),
+          calculateApy(Compound.cBAT, 'BAT'),
+          calculateApy(Compound.cUNI, 'UNI'),
+          calculateApy(Compound.cCOMP, 'COMP'),
+          calculateApy(Compound.cTUSD, 'TUSD'),
+          calculateApy(Compound.cLINK, 'LINK'),
+          calculateApy(Compound.cMKR, 'MKR'),
+          calculateApy(Compound.cAAVE, 'AAVE'),
+          calculateApy(Compound.cYFI, 'YFI'),
+          calculateApy(Compound.cSUSHI, 'SUSHI'),
         ])
       )
     }
@@ -86,12 +86,14 @@ const CompoundPage: FC = () => {
             <div key={token.ticker} className='col-md-6 col-xl-3'>
               <Card3
                 ticker={token.ticker}
-                positionValue={200}
-                positionBalance={1.4}
+                positionValue={token.suppliedValue}
+                positionBalance={token.supplied}
                 supplyApy={token.supplyApy}
                 borrowApy={token.borrowApy}
                 compSupplyApy={token.compSupplyApy}
                 compBorrowApy={token.compBorrowApy}
+                borrowed={token.borrowed}
+                hasEntered={token.hasEntered}
               />
             </div>
           )

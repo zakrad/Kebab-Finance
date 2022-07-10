@@ -2,12 +2,12 @@ import Compound from '@compound-finance/compound-js';
 import { BigNumber, ethers } from 'ethers';
 
 
-const provider = 'https://speedy-nodes-nyc.moralis.io/453da2a22cc39051bdeaaeb2/eth/mainnet';
-// const provider = 'https://eth-mainnet.gateway.pokt.network/v1/lb/62c81988976624003a97f2bb'
+// const provider = 'https://speedy-nodes-nyc.moralis.io/453da2a22cc39051bdeaaeb2/eth/mainnet';
+const provider = 'https://eth-mainnet.gateway.pokt.network/v1/lb/62c81988976624003a97f2bb'
 
 const comptroller = Compound.util.getAddress(Compound.Comptroller);
 const opf = Compound.util.getAddress(Compound.PriceFeed);
-const address = '0x495833d72cb1C78c5f53e0fbAFdbe18E012b2482'
+const address = '0xCd615848C10c89F6AfcC3f353B2c0B690c535a27'.toLocaleLowerCase()
 
 
 
@@ -33,15 +33,22 @@ const eneteredMarkets = async (cToken, address) => {
     }
 }
 
-const getBorrowBalance = async (cToken, address) => {
+const getBorrowBalance = async (cToken, address, ticker) => {
     const getBorrowBalance = await Compound.eth.read(
         cToken,
         'function borrowBalanceCurrent(address account) returns (uint)',
         [address],
         { provider }
     );
+    const underlyingPrice = await Compound.eth.read(
+        opf,
+        'function price(string memory symbol) external view returns (uint)',
+        [ticker],
+        { provider }
+    );
+
     const borrowBalance = Math.round(Number(ethers.utils.formatEther(BigNumber.from(parseInt((getBorrowBalance._hex)).toLocaleString('fullwide', { useGrouping: false })))) * 100) / 100
-    return borrowBalance
+    return Math.round((borrowBalance * underlyingPrice / 1e6) * 100) / 100
 
 }
 
@@ -60,16 +67,35 @@ const getLiquidity = async (address) => {
     }
 }
 
-const getUnderlyingBalance = async (cToken, address) => {
+const getUnderlyingBalance = async (cToken, address, underlyingDecimals) => {
     const getUnderlyingBalance = await Compound.eth.read(
         cToken,
         'function balanceOfUnderlying(address account) returns (uint)',
         [address],
         { provider }
     );
-    console.log(getUnderlyingBalance);
+    // console.log(underlyingDecimals)
+    return Math.round(Number(ethers.utils.formatUnits(BigNumber.from(parseInt((getUnderlyingBalance._hex)).toLocaleString('fullwide', { useGrouping: false })), underlyingDecimals)) * 100) / 100
 }
 
+const getUnderlyingValue = async (cToken, address, ticker, underlyingDecimals) => {
+    const getUnderlyingBalance = await Compound.eth.read(
+        cToken,
+        'function balanceOfUnderlying(address account) returns (uint)',
+        [address],
+        { provider }
+    );
+    const underlyingPrice = await Compound.eth.read(
+        opf,
+        'function price(string memory symbol) external view returns (uint)',
+        [ticker],
+        { provider }
+    );
+
+    const underlyingBalance = Number(ethers.utils.formatUnits(BigNumber.from(parseInt((getUnderlyingBalance._hex)).toLocaleString('fullwide', { useGrouping: false })), underlyingDecimals))
+
+    return Math.round((underlyingBalance * underlyingPrice / 1e6) * 100) / 100
+}
 
 
 async function calculateSupplyApy(cToken) {
@@ -79,6 +105,7 @@ async function calculateSupplyApy(cToken) {
         [],
         { provider }
     );
+
 
     return 100 * (Math.pow((supplyRatePerBlock / ethMantissa * blocksPerDay) + 1, daysPerYear) - 1);
 }
@@ -167,24 +194,23 @@ async function calculateCompApy(cToken, ticker, underlyingDecimals) {
 async function calculateApy(cToken, ticker) {
     const underlyingDecimals = Compound.decimals[cToken.slice(1, 10)];
     const cTokenAddress = Compound.util.getAddress(cToken);
-    const [supplyAPY, borrowAPY, hasEntered, borrowed, letfToBorrow] = await Promise.all([
+    const [supplyAPY, borrowAPY, hasEntered, borrowed, letfToBorrow, supplied, suppliedValue] = await Promise.all([
         calculateSupplyApy(cTokenAddress),
         calculateBorrowApy(cTokenAddress),
         eneteredMarkets(cTokenAddress, address),
-        getBorrowBalance(cTokenAddress, address),
-        getLiquidity(address)
-
+        getBorrowBalance(cTokenAddress, address, ticker),
+        getLiquidity(address),
+        getUnderlyingBalance(cTokenAddress, address, underlyingDecimals),
+        getUnderlyingValue(cTokenAddress, address, ticker, underlyingDecimals)
     ]);
     const [compApy] = await Promise.all(
         [calculateCompApy(cTokenAddress, ticker, underlyingDecimals)]
     )
-    getLiquidity(address)
-    getUnderlyingBalance(cTokenAddress, address)
     const compSupplyApy = Math.round(compApy[0] * 100) / 100
     const compBorrowApy = Math.round(compApy[1] * 100) / 100
     const supplyApy = Math.round(supplyAPY * 100) / 100
     const borrowApy = Math.round(borrowAPY * 100) / 100
-    return { ticker, hasEntered, borrowed, letfToBorrow, supplyApy, borrowApy, compSupplyApy, compBorrowApy, underWater };
+    return { ticker, hasEntered, borrowed, letfToBorrow, supplied, suppliedValue, supplyApy, borrowApy, compSupplyApy, compBorrowApy, underWater };
 }
 
 export default calculateApy;
