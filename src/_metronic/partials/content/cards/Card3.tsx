@@ -13,6 +13,7 @@ type Props = {
   compBorrowApy?: number
   borrowed?: number
   hasEntered: boolean
+  underWater: boolean
 }
 
 const Card3: FC<Props> = ({
@@ -26,12 +27,17 @@ const Card3: FC<Props> = ({
   ticker = '',
   borrowed = '',
   hasEntered,
+  underWater,
 }) => {
   return (
     <div className='card'>
       <div
         className={`card-body d-flex flex-column p-4 ${
-          hasEntered && 'bg-light-primary border border-gray-700 border-dashed rounded'
+          hasEntered
+            ? 'bg-light-primary border border-gray-700 border-dashed rounded'
+            : underWater
+            ? 'bg-danger border rounded'
+            : ''
         }`}
       >
         <div className='d-flex mb-4 justify-content-between'>
@@ -65,11 +71,13 @@ const Card3: FC<Props> = ({
               href='#'
               className={`btn btn-sm ${
                 hasEntered
-                  ? 'btn-light border border-gray-300 rounded'
-                  : 'btn-primary'
+                  ? 'p-3 btn-light border border-gray-300 rounded'
+                  : underWater
+                  ? 'p-1 btn-light-danger border border-gray-300 rounded'
+                  : 'p-3 btn-primary'
               } d-flex`}
             >
-              {hasEntered ? 'Enabled' : 'Enable'}
+              {hasEntered ? 'Enabled' : underWater ? 'ready to liquidate' : 'Enable'}
             </a>
           </div>
         </div>

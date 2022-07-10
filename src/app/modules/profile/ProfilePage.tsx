@@ -26,8 +26,8 @@ const ProfilePage = () => (
   <Routes>
     <Route
       element={
-        <>
-          <ProfileHeader />
+        <><ProfileHeader />
+          
           <Outlet />
         </>
       }

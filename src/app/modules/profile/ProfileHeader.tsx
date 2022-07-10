@@ -1,8 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import {FC} from 'react'
 import {KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
 
-const ProfileHeader: React.FC = () => {
+type Props = {
+  leftToBorrow?: number
+  lend?: number
+  borrowed?: number
+  netApy?: number
+  comp?: any
+}
+
+const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp}) => {
   return (
     <div className='card mb-5 mb-xl-10'>
       <div className='card-body pt-9 pb-0'>
@@ -24,7 +32,7 @@ const ProfileHeader: React.FC = () => {
                         path='/media/icons/duotune/arrows/arr037.svg'
                         className='svg-icon-3x svg-icon-white me-2'
                       />
-                      <div className='fs-2 fw-bolder'>4500$</div>
+                      <div className='fs-2 fw-bolder'>{lend}$</div>
                     </div>
 
                     <div className='fw-bold fs-6 text-white'>Lend Value</div>
@@ -36,7 +44,7 @@ const ProfileHeader: React.FC = () => {
                         path='/media/icons/duotune/arrows/arr036.svg'
                         className='svg-icon-3x svg-icon-white me-2'
                       />
-                      <div className='fs-2 fw-bolder'>$75</div>
+                      <div className='fs-2 fw-bolder'>{borrowed}$</div>
                     </div>
 
                     <div className='fw-bold fs-6 text-white'>Borrowed Value</div>
@@ -50,7 +58,7 @@ const ProfileHeader: React.FC = () => {
                         width='30px'
                         src={toAbsoluteUrl('/media/icons/duotune/compound/comp.svg')}
                       />
-                      <div className='fs-2 fw-bolder'>2.6</div>
+                      <div className='fs-2 fw-bolder'>{comp}</div>
                       <a href='#' className='btn btn-success btn-sm mx-10'>
                         <div className='fs-7 fw-bolder'>Claim</div>
                       </a>
@@ -83,7 +91,7 @@ const ProfileHeader: React.FC = () => {
                         path='/media/icons/duotune/ecommerce/ecm011.svg'
                         className='svg-icon-3x svg-icon-primary me-2'
                       />
-                      <div className='fs-2 fw-bolder'>0.1%</div>
+                      <div className='fs-2 fw-bolder'>{netApy}%</div>
                     </div>
 
                     <div className='fw-bold fs-6 text-gray-400'>Net Apy</div>
@@ -107,7 +115,7 @@ const ProfileHeader: React.FC = () => {
                         path='/media/icons/duotune/finance/fin002.svg'
                         className='svg-icon-3x svg-icon-dark me-2'
                       />
-                      <div className='fs-2 fw-bolder'>$1200</div>
+                      <div className='fs-2 fw-bolder'>{leftToBorrow}$</div>
                     </div>
 
                     <div className='fw-bold fs-6 text-gray-400'>Left to Borrow</div>

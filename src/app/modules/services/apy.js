@@ -7,7 +7,7 @@ const provider = 'https://eth-mainnet.gateway.pokt.network/v1/lb/62c819889766240
 
 const comptroller = Compound.util.getAddress(Compound.Comptroller);
 const opf = Compound.util.getAddress(Compound.PriceFeed);
-const address = '0xCd615848C10c89F6AfcC3f353B2c0B690c535a27'.toLocaleLowerCase()
+const address = '0x70Aad08C58CB2aF386e742460122c8501578A8FD'.toLocaleLowerCase()
 
 
 
@@ -17,7 +17,7 @@ const blocksPerDay = (60 / 13.15) * 60 * 24; // 4 blocks in 1 minute
 const daysPerYear = 365;
 const ethMantissa = Math.pow(10, 18); // 1 * 10 ^ 18
 
-let underWater = 0;
+let underWater = false;
 
 const eneteredMarkets = async (cToken, address) => {
     const getAssetsIn = await Compound.eth.read(
@@ -62,7 +62,7 @@ const getLiquidity = async (address) => {
     if (getLiquidity[1] !== 0) {
         return Math.round(Number(ethers.utils.formatEther(BigNumber.from(parseInt((getLiquidity[1]._hex)).toLocaleString('fullwide', { useGrouping: false })))) * 100) / 100
     } else if (getLiquidity[2] !== 0) {
-        underWater = 1
+        underWater = true
         return 0
     }
 }
@@ -212,5 +212,28 @@ async function calculateApy(cToken, ticker) {
     const borrowApy = Math.round(borrowAPY * 100) / 100
     return { ticker, hasEntered, borrowed, letfToBorrow, supplied, suppliedValue, supplyApy, borrowApy, compSupplyApy, compBorrowApy, underWater };
 }
+
+export async function getCompAccured() {
+    const compRaw = await Compound.comp.getCompAccrued(address)
+    const comp = Math.round(compRaw / 1e18 * 100) / 100
+    return { comp }
+}
+
+// export async function getLiquidity(address) {
+//     const getLiquidity = await Compound.eth.read(
+//         comptroller,
+//         'function getAccountLiquidity(address account) view returns (uint, uint, uint)',
+//         [address],
+//         { provider }
+//     );
+//     if (getLiquidity[1] !== 0) {
+//         return Math.round(Number(ethers.utils.formatEther(BigNumber.from(parseInt((getLiquidity[1]._hex)).toLocaleString('fullwide', { useGrouping: false })))) * 100) / 100
+//     } else if (getLiquidity[2] !== 0) {
+//         underWater = true
+//         return 0
+//     }
+// }
+
+
 
 export default calculateApy;
