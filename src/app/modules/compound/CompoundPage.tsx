@@ -34,12 +34,7 @@ const CompoundPage: FC = () => {
   //   {ticker: 'SUSHI', cToken: 'cSUSHI'},
   // ]
   const [apys, setApys] = useState<Array<any>>([])
-  const [info, setInfo] = useState<any>({
-    comp: 0,
-    underWater: false,
-    hasEntered: false,
-    liquidity: 0,
-  })
+  const [comp, setComp] = useState<any>()
   // const [info, setInfo] = useState<
   //   Array<{
   //     leftToBorrow: number
@@ -77,7 +72,9 @@ const CompoundPage: FC = () => {
           calculateApy(Compound.cSUSHI, 'SUSHI'),
         ])
       )
-      setInfo(await Promise.all([getCompAccured(), false, true, 0]))
+      setComp(
+        await getCompAccured()
+      )
     }
     try {
       getServerSideProps()
@@ -105,14 +102,14 @@ const CompoundPage: FC = () => {
   return (
     <>
       {console.log(apys)}
-      {console.log(info)}
+      {console.log(comp)}
       {/* begin::Row */}
       <ProfileHeader
         leftToBorrow={leftToBorrow}
         lend={Math.round(totalSupply * 100) / 100}
         borrowed={Math.round(totalBorrow * 100) / 100}
         netApy={netApy}
-        comp={info.comp}
+        comp={comp}
       />
       <div className='row g-6 g-xl-9'>
         {apys.map((token, i) => {
