@@ -5,7 +5,7 @@ import {PageTitle} from '../../../_metronic/layout/core'
 import {useWeb3} from 'src/app/providers/web3'
 import {Card3} from '../../../_metronic/partials/content/cards/Card3'
 import Compound from '@compound-finance/compound-js'
-import calculateApy, {getCompAccured} from '../services/apy.js'
+import calculateApy, {getInfo} from '../services/apy.js'
 // import Main from '../services/compound.js'
 import {ProfileHeader} from '../profile/ProfileHeader'
 
@@ -14,7 +14,6 @@ const CompoundPage: FC = () => {
   let totalSupply = 0
   let netApySum = 0
   let netApy = 0
-  let leftToBorrow = 0
 
   // const tokens = [
   //   {ticker: 'ETH', cToken: 'cETH'},
@@ -34,7 +33,12 @@ const CompoundPage: FC = () => {
   //   {ticker: 'SUSHI', cToken: 'cSUSHI'},
   // ]
   const [apys, setApys] = useState<Array<any>>([])
-  const [comp, setComp] = useState<any>()
+  const [info, setInfo] = useState<any>({
+    comp: 0,
+    leftToBorrow: 0,
+    underWater: false,
+    hasEntered: false,
+  })
   // const [info, setInfo] = useState<
   //   Array<{
   //     leftToBorrow: number
@@ -72,9 +76,7 @@ const CompoundPage: FC = () => {
           calculateApy(Compound.cSUSHI, 'SUSHI'),
         ])
       )
-      setComp(
-        await getCompAccured()
-      )
+      setInfo(await getInfo())
     }
     try {
       getServerSideProps()
@@ -89,7 +91,6 @@ const CompoundPage: FC = () => {
       totalSupply += token.suppliedValue
       netApySum += token.suppliedValue * token.supplyApy - token.borrowed * token.borrowApy
     }
-    leftToBorrow = token.leftToBorrow
   })
   if (netApySum > 0) {
     netApy = Math.round((netApySum / totalSupply) * 100) / 100
@@ -102,14 +103,14 @@ const CompoundPage: FC = () => {
   return (
     <>
       {console.log(apys)}
-      {console.log(comp)}
+      {console.log(info)}
       {/* begin::Row */}
       <ProfileHeader
-        leftToBorrow={leftToBorrow}
+        leftToBorrow={info.leftToBorrow}
         lend={Math.round(totalSupply * 100) / 100}
         borrowed={Math.round(totalBorrow * 100) / 100}
         netApy={netApy}
-        comp={comp}
+        comp={info.comp}
       />
       <div className='row g-6 g-xl-9'>
         {apys.map((token, i) => {
@@ -124,8 +125,8 @@ const CompoundPage: FC = () => {
                 compSupplyApy={token.compSupplyApy}
                 compBorrowApy={token.compBorrowApy}
                 borrowed={token.borrowed}
-                hasEntered={token.hasEntered}
-                underWater={token.underWater}
+                hasEntered={info.hasEntered}
+                underWater={info.underWater}
               />
             </div>
           )

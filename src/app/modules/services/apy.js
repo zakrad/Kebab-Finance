@@ -211,7 +211,7 @@ async function calculateApy(cToken, ticker) {
     return { ticker, borrowed, supplied, suppliedValue, supplyApy, borrowApy, compSupplyApy, compBorrowApy };
 }
 
-export async function getCompAccured(cToken) {
+export async function getInfo(cToken) {
     const cTokenAddress = Compound.util.getAddress(cToken);
     const compRaw = await Compound.comp.getCompAccrued(address)
     const comp = Math.round(compRaw / 1e18 * 100) / 100
