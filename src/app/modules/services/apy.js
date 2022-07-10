@@ -36,8 +36,11 @@ const getBorrowBalance = async (cToken, address) => {
         [address],
         { provider }
     );
-    console.log(getBorrowBalance)
-    return Math.round(Number(ethers.utils.formatEther(BigNumber.from(parseInt(getBorrowBalance._hex).toString()))) * 100) / 100
+    const borrowBalance = Math.round(Number(ethers.utils.formatEther(BigNumber.from(parseInt((getBorrowBalance._hex)).toLocaleString('fullwide', {useGrouping:false}))))*100)/100
+    console.log(typeof (borrowBalance))
+    console.log(borrowBalance)
+    return borrowBalance
+    // return Math.round(Number(ethers.utils.formatEther(BigNumber.from(parseInt(getBorrowBalance._hex).toString()))) * 100) / 100
 
 }
 
