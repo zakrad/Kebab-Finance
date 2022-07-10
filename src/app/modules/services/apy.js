@@ -10,10 +10,14 @@ const opf = Compound.util.getAddress(Compound.PriceFeed);
 const address = '0x495833d72cb1C78c5f53e0fbAFdbe18E012b2482'
 
 
+
+
 // const cTokenDecimals = 8; // always 8
 const blocksPerDay = (60 / 13.15) * 60 * 24; // 4 blocks in 1 minute
 const daysPerYear = 365;
 const ethMantissa = Math.pow(10, 18); // 1 * 10 ^ 18
+
+let underWater = 0;
 
 const eneteredMarkets = async (cToken, address) => {
     const getAssetsIn = await Compound.eth.read(
@@ -36,11 +40,8 @@ const getBorrowBalance = async (cToken, address) => {
         [address],
         { provider }
     );
-    const borrowBalance = Math.round(Number(ethers.utils.formatEther(BigNumber.from(parseInt((getBorrowBalance._hex)).toLocaleString('fullwide', {useGrouping:false}))))*100)/100
-    console.log(typeof (borrowBalance))
-    console.log(borrowBalance)
+    const borrowBalance = Math.round(Number(ethers.utils.formatEther(BigNumber.from(parseInt((getBorrowBalance._hex)).toLocaleString('fullwide', { useGrouping: false })))) * 100) / 100
     return borrowBalance
-    // return Math.round(Number(ethers.utils.formatEther(BigNumber.from(parseInt(getBorrowBalance._hex).toString()))) * 100) / 100
 
 }
 
@@ -51,7 +52,12 @@ const getLiquidity = async (address) => {
         [address],
         { provider }
     );
-    console.log(getLiquidity);
+    if (getLiquidity[1] !== 0) {
+        return Math.round(Number(ethers.utils.formatEther(BigNumber.from(parseInt((getLiquidity[1]._hex)).toLocaleString('fullwide', { useGrouping: false })))) * 100) / 100
+    } else if (getLiquidity[2] !== 0) {
+        underWater = 1
+        return 0
+    }
 }
 
 const getUnderlyingBalance = async (cToken, address) => {
@@ -161,11 +167,13 @@ async function calculateCompApy(cToken, ticker, underlyingDecimals) {
 async function calculateApy(cToken, ticker) {
     const underlyingDecimals = Compound.decimals[cToken.slice(1, 10)];
     const cTokenAddress = Compound.util.getAddress(cToken);
-    const [supplyAPY, borrowAPY, hasEntered, borrowed] = await Promise.all([
+    const [supplyAPY, borrowAPY, hasEntered, borrowed, letfToBorrow] = await Promise.all([
         calculateSupplyApy(cTokenAddress),
         calculateBorrowApy(cTokenAddress),
         eneteredMarkets(cTokenAddress, address),
-        getBorrowBalance(cTokenAddress, address)
+        getBorrowBalance(cTokenAddress, address),
+        getLiquidity(address)
+
     ]);
     const [compApy] = await Promise.all(
         [calculateCompApy(cTokenAddress, ticker, underlyingDecimals)]
@@ -176,7 +184,7 @@ async function calculateApy(cToken, ticker) {
     const compBorrowApy = Math.round(compApy[1] * 100) / 100
     const supplyApy = Math.round(supplyAPY * 100) / 100
     const borrowApy = Math.round(borrowAPY * 100) / 100
-    return { ticker, hasEntered, borrowed, supplyApy, borrowApy, compSupplyApy, compBorrowApy };
+    return { ticker, hasEntered, borrowed, letfToBorrow, supplyApy, borrowApy, compSupplyApy, compBorrowApy, underWater };
 }
 
 export default calculateApy;
