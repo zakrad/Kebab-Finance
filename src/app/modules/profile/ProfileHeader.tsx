@@ -1,6 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {FC} from 'react'
 import {KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
+import {useWeb3} from 'src/app/providers/web3'
+import Compound from '@compound-finance/compound-js'
+import { claimComp } from '@compound-finance/compound-js/dist/nodejs/comp'
+
 
 type Props = {
   leftToBorrow?: number
@@ -13,6 +17,12 @@ type Props = {
 }
 
 const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, usedPower,CF}) => {
+
+
+  // const claimComp = async () => {
+  //   const trx = await Compound.claimComp();
+  // }
+
   return (
     <div className='card mb-5 mb-xl-10'>
       <div className='card-body pt-9 pb-0'>
@@ -61,9 +71,9 @@ const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, u
                         src={toAbsoluteUrl('/media/icons/duotune/compound/comp.svg')}
                       />
                       <div className='fs-2 fw-bolder'>{comp}</div>
-                      <a href='#' className='btn btn-success btn-sm mx-10'>
+                      <button type="button" onClick={() => {claimComp()}} className='btn btn-success btn-sm mx-10'>
                         <div className='fs-7 fw-bolder'>Claim</div>
-                      </a>
+                      </button>
                     </div>
                     <div className='fw-bold fs-6 text-gray-400'>Comp Rewards</div>
                   </div>
