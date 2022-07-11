@@ -6,53 +6,23 @@ import {useWeb3} from 'src/app/providers/web3'
 import {Card3} from '../../../_metronic/partials/content/cards/Card3'
 import Compound from '@compound-finance/compound-js'
 import calculateApy, {getInfo} from '../services/apy.js'
-// import Main from '../services/compound.js'
 import {ProfileHeader} from '../profile/ProfileHeader'
+import { ethers } from 'ethers'
+
+let totalBorrow = 0
+let totalSupply = 0
+let netApySum = 0
+let netApy = 0
 
 const CompoundPage: FC = () => {
-  let totalBorrow = 0
-  let totalSupply = 0
-  let netApySum = 0
-  let netApy = 0
-
-  // const tokens = [
-  //   {ticker: 'ETH', cToken: 'cETH'},
-  //   {ticker: 'DAI', cToken: 'cDAI'},
-  //   {ticker: 'USDC', cToken: 'cUSDC'},
-  //   {ticker: 'USDT', cToken: 'cUSDT'},
-  //   {ticker: 'ZRX', cToken: 'cZRX'},
-  //   {ticker: 'REP', cToken: 'cREP'},
-  //   {ticker: 'BAT', cToken: 'cBAT'},
-  //   {ticker: 'UNI', cToken: 'cUNI'},
-  //   {ticker: 'COMP', cToken: 'cCOMP'},
-  //   {ticker: 'TUSD', cToken: 'cTUSD'},
-  //   {ticker: 'LINK', cToken: 'cLINK'},
-  //   {ticker: 'MKR', cToken: 'cMKR'},
-  //   {ticker: 'AAVE', cToken: 'cAAVE'},
-  //   {ticker: 'YFI', cToken: 'cYFI'},
-  //   {ticker: 'SUSHI', cToken: 'cSUSHI'},
-  // ]
+  // const { } = useWeb3()
   const [apys, setApys] = useState<Array<any>>([])
   const [info, setInfo] = useState<any>({
     comp: 0,
     leftToBorrow: 0,
     underWater: false,
   })
-  // const [info, setInfo] = useState<
-  //   Array<{
-  //     leftToBorrow: number
-  //     lend: number
-  //     borrowed: number
-  //     netApy: number
-  //   }>
-  // >([])
-
-  // interface Info {
-  //   leftToBorrow: number
-  //   lend: number
-  //   borrowed: number
-  //   netApy: number
-  // }
+  // const cEth = new ethers.Contract( address , abi , signerOrProvider )
 
   useEffect(() => {
     async function getServerSideProps() {
@@ -105,9 +75,6 @@ const CompoundPage: FC = () => {
 
   return (
     <>
-      {console.log(apys)}
-      {console.log(info)}
-      {/* begin::Row */}
       <ProfileHeader
         leftToBorrow={info.leftToBorrow}
         lend={Math.round(totalSupply * 100) / 100}
