@@ -37,7 +37,6 @@ const CompoundPage: FC = () => {
     comp: 0,
     leftToBorrow: 0,
     underWater: false,
-    hasEntered: false,
   })
   // const [info, setInfo] = useState<
   //   Array<{
@@ -100,6 +99,10 @@ const CompoundPage: FC = () => {
     netApy = 0
   }
 
+  const usedPower =
+    (Math.round((totalBorrow * 100) / (totalBorrow + info.leftToBorrow)) * 100) / 100
+  const CF = Math.round(((totalBorrow * 100) / totalSupply) * 100) / 100
+
   return (
     <>
       {console.log(apys)}
@@ -111,6 +114,8 @@ const CompoundPage: FC = () => {
         borrowed={Math.round(totalBorrow * 100) / 100}
         netApy={netApy}
         comp={info.comp}
+        usedPower={usedPower}
+        CF={CF}
       />
       <div className='row g-6 g-xl-9'>
         {apys.map((token, i) => {
@@ -125,7 +130,7 @@ const CompoundPage: FC = () => {
                 compSupplyApy={token.compSupplyApy}
                 compBorrowApy={token.compBorrowApy}
                 borrowed={token.borrowed}
-                hasEntered={info.hasEntered}
+                hasEntered={token.hasEntered}
                 underWater={info.underWater}
               />
             </div>

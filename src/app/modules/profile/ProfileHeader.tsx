@@ -8,9 +8,11 @@ type Props = {
   borrowed?: number
   netApy?: number
   comp?: any
+  usedPower?: number
+  CF? : number
 }
 
-const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp}) => {
+const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, usedPower,CF}) => {
   return (
     <div className='card mb-5 mb-xl-10'>
       <div className='card-body pt-9 pb-0'>
@@ -70,14 +72,14 @@ const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp}) 
 
               <div className='d-flex align-items-center w-200px w-sm-300px flex-column mt-3'>
                 <div className='d-flex justify-content-between w-100 mt-auto mb-2'>
-                  <span className='fw-bold fs-6 text-gray-400'>Liquidation</span>
-                  <span className='fw-bolder fs-6'>50%</span>
+                  <span className='fw-bold fs-6 text-gray-400'>Used Liquidity</span>
+                  <span className='fw-bolder fs-6'>{usedPower}%</span>
                 </div>
                 <div className='h-5px mx-3 w-100 bg-light mb-3'>
                   <div
                     className='bg-success rounded h-5px'
                     role='progressbar'
-                    style={{width: '50%'}}
+                    style={{width: `${usedPower}%`}}
                   ></div>
                 </div>
               </div>
@@ -126,13 +128,13 @@ const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp}) 
               <div className='d-flex align-items-center w-200px w-sm-300px flex-column mt-3'>
                 <div className='d-flex justify-content-between w-100 mt-auto mb-2'>
                   <span className='fw-bold fs-6 text-gray-400'>Debt / Collateral</span>
-                  <span className='fw-bolder fs-6'>80%</span>
+                  <span className='fw-bolder fs-6'>{CF}%</span>
                 </div>
                 <div className='h-5px mx-3 w-100 bg-light mb-3'>
                   <div
                     className='bg-success rounded h-5px'
                     role='progressbar'
-                    style={{width: '80%'}}
+                    style={{width: `${CF}%`}}
                   ></div>
                 </div>
               </div>

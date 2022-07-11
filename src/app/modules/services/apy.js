@@ -194,12 +194,13 @@ async function calculateCompApy(cToken, ticker, underlyingDecimals) {
 async function calculateApy(cToken, ticker) {
     const underlyingDecimals = Compound.decimals[cToken.slice(1, 10)];
     const cTokenAddress = Compound.util.getAddress(cToken);
-    const [supplyAPY, borrowAPY, borrowed, supplied, suppliedValue] = await Promise.all([
+    const [supplyAPY, borrowAPY, borrowed, supplied, suppliedValue, hasEntered] = await Promise.all([
         calculateSupplyApy(cTokenAddress),
         calculateBorrowApy(cTokenAddress),
         getBorrowBalance(cTokenAddress, address, ticker),
         getUnderlyingBalance(cTokenAddress, address, underlyingDecimals),
-        getUnderlyingValue(cTokenAddress, address, ticker, underlyingDecimals)
+        getUnderlyingValue(cTokenAddress, address, ticker, underlyingDecimals),
+        eneteredMarkets(cTokenAddress, address),
     ]);
     const [compApy] = await Promise.all(
         [calculateCompApy(cTokenAddress, ticker, underlyingDecimals)]
@@ -208,19 +209,17 @@ async function calculateApy(cToken, ticker) {
     const compBorrowApy = Math.round(compApy[1] * 100) / 100
     const supplyApy = Math.round(supplyAPY * 100) / 100
     const borrowApy = Math.round(borrowAPY * 100) / 100
-    return { ticker, borrowed, supplied, suppliedValue, supplyApy, borrowApy, compSupplyApy, compBorrowApy };
+    return { ticker, borrowed, supplied, suppliedValue, supplyApy, borrowApy, compSupplyApy, compBorrowApy, hasEntered };
 }
 
-export async function getInfo(cToken) {
-    const cTokenAddress = Compound.util.getAddress(cToken);
+export async function getInfo() {
     const compRaw = await Compound.comp.getCompAccrued(address)
     const comp = Math.round(compRaw / 1e18 * 100) / 100
-    const [hasEntered, leftToBorrow] = await Promise.all([
-        eneteredMarkets(cTokenAddress, address),
+    const [leftToBorrow] = await Promise.all([
         getLiquidity(address)
     ])
 
-    return { comp, leftToBorrow, underWater, hasEntered }
+    return { comp, leftToBorrow, underWater }
 }
 
 // export async function getLiquidity(address) {
