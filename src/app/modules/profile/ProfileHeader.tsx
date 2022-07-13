@@ -3,8 +3,7 @@ import {FC} from 'react'
 import {KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
 import {useWeb3} from 'src/app/providers/web3'
 import Compound from '@compound-finance/compound-js'
-import { claimComp } from '@compound-finance/compound-js/dist/nodejs/comp'
-
+import {claimComp} from '@compound-finance/compound-js/dist/nodejs/comp'
 
 type Props = {
   leftToBorrow?: number
@@ -13,12 +12,10 @@ type Props = {
   netApy?: number
   comp?: any
   usedPower?: number
-  CF? : number
+  CF?: number
 }
 
-const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, usedPower,CF}) => {
-
-
+const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, usedPower, CF}) => {
   // const claimComp = async () => {
   //   const trx = await Compound.claimComp();
   // }
@@ -71,7 +68,13 @@ const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, u
                         src={toAbsoluteUrl('/media/icons/duotune/compound/comp.svg')}
                       />
                       <div className='fs-2 fw-bolder'>{comp}</div>
-                      <button type="button" onClick={() => {claimComp()}} className='btn btn-success btn-sm mx-10'>
+                      <button
+                        type='button'
+                        onClick={() => {
+                          claimComp()
+                        }}
+                        className='btn btn-success btn-sm mx-10'
+                      >
                         <div className='fs-7 fw-bolder'>Claim</div>
                       </button>
                     </div>
@@ -107,18 +110,6 @@ const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, u
                     </div>
 
                     <div className='fw-bold fs-6 text-gray-400'>Net Apy</div>
-                  </div>
-
-                  <div className='border border-gray-300 border-dashed rounded bg-light-warning min-w-125px py-3 px-4 me-6 mb-3'>
-                    <div className='d-flex align-items-center'>
-                      <KTSVG
-                        path='/media/icons/duotune/finance/fin010.svg'
-                        className='svg-icon-3x svg-icon-warning me-2'
-                      />
-                      <div className='fs-2 fw-bolder'>$75</div>
-                    </div>
-
-                    <div className='fw-bold fs-6 text-gray-400'>Liquidation Price</div>
                   </div>
 
                   <div className='border border-gray-300 border-dashed rounded bg-light-dark min-w-125px py-3 px-4 me-6 mb-3'>

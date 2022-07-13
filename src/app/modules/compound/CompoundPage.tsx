@@ -7,7 +7,9 @@ import {Card3} from '../../../_metronic/partials/content/cards/Card3'
 import Compound from '@compound-finance/compound-js'
 import calculateApy, {getInfo} from '../services/apy.js'
 import {ProfileHeader} from '../profile/ProfileHeader'
-import { ethers } from 'ethers'
+import {ethers} from 'ethers'
+import {useAccount} from '../web3'
+import cEthAbi from 'public/contracts/compound/abi/cEthAbi.json'
 
 let totalBorrow = 0
 let totalSupply = 0
@@ -15,7 +17,12 @@ let netApySum = 0
 let netApy = 0
 
 const CompoundPage: FC = () => {
-  // const { } = useWeb3()
+  const {provider} = useWeb3()
+  const cEthAddress = '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5'
+  // const cEth = new ethers.Contract(cEthAddress, cEthAbi, provider)
+
+  const {account} = useAccount()
+
   const [apys, setApys] = useState<Array<any>>([])
   const [info, setInfo] = useState<any>({
     comp: 0,
@@ -45,6 +52,8 @@ const CompoundPage: FC = () => {
           calculateApy(Compound.cSUSHI, 'SUSHI'),
         ])
       )
+      totalBorrow = 0
+      totalSupply = 0
       setInfo(await getInfo())
     }
     try {
@@ -75,6 +84,8 @@ const CompoundPage: FC = () => {
 
   return (
     <>
+      {console.log(apys)}
+      {console.log(info)}
       <ProfileHeader
         leftToBorrow={info.leftToBorrow}
         lend={Math.round(totalSupply * 100) / 100}
