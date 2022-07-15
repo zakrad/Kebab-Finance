@@ -17,7 +17,6 @@ const ClaimComp = async (account) => {
   // const cEth = new ethers.Contract(cEthAddress, cEthAbi, signer)
 
   const trx = await compound.claimComp({ from: account.data });
-  console.log('Ethers.js transaction object', trx);
 }
 
 export default ClaimComp;

@@ -15,9 +15,7 @@ let netApySum = 0
 let netApy = 0
 
 const CompoundPage: FC = () => {
-
   const {account} = useAccount()
-  
 
   const [apys, setApys] = useState<Array<any>>([])
   const [info, setInfo] = useState<any>({
@@ -47,14 +45,18 @@ const CompoundPage: FC = () => {
           calculateApy(Compound.cSUSHI, 'SUSHI'),
         ])
       )
+      setInfo(await getInfo())   
       totalBorrow = 0
       totalSupply = 0
-      setInfo(await getInfo())
     }
     try {
       getServerSideProps()
+      totalBorrow = 0
+      totalSupply = 0
     } catch (error) {
       console.error(error)
+      totalBorrow = 0
+      totalSupply = 0
     }
   }, [])
 
@@ -96,6 +98,8 @@ const CompoundPage: FC = () => {
             <div key={token.ticker} className='col-md-6 col-xl-3'>
               <Card3
                 ticker={token.ticker}
+                cToken={token.cToken}
+                cTokenAddress={token.cTokenAddress}
                 positionValue={token.suppliedValue}
                 positionBalance={token.supplied}
                 supplyApy={token.supplyApy}

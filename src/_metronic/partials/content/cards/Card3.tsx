@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {FC} from 'react'
-import { useAccount } from 'src/app/modules/web3'
+import {EnterMarket, ExitMarket} from 'src/app/modules/compound/components/EnterExitMarket'
+import {useAccount} from 'src/app/modules/web3'
 import {toAbsoluteUrl, KTSVG} from '../../../helpers'
 
 type Props = {
@@ -8,6 +9,8 @@ type Props = {
   positionValue?: number
   positionBalance?: number
   ticker: string
+  cToken: string
+  cTokenAddress: string
   supplyApy: number
   borrowApy: number
   compSupplyApy?: number
@@ -26,11 +29,13 @@ const Card3: FC<Props> = ({
   compSupplyApy = '',
   compBorrowApy = '',
   ticker = '',
+  cToken = '',
+  cTokenAddress = '',
   borrowed = '',
   hasEntered,
   underWater,
 }) => {
-  const { account } = useAccount()
+  const {account} = useAccount()
   return (
     <div className='card'>
       <div
@@ -72,17 +77,21 @@ const Card3: FC<Props> = ({
             <button
               type='button'
               onClick={async () => {
-                hasEntered ? await EnterMarket(account, ticker) : await ExitMarket(account, ticker)
+                if (hasEntered) {
+                  await ExitMarket(account, cToken)
+                } else {
+                  await EnterMarket(account, cToken)
+                }
               }}
               className={`btn btn-sm ${
                 hasEntered
-                  ? 'p-3 btn-light border border-gray-300 rounded'
+                  ? 'p-2 btn-light border border-gray-300 rounded'
                   : underWater
                   ? 'p-1 btn-light-danger border border-gray-300 rounded'
                   : 'p-3 btn-primary'
               } d-flex`}
             >
-              {hasEntered ? 'Enabled' : underWater ? 'ready to liquidate' : 'Enable'}
+              {hasEntered ? 'Disable' : underWater ? 'ready to liquidate' : 'Enable'}
             </button>
           </div>
         </div>
