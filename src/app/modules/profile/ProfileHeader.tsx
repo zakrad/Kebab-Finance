@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {FC} from 'react'
 import {KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
-import {useWeb3} from 'src/app/providers/web3'
-import Compound from '@compound-finance/compound-js'
-import {claimComp} from '@compound-finance/compound-js/dist/nodejs/comp'
+import ClaimComp from '../compound/components/claim'
+import { useAccount } from '../web3'
+
 
 type Props = {
   leftToBorrow?: number
@@ -16,9 +16,8 @@ type Props = {
 }
 
 const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, usedPower, CF}) => {
-  // const claimComp = async () => {
-  //   const trx = await Compound.claimComp();
-  // }
+
+const { account } = useAccount()
 
   return (
     <div className='card mb-5 mb-xl-10'>
@@ -70,8 +69,8 @@ const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, u
                       <div className='fs-2 fw-bolder'>{comp}</div>
                       <button
                         type='button'
-                        onClick={() => {
-                          claimComp()
+                        onClick={async () => {
+                          await ClaimComp(account)
                         }}
                         className='btn btn-success btn-sm mx-10'
                       >

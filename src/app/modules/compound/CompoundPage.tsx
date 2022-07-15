@@ -6,9 +6,7 @@ import {useWeb3} from 'src/app/providers/web3'
 import {Card3} from '../../../_metronic/partials/content/cards/Card3'
 import Compound from '@compound-finance/compound-js'
 import calculateApy, {getInfo} from '../services/compound.js'
-import ClaimComp from './components/claim'
 import {ProfileHeader} from '../profile/ProfileHeader'
-// import {ethers} from 'ethers'
 import {useAccount} from '../web3'
 
 let totalBorrow = 0
@@ -17,13 +15,6 @@ let netApySum = 0
 let netApy = 0
 
 const CompoundPage: FC = () => {
-  // const {provider} = useWeb3()
-  // const cEthAddress = '0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5'
-  // const provider = new ethers.providers.JsonRpcProvider(
-  //   'https://eth-mainnet.gateway.pokt.network/v1/lb/62c81988976624003a97f2bb'
-  // )
-
-  // const cEth = new ethers.Contract(cEthAddress, cEthAbi, provider)
 
   const {account} = useAccount()
   
@@ -34,33 +25,31 @@ const CompoundPage: FC = () => {
     leftToBorrow: 0,
     underWater: false,
   })
-  // const cEth = new ethers.Contract( address , abi , signerOrProvider )
 
   useEffect(() => {
     async function getServerSideProps() {
-      // setApys(
-      //   await Promise.all([
-      //     calculateApy(Compound.cETH, 'ETH'),
-      //     calculateApy(Compound.cDAI, 'DAI'),
-      //     calculateApy(Compound.cUSDC, 'USDC'),
-      //     calculateApy(Compound.cUSDT, 'USDT'),
-      //     calculateApy(Compound.cZRX, 'ZRX'),
-      //     calculateApy(Compound.cREP, 'REP'),
-      //     calculateApy(Compound.cBAT, 'BAT'),
-      //     calculateApy(Compound.cUNI, 'UNI'),
-      //     calculateApy(Compound.cCOMP, 'COMP'),
-      //     calculateApy(Compound.cTUSD, 'TUSD'),
-      //     calculateApy(Compound.cLINK, 'LINK'),
-      //     calculateApy(Compound.cMKR, 'MKR'),
-      //     calculateApy(Compound.cAAVE, 'AAVE'),
-      //     calculateApy(Compound.cYFI, 'YFI'),
-      //     calculateApy(Compound.cSUSHI, 'SUSHI'),
-      //   ])
-      // )
-      // totalBorrow = 0
-      // totalSupply = 0
-      // setInfo(await getInfo())
-      await ClaimComp(account)
+      setApys(
+        await Promise.all([
+          calculateApy(Compound.cETH, 'ETH'),
+          calculateApy(Compound.cDAI, 'DAI'),
+          calculateApy(Compound.cUSDC, 'USDC'),
+          calculateApy(Compound.cUSDT, 'USDT'),
+          calculateApy(Compound.cZRX, 'ZRX'),
+          calculateApy(Compound.cREP, 'REP'),
+          calculateApy(Compound.cBAT, 'BAT'),
+          calculateApy(Compound.cUNI, 'UNI'),
+          calculateApy(Compound.cCOMP, 'COMP'),
+          calculateApy(Compound.cTUSD, 'TUSD'),
+          calculateApy(Compound.cLINK, 'LINK'),
+          calculateApy(Compound.cMKR, 'MKR'),
+          calculateApy(Compound.cAAVE, 'AAVE'),
+          calculateApy(Compound.cYFI, 'YFI'),
+          calculateApy(Compound.cSUSHI, 'SUSHI'),
+        ])
+      )
+      totalBorrow = 0
+      totalSupply = 0
+      setInfo(await getInfo())
     }
     try {
       getServerSideProps()

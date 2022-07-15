@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {FC} from 'react'
+import { useAccount } from 'src/app/modules/web3'
 import {toAbsoluteUrl, KTSVG} from '../../../helpers'
 
 type Props = {
@@ -29,6 +30,7 @@ const Card3: FC<Props> = ({
   hasEntered,
   underWater,
 }) => {
+  const { account } = useAccount()
   return (
     <div className='card'>
       <div
@@ -67,8 +69,11 @@ const Card3: FC<Props> = ({
             </div>
           </div>
           <div className='mb-5'>
-            <a
-              href='#'
+            <button
+              type='button'
+              onClick={async () => {
+                hasEntered ? await EnterMarket(account, ticker) : await ExitMarket(account, ticker)
+              }}
               className={`btn btn-sm ${
                 hasEntered
                   ? 'p-3 btn-light border border-gray-300 rounded'
@@ -78,7 +83,7 @@ const Card3: FC<Props> = ({
               } d-flex`}
             >
               {hasEntered ? 'Enabled' : underWater ? 'ready to liquidate' : 'Enable'}
-            </a>
+            </button>
           </div>
         </div>
         <div className='d-flex flex-center flex-wrap my-0'>
