@@ -7,7 +7,6 @@ import {Card3} from '../../../_metronic/partials/content/cards/Card3'
 import Compound from '@compound-finance/compound-js'
 import calculateApy, {getInfo} from '../services/compound.js'
 import {ProfileHeader} from '../profile/ProfileHeader'
-import {useAccount} from '../web3'
 
 let totalBorrow = 0
 let totalSupply = 0
@@ -15,7 +14,6 @@ let netApySum = 0
 let netApy = 0
 
 const CompoundPage: FC = () => {
-  const {account} = useAccount()
 
   const [apys, setApys] = useState<Array<any>>([])
   const [info, setInfo] = useState<any>({
@@ -45,21 +43,17 @@ const CompoundPage: FC = () => {
           calculateApy(Compound.cSUSHI, 'SUSHI'),
         ])
       )
-      setInfo(await getInfo())   
+      setInfo(await getInfo())
       totalBorrow = 0
       totalSupply = 0
     }
     try {
       getServerSideProps()
-      totalBorrow = 0
-      totalSupply = 0
     } catch (error) {
       console.error(error)
-      totalBorrow = 0
-      totalSupply = 0
     }
   }, [])
-
+  
   apys.forEach((token) => {
     if (token.hasEntered) {
       totalBorrow += token.borrowed
