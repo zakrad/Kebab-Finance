@@ -6,7 +6,7 @@ import {useWeb3} from 'src/app/providers/web3'
 import {Card3} from '../../../_metronic/partials/content/cards/Card3'
 import Compound from '@compound-finance/compound-js'
 import calculateApy, {getInfo} from '../services/compound.js'
-import claimComp from './components/claim'
+import ClaimComp from './components/claim'
 import {ProfileHeader} from '../profile/ProfileHeader'
 // import {ethers} from 'ethers'
 import {useAccount} from '../web3'
@@ -26,6 +26,7 @@ const CompoundPage: FC = () => {
   // const cEth = new ethers.Contract(cEthAddress, cEthAbi, provider)
 
   const {account} = useAccount()
+  
 
   const [apys, setApys] = useState<Array<any>>([])
   const [info, setInfo] = useState<any>({
@@ -59,7 +60,7 @@ const CompoundPage: FC = () => {
       // totalBorrow = 0
       // totalSupply = 0
       // setInfo(await getInfo())
-      await claimComp()
+      await ClaimComp(account)
     }
     try {
       getServerSideProps()
