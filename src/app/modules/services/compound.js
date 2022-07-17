@@ -3,7 +3,10 @@ import { BigNumber, ethers } from 'ethers';
 
 
 // const provider = 'https://speedy-nodes-nyc.moralis.io/453da2a22cc39051bdeaaeb2/eth/mainnet';
-const provider = 'https://eth-mainnet.gateway.pokt.network/v1/lb/62c81988976624003a97f2bb'
+// const provider = 'https://eth-mainnet.gateway.pokt.network/v1/lb/62cfd5feb37b8e00392ac751'
+// const provider = 'https://eth-mainnet.g.alchemy.com/v2/ObJhlL6vyv-RhsM7MQF7xW-4QuZCX5hF'
+const provider = 'https://mainnet.infura.io/v3/e420812a57104e7990fa4af22683bd36'
+// const provider = 'https://rpc.ankr.com/eth'
 
 const comptroller = Compound.util.getAddress(Compound.Comptroller);
 const opf = Compound.util.getAddress(Compound.PriceFeed);

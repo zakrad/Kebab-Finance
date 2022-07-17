@@ -158,20 +158,94 @@ const Card3: FC<Props> = ({
           </div> */}
         </div>
         <div className='d-flex'>
-          <a
-            href='#'
+          <button
             className={`btn btn-sm ${hasEntered ? 'btn-primary' : 'btn-light'} d-flex mx-2`}
+            data-bs-toggle='modal'
+            data-bs-target='#kt_modal_1'
           >
             <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-3' />
             Supply
-          </a>
-          <a
-            href='#'
+          </button>
+          <div className='modal fade' tabIndex={-1} id='kt_modal_1'>
+            <div className='modal-dialog'>
+              <div className='modal-content'>
+                <div className='modal-header'>
+                  <h5 className='modal-title'>Modal title</h5>
+                  <ul className='nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0'>
+                    <li className='nav-item'>
+                      <a className='nav-link active' data-bs-toggle='tab' href='#kt_tab_pane_7'>
+                        Link 1
+                      </a>
+                    </li>
+                    <li className='nav-item'>
+                      <a className='nav-link' data-bs-toggle='tab' href='#kt_tab_pane_8'>
+                        Link 2
+                      </a>
+                    </li>
+                  </ul>
+                  <div
+                    className='btn btn-icon btn-sm btn-active-light-primary ms-2'
+                    data-bs-dismiss='modal'
+                    aria-label='Close'
+                  >
+                    <KTSVG
+                      path='/media/icons/duotune/arrows/arr061.svg'
+                      className='svg-icon svg-icon-2x'
+                    />
+                  </div>
+                </div>
+                <div className='modal-body'>
+                  <p>Modal body text goes here.</p>
+                </div>
+                <div className='modal-footer'>
+                  <button type='button' className='btn btn-light' data-bs-dismiss='modal'>
+                    Close
+                  </button>
+                  <button type='button' className='btn btn-primary'>
+                    Save changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
             className={`btn btn-sm ${hasEntered ? 'btn-primary' : 'btn-light'} d-flex mx-8`}
+            data-bs-toggle='modal'
+            data-bs-target='#kt_modal_1'
           >
             <KTSVG path='/media/icons/duotune/arrows/arr090.svg' className='svg-icon-3' />
             Borrow
-          </a>
+          </button>
+          <div className='modal fade' tabIndex={-1} id='kt_modal_1'>
+            <div className='modal-dialog'>
+              <div className='modal-content'>
+                <div className='modal-header'>
+                  <h5 className='modal-title'>Modal title</h5>
+                  <div
+                    className='btn btn-icon btn-sm btn-active-light-primary ms-2'
+                    data-bs-dismiss='modal'
+                    aria-label='Close'
+                  >
+                    <KTSVG
+                      path='/media/icons/duotune/arrows/arr061.svg'
+                      className='svg-icon svg-icon-2x'
+                    />
+                  </div>
+                </div>
+                <div className='modal-body'>
+                  <p>Modal body text goes here.</p>
+                </div>
+                <div className='modal-footer'>
+                  <button type='button' className='btn btn-light' data-bs-dismiss='modal'>
+                    Close
+                  </button>
+                  <button type='button' className='btn btn-primary'>
+                    Save changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
