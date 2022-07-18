@@ -3,6 +3,7 @@ import {FC} from 'react'
 import BorrowApy from 'src/app/modules/compound/components/borrowApy'
 import {EnterMarket, ExitMarket} from 'src/app/modules/compound/components/EnterExitMarket'
 import SupplyApy from 'src/app/modules/compound/components/supplyApy'
+import SupplyButton from 'src/app/modules/compound/components/supplyButton'
 import {useAccount} from 'src/app/modules/web3'
 import {toAbsoluteUrl, KTSVG} from '../../../helpers'
 
@@ -20,6 +21,9 @@ type Props = {
   borrowed?: number
   hasEntered: boolean
   underWater: boolean
+  underlyingPrice: number
+  leftToBorrow: number
+  usedPower: number
 }
 
 const Card3: FC<Props> = ({
@@ -36,10 +40,21 @@ const Card3: FC<Props> = ({
   borrowed = '',
   hasEntered,
   underWater,
+  underlyingPrice = '',
+  leftToBorrow = '',
+  usedPower = '',
 }) => {
   const {account} = useAccount()
   return (
     <div className='card'>
+      <SupplyButton
+        underlyingPrice={underlyingPrice}
+        supplyApy={supplyApy}
+        compSupplyApy={compSupplyApy}
+        balance={0}
+        leftToBorrow={leftToBorrow}
+        usedPower={usedPower}
+      />
       <div
         className={`card-body d-flex flex-column p-4 ${
           hasEntered
@@ -110,13 +125,9 @@ const Card3: FC<Props> = ({
             <div className='fs-6 fw-bolder text-gray-700'>${borrowed}</div>
             <div className='fw-bold text-gray-400'>Borrowed</div>
           </div>
-
-          {/* <div className='border border-gray-300 border-dashed rounded min-w-100px py-1 mx-1 px-2 mb-3'>
-            <div className='fs-6 fw-bolder text-gray-700'>{1}</div>
-            <div className='fw-bold text-gray-400'>Borrow APY</div>
-          </div> */}
         </div>
         <div className='d-flex'>
+          {/* <SupplyButton /> */}
           <button
             className={`btn btn-sm ${hasEntered ? 'btn-primary' : 'btn-light'} d-flex mx-2`}
             data-bs-toggle='modal'
@@ -125,47 +136,6 @@ const Card3: FC<Props> = ({
             <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-3' />
             Supply
           </button>
-          <div className='modal fade' tabIndex={-1} id='kt_modal_1'>
-            <div className='modal-dialog'>
-              <div className='modal-content'>
-                <div className='modal-header'>
-                  <ul className='nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0 d-flex justify-content-evenly'>
-                    <li className='nav-item'>
-                      <a className='nav-link active' data-bs-toggle='tab' href='#kt_tab_pane_7'>
-                        Link 1
-                      </a>
-                    </li>
-                    <li className='nav-item'>
-                      <a className='nav-link' data-bs-toggle='tab' href='#kt_tab_pane_8'>
-                        Link 2
-                      </a>
-                    </li>
-                  </ul>
-                  <div
-                    className='btn btn-icon btn-sm btn-active-light-primary ms-2'
-                    data-bs-dismiss='modal'
-                    aria-label='Close'
-                  >
-                    <KTSVG
-                      path='/media/icons/duotune/arrows/arr061.svg'
-                      className='svg-icon svg-icon-2x'
-                    />
-                  </div>
-                </div>
-                <div className='modal-body'>
-                  <p>Modal body text goes here.</p>
-                </div>
-                <div className='modal-footer'>
-                  <button type='button' className='btn btn-light' data-bs-dismiss='modal'>
-                    Close
-                  </button>
-                  <button type='button' className='btn btn-primary'>
-                    Save changes
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
           <button
             className={`btn btn-sm ${hasEntered ? 'btn-primary' : 'btn-light'} d-flex mx-8`}
             data-bs-toggle='modal'
@@ -174,36 +144,6 @@ const Card3: FC<Props> = ({
             <KTSVG path='/media/icons/duotune/arrows/arr090.svg' className='svg-icon-3' />
             Borrow
           </button>
-          <div className='modal fade' tabIndex={-1} id='kt_modal_1'>
-            <div className='modal-dialog'>
-              <div className='modal-content'>
-                <div className='modal-header'>
-                  <h5 className='modal-title'>Modal title</h5>
-                  <div
-                    className='btn btn-icon btn-sm btn-active-light-primary ms-2'
-                    data-bs-dismiss='modal'
-                    aria-label='Close'
-                  >
-                    <KTSVG
-                      path='/media/icons/duotune/arrows/arr061.svg'
-                      className='svg-icon svg-icon-2x'
-                    />
-                  </div>
-                </div>
-                <div className='modal-body'>
-                  <p>Modal body text goes here.</p>
-                </div>
-                <div className='modal-footer'>
-                  <button type='button' className='btn btn-light' data-bs-dismiss='modal'>
-                    Close
-                  </button>
-                  <button type='button' className='btn btn-primary'>
-                    Save changes
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

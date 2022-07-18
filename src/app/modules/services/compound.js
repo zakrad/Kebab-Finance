@@ -5,8 +5,8 @@ import { BigNumber, ethers } from 'ethers';
 // const provider = 'https://speedy-nodes-nyc.moralis.io/453da2a22cc39051bdeaaeb2/eth/mainnet';
 // const provider = 'https://eth-mainnet.gateway.pokt.network/v1/lb/62cfd5feb37b8e00392ac751'
 // const provider = 'https://eth-mainnet.g.alchemy.com/v2/ObJhlL6vyv-RhsM7MQF7xW-4QuZCX5hF'
-const provider = 'https://mainnet.infura.io/v3/e420812a57104e7990fa4af22683bd36'
-// const provider = 'https://rpc.ankr.com/eth'
+// const provider = 'https://mainnet.infura.io/v3/e420812a57104e7990fa4af22683bd36'
+const provider = 'https://rpc.ankr.com/eth'
 
 const comptroller = Compound.util.getAddress(Compound.Comptroller);
 const opf = Compound.util.getAddress(Compound.PriceFeed);
@@ -190,7 +190,7 @@ async function calculateCompApy(cToken, ticker, underlyingDecimals) {
     const compSupplyApy = 100 * (Math.pow((1 + (compPrice * compToSupplyPerDay / (totalSupply * underlyingPrice))), 365) - 1);
 
 
-    return [compSupplyApy, compBorrowApy]
+    return [compSupplyApy, compBorrowApy, underlyingPrice]
 }
 
 
@@ -210,9 +210,10 @@ async function calculateApy(cToken, ticker) {
     )
     const compSupplyApy = Math.round(compApy[0] * 100) / 100
     const compBorrowApy = Math.round(compApy[1] * 100) / 100
+    const underlyingPrice = Math.round(compApy[3] * 100) / 100
     const supplyApy = Math.round(supplyAPY * 100) / 100
     const borrowApy = Math.round(borrowAPY * 100) / 100
-    return { ticker, cToken, cTokenAddress, borrowed, supplied, suppliedValue, supplyApy, borrowApy, compSupplyApy, compBorrowApy, hasEntered };
+    return { ticker, cToken, cTokenAddress, borrowed, supplied, suppliedValue, supplyApy, borrowApy, compSupplyApy, compBorrowApy, hasEntered, underlyingPrice };
 }
 
 export async function getInfo() {
