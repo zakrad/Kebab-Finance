@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {FC} from 'react'
 import {EnterMarket, ExitMarket} from 'src/app/modules/compound/components/EnterExitMarket'
+import SupplyApy from 'src/app/modules/compound/components/supplyApy'
 import {useAccount} from 'src/app/modules/web3'
 import {toAbsoluteUrl, KTSVG} from '../../../helpers'
 
@@ -96,28 +97,7 @@ const Card3: FC<Props> = ({
           </div>
         </div>
         <div className='d-flex flex-center flex-wrap my-0'>
-          <div
-            className={`border border-gray-${
-              hasEntered ? '400' : '300'
-            } border-dashed rounded min-w-100px py-1 mx-1 px-1 mb-3`}
-          >
-            {compSupplyApy ? (
-              <div className='fs-7 fw-bolder text-gray-700'>
-                {supplyApy}% + {compSupplyApy}%
-                {
-                  <img
-                    className='mx-1'
-                    alt='Pic'
-                    width='20px'
-                    src={toAbsoluteUrl('/media/icons/duotune/compound/COMP.svg')}
-                  />
-                }
-              </div>
-            ) : (
-              <div className='fs-7 fw-bolder text-gray-700'>{supplyApy}%</div>
-            )}
-            <div className='fw-bold text-gray-400'>Supply APY</div>
-          </div>
+          <SupplyApy supplyApy={supplyApy} compSupplyApy={compSupplyApy} hasEntered={hasEntered} />
 
           <div
             className={`border border-gray-${
@@ -170,8 +150,7 @@ const Card3: FC<Props> = ({
             <div className='modal-dialog'>
               <div className='modal-content'>
                 <div className='modal-header'>
-                  <h5 className='modal-title'>Modal title</h5>
-                  <ul className='nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0'>
+                  <ul className='nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0 d-flex justify-content-evenly'>
                     <li className='nav-item'>
                       <a className='nav-link active' data-bs-toggle='tab' href='#kt_tab_pane_7'>
                         Link 1

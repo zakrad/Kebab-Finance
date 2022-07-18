@@ -7,6 +7,7 @@ import {Card3} from '../../../_metronic/partials/content/cards/Card3'
 import Compound from '@compound-finance/compound-js'
 import calculateApy, {getInfo} from '../services/compound.js'
 import {ProfileHeader} from '../profile/ProfileHeader'
+import {KTSVG} from 'src/_metronic/helpers'
 
 let totalBorrow = 0
 let totalSupply = 0
@@ -14,7 +15,6 @@ let netApySum = 0
 let netApy = 0
 
 const CompoundPage: FC = () => {
-
   const [apys, setApys] = useState<Array<any>>([])
   const [info, setInfo] = useState<any>({
     comp: 0,
@@ -53,7 +53,7 @@ const CompoundPage: FC = () => {
       console.error(error)
     }
   }, [])
-  
+
   apys.forEach((token) => {
     if (token.hasEntered) {
       totalBorrow += token.borrowed
@@ -75,6 +75,72 @@ const CompoundPage: FC = () => {
 
   return (
     <>
+      <button
+        className={`btn btn-sm d-flex mx-2`}
+        data-bs-toggle='modal'
+        data-bs-target='#kt_modal_1'
+      >
+        <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-3' />
+        Supply
+      </button>
+      <div className='rounded-bottom modal fade' tabIndex={-1} id='kt_modal_1'>
+        <div className='modal-dialog'>
+          <div className='modal-content'>
+            <div className='d-flex justify-content-center flex-row'>
+              <ul className='nav nav-tabs nav-line-tabs fs-6 border-0 w-100 h-50px'>
+                <li className='nav-item justify-content-center d-flex w-100 btn-group' role='group'>
+                  <a
+                    className='nav-link active btn rounded-0 btn-active-primary '
+                    data-bs-toggle='tab'
+                    href='#kt_tab_pane_1'
+                  >
+                    Supply Collateral
+                  </a>
+                  <a
+                    className='nav-link btn rounded-0 btn-active-primary'
+                    data-bs-toggle='tab'
+                    href='#kt_tab_pane_2'
+                  >
+                    Redeem Collateral
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className='modal-body'>
+              <div className='tab-content ' id='myTabContent'>
+                <div className='tab-pane fade active show' id='kt_tab_pane_1' role='tabpanel'>
+                  <label className='form-label'>Enter Amount to Supply</label>
+                  <input
+                    type='text'
+                    className='form-control form-control-solid w-25'
+                    placeholder='0'
+                  />
+                </div>
+                <div
+                  className='tab-pane fade'
+                  id='kt_tab_pane_2'
+                  role='tabpanel'
+                >
+                  <label className='form-label'>Enter Amount to Withdraw</label>
+                  <input
+                    type='text'
+                    className='form-control form-control-solid w-25'
+                    placeholder='0'
+                  />
+                </div>
+              </div>
+            </div>
+            <div className='modal-footer'>
+              <button type='button' className='btn btn-light' data-bs-dismiss='modal'>
+                Close
+              </button>
+              <button type='button' className='btn btn-primary'>
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       {console.log(apys)}
       {console.log(info)}
       <ProfileHeader
