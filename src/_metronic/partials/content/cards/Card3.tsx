@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {FC} from 'react'
+import BorrowApy from 'src/app/modules/compound/components/borrowApy'
 import {EnterMarket, ExitMarket} from 'src/app/modules/compound/components/EnterExitMarket'
 import SupplyApy from 'src/app/modules/compound/components/supplyApy'
 import {useAccount} from 'src/app/modules/web3'
@@ -98,29 +99,7 @@ const Card3: FC<Props> = ({
         </div>
         <div className='d-flex flex-center flex-wrap my-0'>
           <SupplyApy supplyApy={supplyApy} compSupplyApy={compSupplyApy} hasEntered={hasEntered} />
-
-          <div
-            className={`border border-gray-${
-              hasEntered ? '400' : '300'
-            } border-dashed rounded min-w-100px py-1 px-1 mb-3`}
-          >
-            {compBorrowApy ? (
-              <div className='fs-7 fw-bolder text-gray-700'>
-                {borrowApy}%- {compBorrowApy}%
-                {
-                  <img
-                    className='mx-1'
-                    alt='Pic'
-                    width='20px'
-                    src={toAbsoluteUrl('/media/icons/duotune/compound/comp.svg')}
-                  />
-                }
-              </div>
-            ) : (
-              <div className='fs-7 fw-bolder text-gray-700'>{borrowApy}%</div>
-            )}
-            <div className='fw-bold text-gray-400'>Borrow APY</div>
-          </div>
+          <BorrowApy borrowApy={borrowApy} compBorrowApy={compBorrowApy} hasEntered={hasEntered} />
         </div>
         <div className='d-flex flex-center flex-wrap mb-5'>
           <div
