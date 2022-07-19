@@ -127,7 +127,6 @@ const Card3: FC<Props> = ({
           </div>
         </div>
         <div className='d-flex'>
-          {/* <SupplyButton /> */}
           <button
             className={`btn btn-sm ${hasEntered ? 'btn-primary' : 'btn-light'} d-flex mx-2`}
             data-bs-toggle='modal'

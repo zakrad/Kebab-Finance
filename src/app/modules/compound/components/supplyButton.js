@@ -1,9 +1,15 @@
+import { useState } from "react";
 import { KTSVG } from "src/_metronic/helpers";
 import SupplyApyModal from "./supplyApyModal";
+// import { getBalance, getEthBalance } from "./tokenBalance"
 
 
 
-const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, balance, leftToBorrow, usedPower }) => {
+const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, ticker, leftToBorrow, usedPower }) => {
+    const [activeTab, setActiveTab] = useState()
+    // if(ticker === "ETH"){
+    //     getEth
+    // }
     return (
         <div className='rounded-bottom modal fade' tabIndex={-1} id='kt_modal_1'>
             <div className='modal-dialog'>
@@ -15,6 +21,9 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, balance, left
                                     className='nav-link active btn rounded-0 btn-active-primary '
                                     data-bs-toggle='tab'
                                     href='#kt_tab_pane_1'
+                                    onClick={() => {
+                                        setActiveTab(1)
+                                    }}
                                 >
                                     Supply Collateral
                                 </a>
@@ -22,6 +31,9 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, balance, left
                                     className='nav-link btn rounded-0 btn-active-primary'
                                     data-bs-toggle='tab'
                                     href='#kt_tab_pane_2'
+                                    onClick={() => {
+                                        setActiveTab(2)
+                                    }}
                                 >
                                     Redeem Collateral
                                 </a>

@@ -17,6 +17,7 @@ let netApy = 0
 
 const CompoundPage: FC = () => {
   const [apys, setApys] = useState<Array<any>>([])
+  const [activeTab, setActiveTab] = useState<number>()
   const [info, setInfo] = useState<any>({
     comp: 0,
     leftToBorrow: 0,
@@ -76,6 +77,7 @@ const CompoundPage: FC = () => {
 
   return (
     <>
+      {console.log(activeTab)}
       <button
         className={`btn btn-sm d-flex mx-2`}
         data-bs-toggle='modal'
@@ -94,6 +96,9 @@ const CompoundPage: FC = () => {
                     className='nav-link active btn rounded-0 btn-active-primary '
                     data-bs-toggle='tab'
                     href='#kt_tab_pane_3'
+                    onClick={() => {
+                      setActiveTab(1)
+                    }}
                   >
                     Supply Collateral
                   </a>
@@ -101,6 +106,9 @@ const CompoundPage: FC = () => {
                     className='nav-link btn rounded-0 btn-active-primary'
                     data-bs-toggle='tab'
                     href='#kt_tab_pane_4'
+                    onClick={() => {
+                      setActiveTab(2)
+                    }}
                   >
                     Redeem Collateral
                   </a>
