@@ -1,15 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { KTSVG } from "src/_metronic/helpers";
 import SupplyApyModal from "./supplyApyModal";
-// import { getBalance, getEthBalance } from "./tokenBalance"
 
+let balance
 
-
-const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, ticker, leftToBorrow, usedPower }) => {
+const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow, usedPower, ticker }) => {
     const [activeTab, setActiveTab] = useState()
-    // if(ticker === "ETH"){
-    //     getEth
-    // }
+
     return (
         <div className='rounded-bottom modal fade' tabIndex={-1} id='kt_modal_1'>
             <div className='modal-dialog'>
@@ -127,6 +124,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, ticker, leftT
                                         compSupplyApy={9}
                                         ticker={'ETH'}
                                         usdValue={100}
+                                        balance={balance}
                                     />
                                 </div>
                                 <div className='d-flex align-items-center w-100 flex-column mt-3'>

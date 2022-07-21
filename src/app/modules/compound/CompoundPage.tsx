@@ -7,7 +7,7 @@ import {Card3} from '../../../_metronic/partials/content/cards/Card3'
 import Compound from '@compound-finance/compound-js'
 import calculateApy, {getInfo} from '../services/compound.js'
 import {ProfileHeader} from '../profile/ProfileHeader'
-import {KTSVG, toAbsoluteUrl} from 'src/_metronic/helpers'
+import {KTSVG} from 'src/_metronic/helpers'
 import SupplyApyModal from './components/supplyApyModal'
 
 let totalBorrow = 0
@@ -30,19 +30,19 @@ const CompoundPage: FC = () => {
         await Promise.all([
           calculateApy(Compound.cETH, 'ETH'),
           calculateApy(Compound.cDAI, 'DAI'),
-          calculateApy(Compound.cUSDC, 'USDC'),
-          calculateApy(Compound.cUSDT, 'USDT'),
-          calculateApy(Compound.cZRX, 'ZRX'),
-          calculateApy(Compound.cREP, 'REP'),
-          calculateApy(Compound.cBAT, 'BAT'),
-          calculateApy(Compound.cUNI, 'UNI'),
-          calculateApy(Compound.cCOMP, 'COMP'),
-          calculateApy(Compound.cTUSD, 'TUSD'),
+          // calculateApy(Compound.cUSDC, 'USDC'),
+          // calculateApy(Compound.cUSDT, 'USDT'),
+          // calculateApy(Compound.cZRX, 'ZRX'),
+          // calculateApy(Compound.cREP, 'REP'),
+          // calculateApy(Compound.cBAT, 'BAT'),
+          // calculateApy(Compound.cUNI, 'UNI'),
+          // calculateApy(Compound.cCOMP, 'COMP'),
+          // calculateApy(Compound.cTUSD, 'TUSD'),
           calculateApy(Compound.cLINK, 'LINK'),
-          calculateApy(Compound.cMKR, 'MKR'),
-          calculateApy(Compound.cAAVE, 'AAVE'),
-          calculateApy(Compound.cYFI, 'YFI'),
-          calculateApy(Compound.cSUSHI, 'SUSHI'),
+          // calculateApy(Compound.cMKR, 'MKR'),
+          // calculateApy(Compound.cAAVE, 'AAVE'),
+          // calculateApy(Compound.cYFI, 'YFI'),
+          // calculateApy(Compound.cSUSHI, 'SUSHI'),
         ])
       )
       setInfo(await getInfo())
@@ -146,6 +146,7 @@ const CompoundPage: FC = () => {
                       compSupplyApy={9}
                       ticker={'ETH'}
                       usdValue={100}
+                      balance={0}
                     />
                   </div>
                   <div className='d-flex align-items-center w-100 flex-column mt-3'>
@@ -202,6 +203,7 @@ const CompoundPage: FC = () => {
                       compSupplyApy={9}
                       ticker={'ETH'}
                       usdValue={100}
+                      balance={0}
                     />
                   </div>
                   <div className='d-flex align-items-center w-100 flex-column mt-3'>

@@ -2,7 +2,7 @@ import { toAbsoluteUrl } from "src/_metronic/helpers";
 
 
 
-const SupplyApyModal = ({ supplyApy, compSupplyApy, ticker, usdValue }) => {
+const SupplyApyModal = ({ supplyApy, compSupplyApy, ticker, usdValue, balance }) => {
     return (
         <table className="table table-hover table-rounded table-striped border gy-2 gs-7 mt-3">
             <thead>

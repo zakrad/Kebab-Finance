@@ -1,5 +1,7 @@
 import Compound from '@compound-finance/compound-js';
 import { BigNumber, ethers } from 'ethers';
+import TokensAbi from 'src/app/modules/compound/abi/TokensAbi.json'
+
 
 
 // const provider = 'https://speedy-nodes-nyc.moralis.io/453da2a22cc39051bdeaaeb2/eth/mainnet';
@@ -7,10 +9,14 @@ import { BigNumber, ethers } from 'ethers';
 // const provider = 'https://eth-mainnet.g.alchemy.com/v2/ObJhlL6vyv-RhsM7MQF7xW-4QuZCX5hF'
 // const provider = 'https://mainnet.infura.io/v3/e420812a57104e7990fa4af22683bd36'
 const provider = 'https://rpc.ankr.com/eth'
+// const provider = 'https://morning-divine-glade.discover.quiknode.pro/a0af953409c1d0f244e39c81662f783424b06922/'
+
+const wProvider = new ethers.providers.Web3Provider(window.ethereum)
 
 const comptroller = Compound.util.getAddress(Compound.Comptroller);
 const opf = Compound.util.getAddress(Compound.PriceFeed);
 const address = '0x70Aad08C58CB2aF386e742460122c8501578A8FD'.toLocaleLowerCase()
+const address2 = '0xb0df05c8832f0249ef5bfe8a720f27b3b059bd9e'.toLocaleLowerCase()
 
 
 
@@ -19,6 +25,7 @@ const address = '0x70Aad08C58CB2aF386e742460122c8501578A8FD'.toLocaleLowerCase()
 const blocksPerDay = (60 / 13.15) * 60 * 24; // 4 blocks in 1 minute
 const daysPerYear = 365;
 const ethMantissa = Math.pow(10, 18); // 1 * 10 ^ 18
+let tokenBalance;
 
 let underWater = false;
 
@@ -193,17 +200,42 @@ async function calculateCompApy(cToken, ticker, underlyingDecimals) {
     return [compSupplyApy, compBorrowApy, underlyingPrice]
 }
 
+const getBalance = async (account, ticker, underlyingDecimals) => {
+    const abi = TokensAbi[`${ticker}`].abi
+    const addressT = TokensAbi[`${ticker}`].address
+    const contract = new ethers.Contract(addressT, abi, wProvider);
+    const balanceR = (await contract.balanceOf(account))
+    return Math.round(Number(ethers.utils.formatUnits(BigNumber.from(parseInt((balanceR._hex)).toLocaleString('fullwide', { useGrouping: false })), underlyingDecimals)) * 100) / 100
+}
+
+const getEthBalance = async (account, underlyingDecimals) => {
+    const balanceR = await wProvider.getBalance(account);
+    return Math.round(Number(ethers.utils.formatUnits(BigNumber.from(parseInt((balanceR._hex)).toLocaleString('fullwide', { useGrouping: false })), 1e18)) * 100) / 100
+}
+
+const getBal = async (ticker, underlyingDecimals) => {
+    if (ticker === "ETH") {
+        tokenBalance = await getEthBalance(address2, underlyingDecimals)
+        return tokenBalance
+
+    } else {
+        tokenBalance = await getBalance(address2, ticker, underlyingDecimals)
+        return tokenBalance
+    }
+}
+
 
 async function calculateApy(cToken, ticker) {
     const underlyingDecimals = Compound.decimals[cToken.slice(1, 10)];
     const cTokenAddress = Compound.util.getAddress(cToken);
-    const [supplyAPY, borrowAPY, borrowed, supplied, suppliedValue, hasEntered] = await Promise.all([
+    const [supplyAPY, borrowAPY, borrowed, supplied, suppliedValue, hasEntered, tokenBalance] = await Promise.all([
         calculateSupplyApy(cTokenAddress),
         calculateBorrowApy(cTokenAddress),
         getBorrowBalance(cTokenAddress, address, ticker),
         getUnderlyingBalance(cTokenAddress, address, underlyingDecimals),
         getUnderlyingValue(cTokenAddress, address, ticker, underlyingDecimals),
         eneteredMarkets(cTokenAddress, address),
+        getBal(ticker, underlyingDecimals)
     ]);
     const [compApy] = await Promise.all(
         [calculateCompApy(cTokenAddress, ticker, underlyingDecimals)]
@@ -213,7 +245,7 @@ async function calculateApy(cToken, ticker) {
     const underlyingPrice = Math.round(compApy[3] * 100) / 100
     const supplyApy = Math.round(supplyAPY * 100) / 100
     const borrowApy = Math.round(borrowAPY * 100) / 100
-    return { ticker, cToken, cTokenAddress, borrowed, supplied, suppliedValue, supplyApy, borrowApy, compSupplyApy, compBorrowApy, hasEntered, underlyingPrice };
+    return { ticker, cToken, cTokenAddress, borrowed, supplied, suppliedValue, supplyApy, borrowApy, compSupplyApy, compBorrowApy, hasEntered, underlyingPrice, tokenBalance };
 }
 
 export async function getInfo() {

@@ -45,15 +45,16 @@ const Card3: FC<Props> = ({
   usedPower = '',
 }) => {
   const {account} = useAccount()
+
   return (
     <div className='card'>
       <SupplyButton
         underlyingPrice={underlyingPrice}
         supplyApy={supplyApy}
         compSupplyApy={compSupplyApy}
-        balance={0}
         leftToBorrow={leftToBorrow}
         usedPower={usedPower}
+        ticker={ticker}
       />
       <div
         className={`card-body d-flex flex-column p-4 ${
