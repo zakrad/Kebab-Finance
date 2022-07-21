@@ -210,7 +210,7 @@ const getBalance = async (account, ticker, underlyingDecimals) => {
 
 const getEthBalance = async (account, underlyingDecimals) => {
     const balanceR = await wProvider.getBalance(account);
-    return Math.round(Number(ethers.utils.formatUnits(BigNumber.from(parseInt((balanceR._hex)).toLocaleString('fullwide', { useGrouping: false })), 1e18)) * 100) / 100
+    return Math.round(Number(ethers.utils.formatUnits(BigNumber.from(parseInt((balanceR._hex)).toLocaleString('fullwide', { useGrouping: false })), underlyingDecimals)) * 100) / 100
 }
 
 const getBal = async (ticker, underlyingDecimals) => {
