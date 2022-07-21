@@ -84,7 +84,7 @@ const getUnderlyingBalance = async (cToken, address, underlyingDecimals) => {
         [address],
         { provider }
     );
-    // console.log(underlyingDecimals)
+
     return Math.round(Number(ethers.utils.formatUnits(BigNumber.from(parseInt((getUnderlyingBalance._hex)).toLocaleString('fullwide', { useGrouping: false })), underlyingDecimals)) * 100) / 100
 }
 
@@ -196,7 +196,6 @@ async function calculateCompApy(cToken, ticker, underlyingDecimals) {
     const compBorrowApy = 100 * (Math.pow((1 + (compPrice * compToBorrowPerDay / (totalBorrow * underlyingPrice))), 365) - 1);
     const compSupplyApy = 100 * (Math.pow((1 + (compPrice * compToSupplyPerDay / (totalSupply * underlyingPrice))), 365) - 1);
 
-
     return [compSupplyApy, compBorrowApy, underlyingPrice]
 }
 
@@ -224,28 +223,39 @@ const getBal = async (ticker, underlyingDecimals) => {
     }
 }
 
+const getCF = async (cTokenAddress) => {
+    const collateralFactor = await Compound.eth.read(
+        comptroller,
+        'function markets(address cTokenAddress) view returns (bool, uint, bool)',
+        [cTokenAddress],
+        { provider }
+    );
+    return Number(ethers.utils.formatUnits(BigNumber.from(parseInt((collateralFactor[1]._hex)).toLocaleString('fullwide', { useGrouping: false })), 18))
+}
+
 
 async function calculateApy(cToken, ticker) {
     const underlyingDecimals = Compound.decimals[cToken.slice(1, 10)];
     const cTokenAddress = Compound.util.getAddress(cToken);
-    const [supplyAPY, borrowAPY, borrowed, supplied, suppliedValue, hasEntered, tokenBalance] = await Promise.all([
+    const [supplyAPY, borrowAPY, borrowed, supplied, suppliedValue, hasEntered, underlyingBalance, cF] = await Promise.all([
         calculateSupplyApy(cTokenAddress),
         calculateBorrowApy(cTokenAddress),
         getBorrowBalance(cTokenAddress, address, ticker),
         getUnderlyingBalance(cTokenAddress, address, underlyingDecimals),
         getUnderlyingValue(cTokenAddress, address, ticker, underlyingDecimals),
         eneteredMarkets(cTokenAddress, address),
-        getBal(ticker, underlyingDecimals)
+        getBal(ticker, underlyingDecimals),
+        getCF(cTokenAddress)
     ]);
     const [compApy] = await Promise.all(
         [calculateCompApy(cTokenAddress, ticker, underlyingDecimals)]
     )
     const compSupplyApy = Math.round(compApy[0] * 100) / 100
     const compBorrowApy = Math.round(compApy[1] * 100) / 100
-    const underlyingPrice = Math.round(compApy[3] * 100) / 100
+    const underlyingPrice = Math.round(compApy[2] * 100) / 100
     const supplyApy = Math.round(supplyAPY * 100) / 100
     const borrowApy = Math.round(borrowAPY * 100) / 100
-    return { ticker, cToken, cTokenAddress, borrowed, supplied, suppliedValue, supplyApy, borrowApy, compSupplyApy, compBorrowApy, hasEntered, underlyingPrice, tokenBalance };
+    return { ticker, cToken, cTokenAddress, borrowed, supplied, suppliedValue, supplyApy, borrowApy, compSupplyApy, compBorrowApy, hasEntered, underlyingPrice, underlyingBalance, cF };
 }
 
 export async function getInfo() {

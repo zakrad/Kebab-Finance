@@ -1,12 +1,34 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { KTSVG } from "src/_metronic/helpers";
 import SupplyApyModal from "./supplyApyModal";
 
-let balance
 
-const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow, usedPower, ticker }) => {
+const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow, usedPower, ticker, balance, cF }) => {
     const [activeTab, setActiveTab] = useState()
+    const [supplyInput, setSupplyInput] = useState(0)
+    const [withdrawInput, setWithdrawInput] = useState(0)
+    const [usedSupLiq, setUsedSupLiq] = useState(usedPower)
+    const [usedWithLiq, setUsedWithLiq] = useState(usedPower)
+    const [supLiq, setSupLiq] = useState(leftToBorrow)
+    const [withLiq, setWithLiq] = useState(leftToBorrow)
 
+    console.log(usedPower, leftToBorrow)
+
+    let usdValue = Math.round(balance * underlyingPrice * 100) / 100
+    let supUsdValue = Math.round(supplyInput * underlyingPrice * 100) / 100
+    let withUsdValue = Math.round(withdrawInput * underlyingPrice * 100) / 100
+
+    const handleSupplyChange = (e) => {
+        setSupplyInput(e.target.value)
+        setSupLiq(leftToBorrow + (supUsdValue * cF))
+        setUsedSupLiq((leftToBorrow * 100) / (leftToBorrow - supLiq + (100 * supLiq / usedPower)))
+    }
+
+    const handleWithdrawChange = (e) => {
+        setWithdrawInput(e.target.value)
+        setWithLiq(leftToBorrow - (withUsdValue * cF))
+        setUsedWithLiq((leftToBorrow * 100) / (leftToBorrow - withLiq + (100 * withLiq / usedPower)))
+    }
     return (
         <div className='rounded-bottom modal fade' tabIndex={-1} id='kt_modal_1'>
             <div className='modal-dialog'>
@@ -48,11 +70,12 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
                                                 type='text'
                                                 className='form-control form-control-solid w-25'
                                                 placeholder='0'
+                                                onChange={handleSupplyChange}
                                             />{' '}
-                                            <span className='px-1 fs-3 text-gray-400'>ETH </span>
+                                            <span className='px-1 fs-3 text-gray-400'>{ticker} </span>
                                         </div>
                                         <div className='text-inverse-secondary bg-light fs-1 px-2 rounded'>
-                                            190.93
+                                            {supUsdValue}
                                         </div>
                                         <div>
                                             <KTSVG
@@ -64,33 +87,34 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
                                 </div>
                                 <div>
                                     <SupplyApyModal
-                                        supplyApy={10}
-                                        compSupplyApy={9}
-                                        ticker={'ETH'}
-                                        usdValue={100}
+                                        supplyApy={supplyApy}
+                                        compSupplyApy={compSupplyApy}
+                                        ticker={ticker}
+                                        usdValue={usdValue}
+                                        balance={balance}
                                     />
                                 </div>
                                 <div className='d-flex align-items-center w-100 flex-column mt-3'>
                                     <div className='d-flex justify-content-between w-100 mt-auto mb-2'>
                                         <span className='fw-bold fs-6 text-gray-400'>Used Liquidity</span>
-                                        <span className='fw-bolder fs-6'>60%</span>
+                                        <span className='fw-bolder fs-6'>{usedSupLiq}%</span>
                                     </div>
                                     <div className='h-5px mx-3 w-100 bg-light mb-3'>
                                         <div
                                             className='bg-success rounded h-5px'
                                             role='progressbar'
-                                            style={{ width: `60%` }}
+                                            style={{ width: usedSupLiq + '%' }}
                                         ></div>
                                     </div>
                                     <div className='d-flex w-100 row-fluid align-items-center'>
                                         <span className='fw-bold fs-6 text-gray-400 col-6'>Liquidity Change:</span>
                                         <div className='row align-items-center'>
-                                            <span className='fw-bolder fs-6 col me-6'>$200</span>
+                                            <span className='fw-bolder fs-6 col me-6'>${leftToBorrow}</span>
                                             <KTSVG
                                                 path='/media/icons/duotune/arrows/arr001.svg'
                                                 className='fw-bolder fs-6 col me-6 svg-icon-muted svg-icon-2hx'
                                             />
-                                            <span className='fw-bolder fs-6 col me-6'>$200</span>
+                                            <span className='fw-bolder fs-6 col me-6'>${supLiq}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -104,11 +128,13 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
                                                 type='text'
                                                 className='form-control form-control-solid w-25'
                                                 placeholder='0'
+                                                onChange={handleWithdrawChange}
+
                                             />{' '}
-                                            <span className='px-1 fs-3 text-gray-400'>ETH </span>
+                                            <span className='px-1 fs-3 text-gray-400'>{ticker} </span>
                                         </div>
                                         <div className='text-inverse-secondary bg-light fs-1 px-2 rounded'>
-                                            190.93
+                                            {withUsdValue}
                                         </div>
                                         <div>
                                             <KTSVG
@@ -120,34 +146,34 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
                                 </div>
                                 <div>
                                     <SupplyApyModal
-                                        supplyApy={10}
-                                        compSupplyApy={9}
-                                        ticker={'ETH'}
-                                        usdValue={100}
+                                        supplyApy={supplyApy}
+                                        compSupplyApy={compSupplyApy}
+                                        ticker={ticker}
+                                        usdValue={usdValue}
                                         balance={balance}
                                     />
                                 </div>
                                 <div className='d-flex align-items-center w-100 flex-column mt-3'>
                                     <div className='d-flex justify-content-between w-100 mt-auto mb-2'>
                                         <span className='fw-bold fs-6 text-gray-400'>Used Liquidity</span>
-                                        <span className='fw-bolder fs-6'>60%</span>
+                                        <span className='fw-bolder fs-6'>{usedWithLiq}%</span>
                                     </div>
                                     <div className='h-5px mx-3 w-100 bg-light mb-3'>
                                         <div
                                             className='bg-success rounded h-5px'
                                             role='progressbar'
-                                            style={{ width: `60%` }}
+                                            style={{ width: usedWithLiq + '%' }}
                                         ></div>
                                     </div>
                                     <div className='d-flex w-100 row-fluid align-items-center'>
                                         <span className='fw-bold fs-6 text-gray-400 col-6'>Liquidity Change:</span>
                                         <div className='row align-items-center'>
-                                            <span className='fw-bolder fs-6 col me-6'>$200</span>
+                                            <span className='fw-bolder fs-6 col me-6'>${leftToBorrow}</span>
                                             <KTSVG
                                                 path='/media/icons/duotune/arrows/arr001.svg'
                                                 className='fw-bolder fs-6 col me-6 svg-icon-muted svg-icon-2hx'
                                             />
-                                            <span className='fw-bolder fs-6 col me-6'>$200</span>
+                                            <span className='fw-bolder fs-6 col me-6'>${withLiq}</span>
                                         </div>
                                     </div>
                                 </div>

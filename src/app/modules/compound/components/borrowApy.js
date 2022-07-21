@@ -10,7 +10,7 @@ const BorrowApy = ({ borrowApy, compBorrowApy, hasEntered }) => {
         >
             {compBorrowApy ? (
                 <div className='fs-7 fw-bolder text-gray-700'>
-                    {borrowApy}%- {compBorrowApy}%
+                    {borrowApy}%+ {compBorrowApy}%
                     {
                         <img
                             className='mx-1'

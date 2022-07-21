@@ -24,6 +24,8 @@ type Props = {
   underlyingPrice: number
   leftToBorrow: number
   usedPower: number
+  underlyingBalance: number
+  cF: number
 }
 
 const Card3: FC<Props> = ({
@@ -43,9 +45,11 @@ const Card3: FC<Props> = ({
   underlyingPrice = '',
   leftToBorrow = '',
   usedPower = '',
+  underlyingBalance = '',
+  cF = '',
 }) => {
   const {account} = useAccount()
-
+  console.log(cF)
   return (
     <div className='card'>
       <SupplyButton
@@ -55,6 +59,8 @@ const Card3: FC<Props> = ({
         leftToBorrow={leftToBorrow}
         usedPower={usedPower}
         ticker={ticker}
+        balance={underlyingBalance}
+        cF={cF}
       />
       <div
         className={`card-body d-flex flex-column p-4 ${
