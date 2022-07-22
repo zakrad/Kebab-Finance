@@ -3,19 +3,18 @@ import { KTSVG } from "src/_metronic/helpers";
 import SupplyApyModal from "./supplyApyModal";
 
 let supUsdValue;
+let withUsdValue;
 
 const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow, usedPower, ticker, balance, cF }) => {
     const [activeTab, setActiveTab] = useState()
     const [supplyInput, setSupplyInput] = useState(0)
     const [withdrawInput, setWithdrawInput] = useState(0)
     const [usedSupLiq, setUsedSupLiq] = useState(usedPower)
-    // const [usedWithLiq, setUsedWithLiq] = useState(usedPower)
+    const [usedWithLiq, setUsedWithLiq] = useState(usedPower)
     const [supLiq, setSupLiq] = useState(leftToBorrow)
     const [withLiq, setWithLiq] = useState(leftToBorrow)
 
     let usdValue = Math.round(balance * underlyingPrice * 100) / 100
-    let withUsdValue = Math.round(withdrawInput * underlyingPrice * 100) / 100
-    console.log(supLiq, supUsdValue, supplyInput)
 
     useEffect(() => {
         supUsdValue = Math.round(supplyInput * underlyingPrice * 100) / 100
@@ -24,20 +23,27 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
             await setSupLiq(Math.round((leftToBorrow + (supUsdValue * cF)) * 100) / 100)
             await setUsedSupLiq(Math.round(((leftToBorrow * 100) / (leftToBorrow - supLiq + (100 * supLiq / usedPower))) * 100) / 100)
         }
-
         change1()
 
     }, [supplyInput, supLiq])
 
+    useEffect(() => {
+        withUsdValue = Math.round(withdrawInput * underlyingPrice * 100) / 100
+
+        const change2 = async () => {
+            await setWithLiq(Math.round((leftToBorrow - withUsdValue) * 100) / 100)
+            await setUsedWithLiq(Math.round(((leftToBorrow * 100) / (leftToBorrow - withLiq + (100 * withLiq / usedPower))) * 100) / 100)
+        }
+        change2()
+
+    }, [withdrawInput, withLiq])
+
     const handleSupplyChange = (e) => {
         setSupplyInput(e.target.value)
-        // setUsedSupLiq((leftToBorrow * 100) / (leftToBorrow - supLiq + (100 * supLiq / usedPower)))
     }
 
     const handleWithdrawChange = (e) => {
         setWithdrawInput(e.target.value)
-        setWithLiq(leftToBorrow - (withUsdValue * cF))
-        // setUsedWithLiq((leftToBorrow * 100) / (leftToBorrow - withLiq + (100 * withLiq / usedPower)))
     }
     return (
         <div className='rounded-bottom modal fade' tabIndex={-1} id='kt_modal_1'>
@@ -167,13 +173,13 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
                                 <div className='d-flex align-items-center w-100 flex-column mt-3'>
                                     <div className='d-flex justify-content-between w-100 mt-auto mb-2'>
                                         <span className='fw-bold fs-6 text-gray-400'>Used Liquidity</span>
-                                        <span className='fw-bolder fs-6'>{usedPower}%</span>
+                                        <span className='fw-bolder fs-6'>{withdrawInput ? usedWithLiq : usedPower}%</span>
                                     </div>
                                     <div className='h-5px mx-3 w-100 bg-light mb-3'>
                                         <div
                                             className='bg-success rounded h-5px'
                                             role='progressbar'
-                                            style={{ width: `${usedPower}%` }}
+                                            style={{ width: `${withdrawInput ? usedWithLiq : usedPower}%` }}
                                         ></div>
                                     </div>
                                     <div className='d-flex w-100 row-fluid align-items-center'>
@@ -184,7 +190,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
                                                 path='/media/icons/duotune/arrows/arr001.svg'
                                                 className='fw-bolder fs-6 col me-6 svg-icon-muted svg-icon-2hx'
                                             />
-                                            <span className='fw-bolder fs-6 col me-6'>${withLiq}</span>
+                                            <span className='fw-bolder fs-6 col me-6'>${withdrawInput ? withLiq : leftToBorrow}</span>
                                         </div>
                                     </div>
                                 </div>
