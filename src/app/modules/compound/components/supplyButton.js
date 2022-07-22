@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { KTSVG } from "src/_metronic/helpers";
 import SupplyApyModal from "./supplyApyModal";
+import { Supply, Withdraw } from './SupplyWithdraw'
+import { useAccount } from 'src/app/modules/web3'
+
+
 
 let supUsdValue;
 let withUsdValue;
 
-const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow, usedPower, ticker, balance, cF }) => {
-    const [activeTab, setActiveTab] = useState()
+const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow, usedPower, ticker, balance, cF, cTokenAddress }) => {
+    const { account } = useAccount()
+    const [activeTab, setActiveTab] = useState(1)
     const [supplyInput, setSupplyInput] = useState(0)
     const [withdrawInput, setWithdrawInput] = useState(0)
     const [usedSupLiq, setUsedSupLiq] = useState(usedPower)
@@ -45,6 +50,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
     const handleWithdrawChange = (e) => {
         setWithdrawInput(e.target.value)
     }
+
     return (
         <div className='rounded-bottom modal fade' tabIndex={-1} id='kt_modal_1'>
             <div className='modal-dialog'>
@@ -203,7 +209,13 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
                             <button type='button' className='btn btn-light me-2' data-bs-dismiss='modal'>
                                 Close
                             </button>
-                            <button type='button' className='btn btn-primary'>
+                            <button type='button' className='btn btn-primary' onClick={async () => {
+                                if (activeTab === 1) {
+                                    await Supply(account, cTokenAddress, ticker, supplyInput)
+                                } else {
+                                    await Withdraw(account, cTokenAddress, ticker, withdrawInput)
+                                }
+                            }}>
                                 Save changes
                             </button>
                         </div>

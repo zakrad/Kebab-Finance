@@ -60,6 +60,7 @@ const Card3: FC<Props> = ({
         ticker={ticker}
         balance={underlyingBalance}
         cF={cF}
+        cTokenAddress={cTokenAddress}
       />
       <div
         className={`card-body d-flex flex-column p-4 ${

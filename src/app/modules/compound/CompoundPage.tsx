@@ -54,14 +54,19 @@ const CompoundPage: FC = () => {
       console.error(error)
     }
   }, [])
-
-  apys.forEach((token) => {
-    if (token.hasEntered) {
-      totalBorrow += token.borrowed
-      totalSupply += token.suppliedValue
-      netApySum += token.suppliedValue * token.supplyApy - token.borrowed * token.borrowApy
+  useEffect(() => {
+    const changeDetails = async () => {
+      apys.forEach((token) => {
+        if (token.hasEntered) {
+          totalBorrow += token.borrowed
+          totalSupply += token.suppliedValue
+          netApySum += token.suppliedValue * token.supplyApy - token.borrowed * token.borrowApy
+        }
+      })
     }
-  })
+    changeDetails()
+  }, [apys])
+
   if (netApySum > 0) {
     netApy = Math.round((netApySum / totalSupply) * 100) / 100
   } else if (netApySum < 0) {
