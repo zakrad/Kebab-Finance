@@ -15,7 +15,7 @@ const ErrorsLayout = () => {
           <a href='/dashboard' className='mb-10 pt-lg-20'>
             <img
               alt='Logo'
-              src={toAbsoluteUrl('/media/logos/logo-1.svg')}
+              src={toAbsoluteUrl('/media/logos/logo-2.svg')}
               className='h-50px mb-5'
             />
           </a>
@@ -43,7 +43,7 @@ const ErrorsLayout = () => {
           ></div>
         </div>
 
-        <div className='d-flex flex-center flex-column-auto p-10'>
+        {/* <div className='d-flex flex-center flex-column-auto p-10'>
           <div className='d-flex align-items-center fw-bold fs-6'>
             <a href='https://keenthemes.com' className='text-muted text-hover-primary px-2'>
               About
@@ -55,7 +55,7 @@ const ErrorsLayout = () => {
               Contact Us
             </a>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   )

@@ -4,6 +4,7 @@ import {MasterLayout} from '../../_metronic/layout/MasterLayout'
 import TopBarProgress from 'react-topbar-progress-indicator'
 import {DashboardWrapper} from '../pages/dashboard/DashboardWrapper'
 import {CompoundWrapper} from '../modules/compound/CompoundPage'
+import {AaveWrapper} from '../modules/aave/AavePage'
 import {MenuTestPage} from '../pages/MenuTestPage'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 
@@ -23,6 +24,7 @@ const PrivateRoutes = () => {
         <Route path='builder' element={<BuilderPageWrapper />} />
         <Route path='menu-test' element={<MenuTestPage />} />
         <Route path='compound' element={<CompoundWrapper />} />
+        <Route path='aave' element={<AaveWrapper />} />
         {/* Lazy Modules */}
         <Route
           path='crafted/pages/profile/*'

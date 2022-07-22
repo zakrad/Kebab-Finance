@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React from 'react'
 import {useIntl} from 'react-intl'
-import {KTSVG} from '../../../helpers'
+import {KTSVG, toAbsoluteUrl} from '../../../helpers'
 import {AsideMenuItemWithSub} from './AsideMenuItemWithSub'
 import {AsideMenuItem} from './AsideMenuItem'
+import {Link} from 'react-router-dom'
 
 export function AsideMenuMain() {
   const intl = useIntl()
@@ -12,9 +13,10 @@ export function AsideMenuMain() {
     <>
       <AsideMenuItem
         to='/dashboard'
-        icon='/media/icons/duotune/art/art002.svg'
+        icon='/media/icons/duotune/general/gen019.svg'
         title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
-        fontIcon='bi-app-indicator'
+        hasIcon={true}
+        // fontIcon='bi-app-indicator'
       />
       {/* <AsideMenuItem
         to='/builder'
@@ -31,8 +33,16 @@ export function AsideMenuMain() {
         to='/compound'
         icon='/media/icons/duotune/ecommerce/cmp.svg'
         title='Compound'
+        hasIcon={false}
       />
-      <AsideMenuItemWithSub
+
+      <AsideMenuItem
+        to='/aave'
+        icon='/media/icons/duotune/ecommerce/aave.svg'
+        title='Aave'
+        hasIcon={false}
+      />
+      {/* <AsideMenuItemWithSub
         to='/crafted/pages'
         title='Pages'
         fontIcon='bi-archive'
@@ -89,7 +99,7 @@ export function AsideMenuMain() {
         <AsideMenuItem to='/crafted/widgets/mixed' title='Mixed' hasBullet={true} />
         <AsideMenuItem to='/crafted/widgets/tables' title='Tables' hasBullet={true} />
         <AsideMenuItem to='/crafted/widgets/feeds' title='Feeds' hasBullet={true} />
-      </AsideMenuItemWithSub>
+      </AsideMenuItemWithSub> */}
 
       <div className='menu-item'>
         <div className='menu-content'>
