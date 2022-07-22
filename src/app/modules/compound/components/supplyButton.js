@@ -1,33 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { KTSVG } from "src/_metronic/helpers";
 import SupplyApyModal from "./supplyApyModal";
 
+let supUsdValue;
 
 const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow, usedPower, ticker, balance, cF }) => {
     const [activeTab, setActiveTab] = useState()
     const [supplyInput, setSupplyInput] = useState(0)
     const [withdrawInput, setWithdrawInput] = useState(0)
     const [usedSupLiq, setUsedSupLiq] = useState(usedPower)
-    const [usedWithLiq, setUsedWithLiq] = useState(usedPower)
+    // const [usedWithLiq, setUsedWithLiq] = useState(usedPower)
     const [supLiq, setSupLiq] = useState(leftToBorrow)
     const [withLiq, setWithLiq] = useState(leftToBorrow)
 
-    console.log(usedPower, leftToBorrow)
-
     let usdValue = Math.round(balance * underlyingPrice * 100) / 100
-    let supUsdValue = Math.round(supplyInput * underlyingPrice * 100) / 100
     let withUsdValue = Math.round(withdrawInput * underlyingPrice * 100) / 100
+    console.log(supLiq, supUsdValue, supplyInput)
+
+    useEffect(() => {
+        supUsdValue = Math.round(supplyInput * underlyingPrice * 100) / 100
+
+        const change1 = async () => {
+            await setSupLiq(Math.round((leftToBorrow + (supUsdValue * cF)) * 100) / 100)
+            await setUsedSupLiq(Math.round(((leftToBorrow * 100) / (leftToBorrow - supLiq + (100 * supLiq / usedPower))) * 100) / 100)
+        }
+
+        change1()
+
+    }, [supplyInput, supLiq])
 
     const handleSupplyChange = (e) => {
         setSupplyInput(e.target.value)
-        setSupLiq(leftToBorrow + (supUsdValue * cF))
-        setUsedSupLiq((leftToBorrow * 100) / (leftToBorrow - supLiq + (100 * supLiq / usedPower)))
+        // setUsedSupLiq((leftToBorrow * 100) / (leftToBorrow - supLiq + (100 * supLiq / usedPower)))
     }
 
     const handleWithdrawChange = (e) => {
         setWithdrawInput(e.target.value)
         setWithLiq(leftToBorrow - (withUsdValue * cF))
-        setUsedWithLiq((leftToBorrow * 100) / (leftToBorrow - withLiq + (100 * withLiq / usedPower)))
+        // setUsedWithLiq((leftToBorrow * 100) / (leftToBorrow - withLiq + (100 * withLiq / usedPower)))
     }
     return (
         <div className='rounded-bottom modal fade' tabIndex={-1} id='kt_modal_1'>
@@ -67,9 +77,10 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
                                     <div className='d-flex align-items-center justify-content-between'>
                                         <div className='d-flex align-items-center'>
                                             <input
-                                                type='text'
+                                                type='number'
                                                 className='form-control form-control-solid w-25'
                                                 placeholder='0'
+                                                value={supplyInput}
                                                 onChange={handleSupplyChange}
                                             />{' '}
                                             <span className='px-1 fs-3 text-gray-400'>{ticker} </span>
@@ -97,24 +108,24 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
                                 <div className='d-flex align-items-center w-100 flex-column mt-3'>
                                     <div className='d-flex justify-content-between w-100 mt-auto mb-2'>
                                         <span className='fw-bold fs-6 text-gray-400'>Used Liquidity</span>
-                                        <span className='fw-bolder fs-6'>{usedSupLiq}%</span>
+                                        <span className='fw-bolder fs-6'>{supplyInput ? usedSupLiq : usedPower}%</span>
                                     </div>
                                     <div className='h-5px mx-3 w-100 bg-light mb-3'>
                                         <div
                                             className='bg-success rounded h-5px'
                                             role='progressbar'
-                                            style={{ width: usedSupLiq + '%' }}
+                                            style={{ width: `${supplyInput ? usedSupLiq : usedPower}%` }}
                                         ></div>
                                     </div>
                                     <div className='d-flex w-100 row-fluid align-items-center'>
                                         <span className='fw-bold fs-6 text-gray-400 col-6'>Liquidity Change:</span>
                                         <div className='row align-items-center'>
-                                            <span className='fw-bolder fs-6 col me-6'>${leftToBorrow}</span>
+                                            <span className='fw-bolder fs-6 col '>${leftToBorrow}</span>
                                             <KTSVG
                                                 path='/media/icons/duotune/arrows/arr001.svg'
-                                                className='fw-bolder fs-6 col me-6 svg-icon-muted svg-icon-2hx'
+                                                className='fw-bolder fs-6 col me-1 svg-icon-muted svg-icon-2hx'
                                             />
-                                            <span className='fw-bolder fs-6 col me-6'>${supLiq}</span>
+                                            <span className='fw-bolder fs-6 col'>${supplyInput ? supLiq : leftToBorrow}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -156,13 +167,13 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
                                 <div className='d-flex align-items-center w-100 flex-column mt-3'>
                                     <div className='d-flex justify-content-between w-100 mt-auto mb-2'>
                                         <span className='fw-bold fs-6 text-gray-400'>Used Liquidity</span>
-                                        <span className='fw-bolder fs-6'>{usedWithLiq}%</span>
+                                        <span className='fw-bolder fs-6'>{usedPower}%</span>
                                     </div>
                                     <div className='h-5px mx-3 w-100 bg-light mb-3'>
                                         <div
                                             className='bg-success rounded h-5px'
                                             role='progressbar'
-                                            style={{ width: usedWithLiq + '%' }}
+                                            style={{ width: `${usedPower}%` }}
                                         ></div>
                                     </div>
                                     <div className='d-flex w-100 row-fluid align-items-center'>

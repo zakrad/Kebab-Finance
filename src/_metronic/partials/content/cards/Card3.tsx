@@ -49,7 +49,6 @@ const Card3: FC<Props> = ({
   cF = '',
 }) => {
   const {account} = useAccount()
-  console.log(cF)
   return (
     <div className='card'>
       <SupplyButton
