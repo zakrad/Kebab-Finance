@@ -9,7 +9,7 @@ import { useAccount } from 'src/app/modules/web3'
 let supUsdValue;
 let withUsdValue;
 
-const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow, usedPower, ticker, balance, cF, cTokenAddress }) => {
+const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow, usedPower, ticker, balance, cF, cTokenAddress, cToken }) => {
     const { account } = useAccount()
     const [activeTab, setActiveTab] = useState(1)
     const [supplyInput, setSupplyInput] = useState(0)
@@ -211,7 +211,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
                             </button>
                             <button type='button' className='btn btn-primary' onClick={async () => {
                                 if (activeTab === 1) {
-                                    await Supply(account, cTokenAddress, ticker, supplyInput)
+                                    await Supply(account, cTokenAddress, ticker, supplyInput, cToken)
                                 } else {
                                     await Withdraw(account, cTokenAddress, ticker, withdrawInput)
                                 }
