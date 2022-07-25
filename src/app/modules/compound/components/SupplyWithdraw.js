@@ -17,9 +17,7 @@ const Supply = async (account, cTokenAddress, ticker, amount, cToken) => {
     //     addressT, amountToSupply.toString()
     // );
     // await tx.wait(1);
-    // let estimateGas = await tokenContract.estimateGas.mint(ethers.utils.hexlify(ethers.utils.parseUnits('1', 'ether')));
-    // await estimateGas.wait(1);
-    // console.log(estimateGas);
+
     const estimateGasSupply = await provider.estimateGas({
         to: addressT,
         data: "0x1249c58b",
@@ -29,6 +27,8 @@ const Supply = async (account, cTokenAddress, ticker, amount, cToken) => {
 
     const feeData = await provider.getFeeData()
     console.log(feeData, estimateGasSupply, estimateGasApprove)
+
+
     // let tx = await tokenContract.mint({
     //     gasLimit: ethers.utils.hexlify(250000),
     //     gasPrice: ethers.utils.hexlify(20000000000),
