@@ -28,6 +28,9 @@ const Supply = async (account, cTokenAddress, ticker, amount, cToken) => {
     const feeData = await provider.getFeeData()
     console.log(feeData, estimateGasSupply, estimateGasApprove)
 
+    const staticMint = await tokenContract.callStatic.mint(ethers.utils.hexlify(12000000000000));
+
+    console.log(staticMint)
 
     // let tx = await tokenContract.mint({
     //     gasLimit: ethers.utils.hexlify(250000),
