@@ -9,7 +9,7 @@ import { useAccount } from 'src/app/modules/web3'
 let supUsdValue;
 let withUsdValue;
 
-const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow, usedPower, ticker, balance, cF, cTokenAddress, cToken }) => {
+const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, leftToBorrow, usedPower, ticker, balance, cF, cTokenAddress, cToken }) => {
     const { account } = useAccount()
     const [activeTab, setActiveTab] = useState(1)
     const [supplyInput, setSupplyInput] = useState(0)
@@ -204,7 +204,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
                         </div>
                     </div>
                     <div className='modal-footer justify-content-between'>
-                        <div className='text-gray-400 fs-5'>Currently Supplying 0.4 ETH</div>
+                        <div className='text-gray-400 fs-5'>Currently Supplying {supplied} {ticker}</div>
                         <div>
                             <button type='button' className='btn btn-light me-2' data-bs-dismiss='modal'>
                                 Close
@@ -212,11 +212,11 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, leftToBorrow,
                             <button type='button' className='btn btn-primary' onClick={async () => {
                                 if (activeTab === 1) {
                                     await Supply(account, cTokenAddress, ticker, supplyInput, cToken)
-                                } else {
-                                    await Withdraw(account, cTokenAddress, ticker, withdrawInput)
+                                } else if (activeTab === 2) {
+                                    await Withdraw(account, cTokenAddress, ticker, withdrawInput, cToken)
                                 }
                             }}>
-                                Save changes
+                                Confirm
                             </button>
                         </div>
                     </div>

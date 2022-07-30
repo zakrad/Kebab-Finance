@@ -59,6 +59,7 @@ const Card3: FC<Props> = ({
         usedPower={usedPower}
         ticker={ticker}
         balance={underlyingBalance}
+        supplied={positionBalance}
         cF={cF}
         cTokenAddress={cTokenAddress}
         cToken={cToken}
