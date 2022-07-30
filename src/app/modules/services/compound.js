@@ -233,6 +233,16 @@ const getCF = async (cTokenAddress) => {
     return Number(ethers.utils.formatUnits(BigNumber.from(parseInt((collateralFactor[1]._hex)).toLocaleString('fullwide', { useGrouping: false })), 18))
 }
 
+const getAllowance = async (cTokenAddress, cToken, address) => {
+    const allowance = await Compound.eth.read(
+        cToken,
+        'function allowance(address account, address cTokenAddress) external view returns (uint256)',
+        [address, cTokenAddress],
+        { provider }
+    );
+    return allowance
+}
+
 
 async function calculateApy(cToken, ticker) {
     const underlyingDecimals = Compound.decimals[cToken.slice(1, 10)];
@@ -245,7 +255,8 @@ async function calculateApy(cToken, ticker) {
         getUnderlyingValue(cTokenAddress, address, ticker, underlyingDecimals),
         eneteredMarkets(cTokenAddress, address),
         getBal(ticker, underlyingDecimals),
-        getCF(cTokenAddress)
+        getCF(cTokenAddress),
+        // getAllowance(cTokenAddress, cToken, address2)
     ]);
     const [compApy] = await Promise.all(
         [calculateCompApy(cTokenAddress, ticker, underlyingDecimals)]

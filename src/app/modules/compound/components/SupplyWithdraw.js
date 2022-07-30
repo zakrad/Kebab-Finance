@@ -3,12 +3,12 @@ import { ethers } from "ethers";
 import { parseEther } from "ethers/lib/utils";
 import TokensAbi from 'src/app/modules/compound/abi/TokensAbi.json'
 
-let testAddress = '0x859e9d8a4edadfEDb5A2fF311243af80F85A91b8'
+// let testAddress = '0x859e9d8a4edadfEDb5A2fF311243af80F85A91b8'
+// const addressinsta = '0x70Aad08C58CB2aF386e742460122c8501578A8FD'.toLocaleLowerCase()
 
 const Supply = async (account, cTokenAddress, ticker, amount, cToken) => {
     const underlyingDecimals = Compound.decimals[cToken.slice(1, 10)];
     const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const providerEstimate = ethers.getDefaultProvider();
     const abi = TokensAbi[`${ticker}`].abi
     const addressT = TokensAbi[`${ticker}`].address
     const tokenContract = new ethers.Contract(addressT, abi, provider.getSigner());
@@ -18,26 +18,24 @@ const Supply = async (account, cTokenAddress, ticker, amount, cToken) => {
     // );
     // await tx.wait(1);
 
+    // const estimateGasApprove = await tokenContract.estimateGas.approve(account.data, parseEther(`${amount}`));
+
     const estimateGasSupply = await provider.estimateGas({
         to: addressT,
         data: "0x1249c58b",
         value: parseEther(`${amount}`)
     });
-    const estimateGasApprove = await tokenContract.estimateGas.approve(account.data, parseEther(`${amount}`));
+
 
     const feeData = await provider.getFeeData()
-    console.log(feeData, estimateGasSupply, estimateGasApprove)
+    console.log(feeData, estimateGasSupply)
 
-    const staticMint = await tokenContract.callStatic.mint(ethers.utils.hexlify(12000000000000));
-
-    console.log(staticMint)
-
-    // let tx = await tokenContract.mint({
-    //     gasLimit: ethers.utils.hexlify(250000),
-    //     gasPrice: ethers.utils.hexlify(20000000000),
-    //     value: ethers.utils.hexlify(ethers.utils.parseUnits(`${amount}`, 'ether'))
-    // })
-    // await tx.wait(1);
+    let tx = await tokenContract.mint({
+        gasLimit: estimateGasSupply._hex,
+        gasPrice: feeData.gasPrice._hex,
+        value: ethers.utils.hexlify(parseEther(`${amount}`))
+    })
+    await tx.wait(1);
 
 }
 
