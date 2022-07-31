@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {FC} from 'react'
 import BorrowApy from 'src/app/modules/compound/components/borrowApy'
+import BorrowButton from 'src/app/modules/compound/components/borrowButton'
 import {EnterMarket, ExitMarket} from 'src/app/modules/compound/components/EnterExitMarket'
 import SupplyApy from 'src/app/modules/compound/components/supplyApy'
 import SupplyButton from 'src/app/modules/compound/components/supplyButton'
@@ -52,6 +53,19 @@ const Card3: FC<Props> = ({
   return (
     <div className='card'>
       <SupplyButton
+        underlyingPrice={underlyingPrice}
+        supplyApy={supplyApy}
+        compSupplyApy={compSupplyApy}
+        leftToBorrow={leftToBorrow}
+        usedPower={usedPower}
+        ticker={ticker}
+        balance={underlyingBalance}
+        supplied={positionBalance}
+        cF={cF}
+        cTokenAddress={cTokenAddress}
+        cToken={cToken}
+      />
+      <BorrowButton
         underlyingPrice={underlyingPrice}
         supplyApy={supplyApy}
         compSupplyApy={compSupplyApy}
@@ -147,7 +161,7 @@ const Card3: FC<Props> = ({
           <button
             className={`btn btn-sm ${hasEntered ? 'btn-primary' : 'btn-light'} d-flex mx-8`}
             data-bs-toggle='modal'
-            data-bs-target='#kt_modal_1'
+            data-bs-target='#kt_modal_2'
           >
             <KTSVG path='/media/icons/duotune/arrows/arr090.svg' className='svg-icon-3' />
             Borrow
