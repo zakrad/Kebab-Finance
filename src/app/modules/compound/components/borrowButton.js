@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { KTSVG } from "src/_metronic/helpers";
 import SupplyApyModal from "./supplyApyModal";
-import { Supply, Withdraw } from './SupplyWithdraw'
 import { useAccount } from 'src/app/modules/web3'
 import BorrowApyModal from "./borrowApyModal";
+import { Borrow, Repay } from "./BorrowRepay";
 
 
 
@@ -211,10 +211,10 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
                                 Close
                             </button>
                             <button type='button' className='btn btn-primary' onClick={async () => {
-                                if (activeTab === 1) {
-                                    await Supply(account, cTokenAddress, ticker, borrowInput, cToken)
-                                } else if (activeTab === 2) {
-                                    await Withdraw(account, cTokenAddress, ticker, repayInput, cToken)
+                                if (activeTab === 3) {
+                                    await Borrow(account, cTokenAddress, ticker, borrowInput, cToken)
+                                } else if (activeTab === 4) {
+                                    await Repay(account, cTokenAddress, ticker, repayInput, cToken)
                                 }
                             }}>
                                 Confirm
