@@ -31,7 +31,7 @@ const BorrowApyModal = ({ borrowApy, compBorrowApy, ticker, usdValue, balance })
                 <tr >
                     <td>+ %{borrowApy}</td>
                     <td>+ %{compBorrowApy}</td>
-                    <td className='d-flex'>{balance} ETH<div className='text-gray-400'>(${usdValue})</div></td>
+                    <td className='d-flex'>{balance} {ticker}<div className='text-gray-400'>(${usdValue})</div></td>
                 </tr>
             </tbody>
         </table>

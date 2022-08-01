@@ -36,7 +36,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
         withUsdValue = Math.round(withdrawInput * underlyingPrice * 100) / 100
 
         const change2 = async () => {
-            await setWithLiq(Math.round((leftToBorrow - withUsdValue) * 100) / 100)
+            await setWithLiq(Math.round((leftToBorrow - (withUsdValue * cF)) * 100) / 100)
             await setUsedWithLiq(Math.round(((leftToBorrow * 100) / (leftToBorrow - withLiq + (100 * withLiq / usedPower))) * 100) / 100)
         }
         change2()
@@ -52,7 +52,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
     }
 
     return (
-        <div className='rounded-bottom modal fade' tabIndex={-1} id='kt_modal_1'>
+        <div className='rounded-bottom modal fade' tabIndex={-1} id={'kt_modal_1' + ticker}>
             <div className='modal-dialog'>
                 <div className='modal-content'>
                     <div className='d-flex justify-content-center flex-row'>
@@ -61,7 +61,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                                 <a
                                     className='nav-link active btn rounded-0 btn-active-primary '
                                     data-bs-toggle='tab'
-                                    href='#kt_tab_pane_1'
+                                    href={'#kt_tab_pane_1' + ticker}
                                     onClick={() => {
                                         setActiveTab(1)
                                     }}
@@ -71,7 +71,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                                 <a
                                     className='nav-link btn rounded-0 btn-active-primary'
                                     data-bs-toggle='tab'
-                                    href='#kt_tab_pane_2'
+                                    href={'#kt_tab_pane_2' + ticker}
                                     onClick={() => {
                                         setActiveTab(2)
                                     }}
@@ -83,7 +83,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                     </div>
                     <div className='modal-body'>
                         <div className='tab-content ' id='myTabContent'>
-                            <div className='tab-pane fade active show' id='kt_tab_pane_1' role='tabpanel'>
+                            <div className='tab-pane fade active show' id={'kt_tab_pane_1' + ticker} role='tabpanel'>
                                 <div>
                                     <label className='form-label'>Enter Amount to Supply</label>
                                     <div className='d-flex align-items-center justify-content-between'>
@@ -142,7 +142,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                                     </div>
                                 </div>
                             </div>
-                            <div className='tab-pane fade' id='kt_tab_pane_2' role='tabpanel'>
+                            <div className='tab-pane fade' id={'kt_tab_pane_2' + ticker} role='tabpanel'>
                                 <div>
                                     <label className='form-label'>Enter Amount to Withdraw</label>
                                     <div className='d-flex align-items-center justify-content-between'>

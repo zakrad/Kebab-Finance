@@ -51,7 +51,107 @@ const Card3: FC<Props> = ({
 }) => {
   const {account} = useAccount()
   return (
-    <div className='card'>
+    <>
+      <div className='card'>
+        <div
+          className={`card-body d-flex flex-column p-4 ${
+            hasEntered
+              ? 'bg-light-primary border border-gray-700 border-dashed rounded'
+              : underWater
+              ? 'bg-danger border rounded'
+              : ''
+          }`}
+        >
+          <div className='d-flex mb-4 justify-content-between'>
+            <div className='d-flex'>
+              <div className='mb-5'>
+                <div className='symbol symbol-50px symbol-circle'>
+                  {
+                    <img
+                      alt='Pic'
+                      src={toAbsoluteUrl(`/media/icons/duotune/compound/${ticker}.svg`)}
+                    />
+                  }
+                  {online && (
+                    <div className='symbol-badge bg-success start-100 top-100 border-4 h-15px w-15px ms-n3 mt-n3'></div>
+                  )}
+                </div>
+              </div>
+              <div>
+                <a href='#' className='fs-3 text-gray-800 text-hover-primary fw-bolder mb-0 mx-3'>
+                  ${positionValue}
+                </a>
+
+                <div className='fs-5 fw-bold text-gray-400 mb-6 mx-3'>
+                  {positionBalance + ' '}
+                  {ticker}
+                </div>
+              </div>
+            </div>
+            <div className='mb-5'>
+              <button
+                type='button'
+                onClick={async () => {
+                  if (hasEntered) {
+                    await ExitMarket(account, cToken)
+                  } else {
+                    await EnterMarket(account, cToken)
+                  }
+                }}
+                className={`btn btn-sm ${
+                  hasEntered
+                    ? 'p-2 btn-light border border-gray-300 rounded'
+                    : underWater
+                    ? 'p-1 btn-light-danger border border-gray-300 rounded'
+                    : 'p-3 btn-primary'
+                } d-flex`}
+              >
+                {hasEntered ? 'Disable' : underWater ? 'ready to liquidate' : 'Enable'}
+              </button>
+            </div>
+          </div>
+          <div className='d-flex flex-center flex-wrap my-0'>
+            <SupplyApy
+              supplyApy={supplyApy}
+              compSupplyApy={compSupplyApy}
+              hasEntered={hasEntered}
+            />
+            <BorrowApy
+              borrowApy={borrowApy}
+              compBorrowApy={compBorrowApy}
+              hasEntered={hasEntered}
+            />
+          </div>
+          <div className='d-flex flex-center flex-wrap mb-5'>
+            <div
+              className={`border border-gray-${
+                hasEntered ? '400' : '300'
+              } border-dashed rounded min-w-100px py-1 mx-1 px-2 mb-3`}
+            >
+              <div className='fs-6 fw-bolder text-gray-700'>${borrowed}</div>
+              <div className='fw-bold text-gray-400'>Borrowed</div>
+            </div>
+          </div>
+          <div className='d-flex'>
+            <button
+              className={`btn btn-sm ${hasEntered ? 'btn-primary' : 'btn-light'} d-flex mx-2`}
+              data-bs-toggle='modal'
+              data-bs-target={'#kt_modal_1' + ticker}
+            >
+              <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-3' />
+              Supply
+            </button>
+            <button
+              className={`btn btn-sm ${hasEntered ? 'btn-primary' : 'btn-light'} d-flex mx-8`}
+              data-bs-toggle='modal'
+              data-bs-target={'#kt_modal_2' + ticker}
+            >
+              <KTSVG path='/media/icons/duotune/arrows/arr090.svg' className='svg-icon-3' />
+              Borrow
+            </button>
+          </div>
+        </div>
+      </div>
       <SupplyButton
         underlyingPrice={underlyingPrice}
         supplyApy={supplyApy}
@@ -78,97 +178,7 @@ const Card3: FC<Props> = ({
         cTokenAddress={cTokenAddress}
         cToken={cToken}
       />
-      <div
-        className={`card-body d-flex flex-column p-4 ${
-          hasEntered
-            ? 'bg-light-primary border border-gray-700 border-dashed rounded'
-            : underWater
-            ? 'bg-danger border rounded'
-            : ''
-        }`}
-      >
-        <div className='d-flex mb-4 justify-content-between'>
-          <div className='d-flex'>
-            <div className='mb-5'>
-              <div className='symbol symbol-50px symbol-circle'>
-                {
-                  <img
-                    alt='Pic'
-                    src={toAbsoluteUrl(`/media/icons/duotune/compound/${ticker}.svg`)}
-                  />
-                }
-                {online && (
-                  <div className='symbol-badge bg-success start-100 top-100 border-4 h-15px w-15px ms-n3 mt-n3'></div>
-                )}
-              </div>
-            </div>
-            <div>
-              <a href='#' className='fs-3 text-gray-800 text-hover-primary fw-bolder mb-0 mx-3'>
-                ${positionValue}
-              </a>
-
-              <div className='fs-5 fw-bold text-gray-400 mb-6 mx-3'>
-                {positionBalance + ' '}
-                {ticker}
-              </div>
-            </div>
-          </div>
-          <div className='mb-5'>
-            <button
-              type='button'
-              onClick={async () => {
-                if (hasEntered) {
-                  await ExitMarket(account, cToken)
-                } else {
-                  await EnterMarket(account, cToken)
-                }
-              }}
-              className={`btn btn-sm ${
-                hasEntered
-                  ? 'p-2 btn-light border border-gray-300 rounded'
-                  : underWater
-                  ? 'p-1 btn-light-danger border border-gray-300 rounded'
-                  : 'p-3 btn-primary'
-              } d-flex`}
-            >
-              {hasEntered ? 'Disable' : underWater ? 'ready to liquidate' : 'Enable'}
-            </button>
-          </div>
-        </div>
-        <div className='d-flex flex-center flex-wrap my-0'>
-          <SupplyApy supplyApy={supplyApy} compSupplyApy={compSupplyApy} hasEntered={hasEntered} />
-          <BorrowApy borrowApy={borrowApy} compBorrowApy={compBorrowApy} hasEntered={hasEntered} />
-        </div>
-        <div className='d-flex flex-center flex-wrap mb-5'>
-          <div
-            className={`border border-gray-${
-              hasEntered ? '400' : '300'
-            } border-dashed rounded min-w-100px py-1 mx-1 px-2 mb-3`}
-          >
-            <div className='fs-6 fw-bolder text-gray-700'>${borrowed}</div>
-            <div className='fw-bold text-gray-400'>Borrowed</div>
-          </div>
-        </div>
-        <div className='d-flex'>
-          <button
-            className={`btn btn-sm ${hasEntered ? 'btn-primary' : 'btn-light'} d-flex mx-2`}
-            data-bs-toggle='modal'
-            data-bs-target='#kt_modal_1'
-          >
-            <KTSVG path='/media/icons/duotune/arrows/arr075.svg' className='svg-icon-3' />
-            Supply
-          </button>
-          <button
-            className={`btn btn-sm ${hasEntered ? 'btn-primary' : 'btn-light'} d-flex mx-8`}
-            data-bs-toggle='modal'
-            data-bs-target='#kt_modal_2'
-          >
-            <KTSVG path='/media/icons/duotune/arrows/arr090.svg' className='svg-icon-3' />
-            Borrow
-          </button>
-        </div>
-      </div>
-    </div>
+    </>
   )
 }
 

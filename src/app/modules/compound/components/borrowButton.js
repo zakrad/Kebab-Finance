@@ -7,8 +7,8 @@ import BorrowApyModal from "./borrowApyModal";
 
 
 
-let supUsdValue;
-let withUsdValue;
+let borUsdValue;
+let repayUsdValue;
 
 const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, leftToBorrow, usedPower, ticker, balance, cF, cTokenAddress, cToken }) => {
     const { account } = useAccount()
@@ -23,10 +23,10 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
     let usdValue = Math.round(balance * underlyingPrice * 100) / 100
 
     useEffect(() => {
-        supUsdValue = Math.round(borrowInput * underlyingPrice * 100) / 100
+        borUsdValue = Math.round(borrowInput * underlyingPrice * 100) / 100
 
         const change1 = async () => {
-            await setBorLiq(Math.round((leftToBorrow + (supUsdValue * cF)) * 100) / 100)
+            await setBorLiq(Math.round((leftToBorrow - borUsdValue) * 100) / 100)
             await setUsedBorLiq(Math.round(((leftToBorrow * 100) / (leftToBorrow - borLiq + (100 * borLiq / usedPower))) * 100) / 100)
         }
         change1()
@@ -34,10 +34,10 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
     }, [borrowInput, borLiq])
 
     useEffect(() => {
-        withUsdValue = Math.round(repayInput * underlyingPrice * 100) / 100
+        repayUsdValue = Math.round(repayInput * underlyingPrice * 100) / 100
 
         const change2 = async () => {
-            await setRepayLiq(Math.round((leftToBorrow - withUsdValue) * 100) / 100)
+            await setRepayLiq(Math.round((leftToBorrow + repayUsdValue) * 100) / 100)
             await setUsedRepayLiq(Math.round(((leftToBorrow * 100) / (leftToBorrow - repayLiq + (100 * repayLiq / usedPower))) * 100) / 100)
         }
         change2()
@@ -53,7 +53,7 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
     }
 
     return (
-        <div className='rounded-bottom modal fade' tabIndex={-1} id='kt_modal_2'>
+        <div className='rounded-bottom modal fade' tabIndex={-1} id={'kt_modal_2' + ticker}>
             <div className='modal-dialog'>
                 <div className='modal-content'>
                     <div className='d-flex justify-content-center flex-row'>
@@ -62,7 +62,7 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
                                 <a
                                     className='nav-link active btn rounded-0 btn-active-primary '
                                     data-bs-toggle='tab'
-                                    href='#kt_tab_pane_3'
+                                    href={'#kt_tab_pane_3' + ticker}
                                     onClick={() => {
                                         setActiveTab(3)
                                     }}
@@ -72,7 +72,7 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
                                 <a
                                     className='nav-link btn rounded-0 btn-active-primary'
                                     data-bs-toggle='tab'
-                                    href='#kt_tab_pane_4'
+                                    href={'#kt_tab_pane_4' + ticker}
                                     onClick={() => {
                                         setActiveTab(4)
                                     }}
@@ -84,7 +84,7 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
                     </div>
                     <div className='modal-body'>
                         <div className='tab-content ' id='myTabContent'>
-                            <div className='tab-pane fade active show' id='kt_tab_pane_3' role='tabpanel'>
+                            <div className='tab-pane fade active show' id={'kt_tab_pane_3' + ticker} role='tabpanel'>
                                 <div>
                                     <label className='form-label'>Enter Amount to Borrow</label>
                                     <div className='d-flex align-items-center justify-content-between'>
@@ -99,7 +99,7 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
                                             <span className='px-1 fs-3 text-gray-400'>{ticker} </span>
                                         </div>
                                         <div className='text-inverse-secondary bg-light fs-1 px-2 rounded'>
-                                            {supUsdValue}
+                                            {borUsdValue}
                                         </div>
                                         <div>
                                             <KTSVG
@@ -143,7 +143,7 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
                                     </div>
                                 </div>
                             </div>
-                            <div className='tab-pane fade' id='kt_tab_pane_4' role='tabpanel'>
+                            <div className='tab-pane fade' id={'kt_tab_pane_4' + ticker} role='tabpanel'>
                                 <div>
                                     <label className='form-label'>Enter Amount to Repay</label>
                                     <div className='d-flex align-items-center justify-content-between'>
@@ -158,7 +158,7 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
                                             <span className='px-1 fs-3 text-gray-400'>{ticker} </span>
                                         </div>
                                         <div className='text-inverse-secondary bg-light fs-1 px-2 rounded'>
-                                            {withUsdValue}
+                                            {repayUsdValue}
                                         </div>
                                         <div>
                                             <KTSVG
