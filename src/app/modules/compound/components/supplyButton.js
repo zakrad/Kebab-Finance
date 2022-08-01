@@ -191,12 +191,12 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                                     <div className='d-flex w-100 row-fluid align-items-center'>
                                         <span className='fw-bold fs-6 text-gray-400 col-6'>Liquidity Change:</span>
                                         <div className='row align-items-center'>
-                                            <span className='fw-bolder fs-6 col me-6'>${leftToBorrow}</span>
+                                            <span className='fw-bolder fs-6 col '>${leftToBorrow}</span>
                                             <KTSVG
                                                 path='/media/icons/duotune/arrows/arr001.svg'
-                                                className='fw-bolder fs-6 col me-6 svg-icon-muted svg-icon-2hx'
+                                                className='fw-bolder fs-6 col me-1 svg-icon-muted svg-icon-2hx'
                                             />
-                                            <span className='fw-bolder fs-6 col me-6'>${withdrawInput ? withLiq : leftToBorrow}</span>
+                                            <span className='fw-bolder fs-6 col'>${withdrawInput ? withLiq : leftToBorrow}</span>
                                         </div>
                                     </div>
                                 </div>

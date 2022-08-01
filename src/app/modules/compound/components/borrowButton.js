@@ -3,15 +3,16 @@ import { KTSVG } from "src/_metronic/helpers";
 import SupplyApyModal from "./supplyApyModal";
 import { Supply, Withdraw } from './SupplyWithdraw'
 import { useAccount } from 'src/app/modules/web3'
+import BorrowApyModal from "./borrowApyModal";
 
 
 
 let supUsdValue;
 let withUsdValue;
 
-const BorrowButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, leftToBorrow, usedPower, ticker, balance, cF, cTokenAddress, cToken }) => {
+const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, leftToBorrow, usedPower, ticker, balance, cF, cTokenAddress, cToken }) => {
     const { account } = useAccount()
-    const [activeTab, setActiveTab] = useState(1)
+    const [activeTab, setActiveTab] = useState(3)
     const [borrowInput, setBorrowInput] = useState(0)
     const [repayInput, setRepayInput] = useState(0)
     const [usedBorLiq, setUsedBorLiq] = useState(usedPower)
@@ -109,9 +110,9 @@ const BorrowButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                                     </div>
                                 </div>
                                 <div>
-                                    <SupplyApyModal
-                                        supplyApy={supplyApy}
-                                        compSupplyApy={compSupplyApy}
+                                    <BorrowApyModal
+                                        borrowApy={borrowApy}
+                                        compBorrowApy={compBorrowApy}
                                         ticker={ticker}
                                         usdValue={usdValue}
                                         balance={balance}
@@ -169,8 +170,8 @@ const BorrowButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                                 </div>
                                 <div>
                                     <SupplyApyModal
-                                        supplyApy={supplyApy}
-                                        compSupplyApy={compSupplyApy}
+                                        supplyApy={borrowApy}
+                                        compSupplyApy={compBorrowApy}
                                         ticker={ticker}
                                         usdValue={usdValue}
                                         balance={balance}
@@ -191,12 +192,12 @@ const BorrowButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                                     <div className='d-flex w-100 row-fluid align-items-center'>
                                         <span className='fw-bold fs-6 text-gray-400 col-6'>Liquidity Change:</span>
                                         <div className='row align-items-center'>
-                                            <span className='fw-bolder fs-6 col me-6'>${leftToBorrow}</span>
+                                            <span className='fw-bolder fs-6 col'>${leftToBorrow}</span>
                                             <KTSVG
                                                 path='/media/icons/duotune/arrows/arr001.svg'
-                                                className='fw-bolder fs-6 col me-6 svg-icon-muted svg-icon-2hx'
+                                                className='fw-bolder fs-6 col me-1 svg-icon-muted svg-icon-2hx'
                                             />
-                                            <span className='fw-bolder fs-6 col me-6'>${repayInput ? repayLiq : leftToBorrow}</span>
+                                            <span className='fw-bolder fs-6 col'>${repayInput ? repayLiq : leftToBorrow}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -204,7 +205,7 @@ const BorrowButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                         </div>
                     </div>
                     <div className='modal-footer justify-content-between'>
-                        <div className='text-gray-400 fs-5'>Currently Supplying {supplied} {ticker}</div>
+                        <div className='text-gray-400 fs-5'>Currently Borrowed {borrowed}$</div>
                         <div>
                             <button type='button' className='btn btn-light me-2' data-bs-dismiss='modal'>
                                 Close

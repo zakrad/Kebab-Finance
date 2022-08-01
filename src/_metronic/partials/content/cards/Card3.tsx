@@ -67,13 +67,13 @@ const Card3: FC<Props> = ({
       />
       <BorrowButton
         underlyingPrice={underlyingPrice}
-        supplyApy={supplyApy}
-        compSupplyApy={compSupplyApy}
+        borrowApy={borrowApy}
+        compBorrowApy={compBorrowApy}
         leftToBorrow={leftToBorrow}
         usedPower={usedPower}
         ticker={ticker}
         balance={underlyingBalance}
-        supplied={positionBalance}
+        borrowed={borrowed}
         cF={cF}
         cTokenAddress={cTokenAddress}
         cToken={cToken}
