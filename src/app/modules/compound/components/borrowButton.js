@@ -4,6 +4,7 @@ import SupplyApyModal from "./supplyApyModal";
 import { useAccount } from 'src/app/modules/web3'
 import BorrowApyModal from "./borrowApyModal";
 import { Borrow, Repay } from "./BorrowRepay";
+import { Approve } from "./Approve";
 
 
 
@@ -212,12 +213,16 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
                             </button>
                             <button type='button' className='btn btn-primary' onClick={async () => {
                                 if (activeTab === 3) {
-                                    await Borrow(account, cTokenAddress, ticker, borrowInput, cToken)
+                                    await Borrow(ticker, borrowInput, cToken)
                                 } else if (activeTab === 4) {
-                                    await Repay(account, cTokenAddress, ticker, repayInput, cToken)
+                                    if (ticker !== "ETH" && allowance === 0) {
+                                        await Approve(cTokenAddress, ticker)
+                                    } else {
+                                        await Repay(ticker, repayInput, cToken)
+                                    }
                                 }
                             }}>
-                                Confirm
+                                {allowance !== 0 || activeTab === 3 ? 'Confirm' : 'Approve'}
                             </button>
                         </div>
                     </div>

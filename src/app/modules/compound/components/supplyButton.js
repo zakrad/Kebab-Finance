@@ -221,7 +221,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                                     await Withdraw(ticker, withdrawInput, cToken)
                                 }
                             }}>
-                                {allowance !== 0 && activeTab === 1 ? 'Confirm' : 'Approve'}
+                                {allowance !== 0 || activeTab === 2 ? 'Confirm' : 'Approve'}
                             </button>
                         </div>
                     </div>
