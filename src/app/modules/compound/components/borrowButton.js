@@ -10,7 +10,7 @@ import { Borrow, Repay } from "./BorrowRepay";
 let borUsdValue;
 let repayUsdValue;
 
-const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, leftToBorrow, usedPower, ticker, balance, cF, cTokenAddress, cToken }) => {
+const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, leftToBorrow, usedPower, ticker, balance, cF, cTokenAddress, cToken, allowance }) => {
     const { account } = useAccount()
     const [activeTab, setActiveTab] = useState(3)
     const [borrowInput, setBorrowInput] = useState(0)

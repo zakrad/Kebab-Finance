@@ -114,6 +114,7 @@ const CompoundPage: FC = () => {
                 usedPower={usedPower}
                 underlyingBalance={token.underlyingBalance}
                 cF={token.cF}
+                allowance={token.allowance}
               />
             </div>
           )

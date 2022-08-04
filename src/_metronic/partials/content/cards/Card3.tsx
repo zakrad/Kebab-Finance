@@ -27,6 +27,7 @@ type Props = {
   usedPower: number
   underlyingBalance: number
   cF: number
+  allowance: number
 }
 
 const Card3: FC<Props> = ({
@@ -48,6 +49,7 @@ const Card3: FC<Props> = ({
   usedPower = '',
   underlyingBalance = '',
   cF = '',
+  allowance = '',
 }) => {
   const {account} = useAccount()
   return (
@@ -164,6 +166,7 @@ const Card3: FC<Props> = ({
         cF={cF}
         cTokenAddress={cTokenAddress}
         cToken={cToken}
+        allowance={allowance}
       />
       <BorrowButton
         underlyingPrice={underlyingPrice}
@@ -177,6 +180,7 @@ const Card3: FC<Props> = ({
         cF={cF}
         cTokenAddress={cTokenAddress}
         cToken={cToken}
+        allowance={allowance}
       />
     </>
   )

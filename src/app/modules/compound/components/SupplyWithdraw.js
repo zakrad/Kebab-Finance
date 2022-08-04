@@ -45,13 +45,11 @@ const Supply = async (account, cTokenAddress, ticker, amount, cToken) => {
         })
         await tx.wait(1);
     } else {
-        // let tx = await tokenContractU.allowance(account.data, addressT)
-        // console.log(tx._hex);
-        let tx = await tokenContract.mint(amountToSupply.toString(), {
+        let trx = await tokenContract.mint(amountToSupply.toString(), {
             gasLimit: ethers.utils.hexlify(150000),
             gasPrice: feeData.gasPrice._hex
         })
-        await tx.wait(1);
+        await trx.wait(1);
     }
 
 }

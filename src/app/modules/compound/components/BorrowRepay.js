@@ -5,7 +5,6 @@ import cTokensAbi from 'src/app/modules/compound/abi/cTokensAbi.json'
 import TokensAbi from 'src/app/modules/compound/abi/TokensAbi.json'
 
 const provider = new ethers.providers.Web3Provider(window.ethereum)
-const compound = new Compound(window.ethereum);
 
 
 // let testAddress = '0x859e9d8a4edadfEDb5A2fF311243af80F85A91b8'
@@ -75,11 +74,11 @@ const Repay = async (account, cTokenAddress, ticker, amount, cToken) => {
         // );
         // await txApprove.wait(1);
 
-        let trx = await tokenContract.repayBorrow(underlyingToRepay.toString(), {
-            gasLimit: ethers.utils.hexlify(150000),
-            gasPrice: feeData.gasPrice._hex
-        })
-        await trx.wait(1);
+        // let trx = await tokenContract.repayBorrow(underlyingToRepay.toString(), {
+        //     gasLimit: ethers.utils.hexlify(150000),
+        //     gasPrice: feeData.gasPrice._hex
+        // })
+        // await trx.wait(1);
 
 
 

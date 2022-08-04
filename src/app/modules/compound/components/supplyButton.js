@@ -3,13 +3,14 @@ import { KTSVG } from "src/_metronic/helpers";
 import SupplyApyModal from "./supplyApyModal";
 import { Supply, Withdraw } from './SupplyWithdraw'
 import { useAccount } from 'src/app/modules/web3'
+import { Approve } from "./Approve";
 
 
 
 let supUsdValue;
 let withUsdValue;
 
-const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, leftToBorrow, usedPower, ticker, balance, cF, cTokenAddress, cToken }) => {
+const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, leftToBorrow, usedPower, ticker, balance, cF, cTokenAddress, cToken, allowance }) => {
     const { account } = useAccount()
     const [activeTab, setActiveTab] = useState(1)
     const [supplyInput, setSupplyInput] = useState(0)
@@ -211,12 +212,16 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                             </button>
                             <button type='button' className='btn btn-primary' onClick={async () => {
                                 if (activeTab === 1) {
-                                    await Supply(account, cTokenAddress, ticker, supplyInput, cToken)
+                                    if (ticker !== "ETH" && allowance === 0) {
+                                        await Approve(cTokenAddress, ticker)
+                                    } else {
+                                        await Supply(account, cTokenAddress, ticker, supplyInput, cToken)
+                                    }
                                 } else if (activeTab === 2) {
                                     await Withdraw(account, cTokenAddress, ticker, withdrawInput, cToken)
                                 }
                             }}>
-                                Confirm
+                                {allowance !== 0 ? 'Confirm' : 'Approve'}
                             </button>
                         </div>
                     </div>
