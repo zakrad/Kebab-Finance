@@ -215,13 +215,13 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                                     if (ticker !== "ETH" && allowance === 0) {
                                         await Approve(cTokenAddress, ticker)
                                     } else {
-                                        await Supply(account, cTokenAddress, ticker, supplyInput, cToken)
+                                        await Supply(ticker, supplyInput, cToken)
                                     }
                                 } else if (activeTab === 2) {
-                                    await Withdraw(account, cTokenAddress, ticker, withdrawInput, cToken)
+                                    await Withdraw(ticker, withdrawInput, cToken)
                                 }
                             }}>
-                                {allowance !== 0 ? 'Confirm' : 'Approve'}
+                                {allowance !== 0 && activeTab === 1 ? 'Confirm' : 'Approve'}
                             </button>
                         </div>
                     </div>
