@@ -29,8 +29,8 @@ const CompoundPage: FC = () => {
         await Promise.all([
           calculateApy(Compound.cETH, 'ETH'),
           calculateApy(Compound.cDAI, 'DAI'),
-          // calculateApy(Compound.cUSDC, 'USDC'),
-          // calculateApy(Compound.cUSDT, 'USDT'),
+          calculateApy(Compound.cUSDC, 'USDC'),
+          calculateApy(Compound.cUSDT, 'USDT'),
           // calculateApy(Compound.cZRX, 'ZRX'),
           // calculateApy(Compound.cREP, 'REP'),
           // calculateApy(Compound.cBAT, 'BAT'),

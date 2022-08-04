@@ -203,7 +203,7 @@ const getBalance = async (account, ticker, underlyingDecimals) => {
     const abi = TokensAbi[`${ticker}`].abi
     const addressT = TokensAbi[`${ticker}`].address
     const contract = new ethers.Contract(addressT, abi, wProvider);
-    const balanceR = (await contract.balanceOf(account))
+    const balanceR = await contract.balanceOf(account, { from: account })
     return Math.round(Number(ethers.utils.formatUnits(BigNumber.from(parseInt((balanceR._hex)).toLocaleString('fullwide', { useGrouping: false })), underlyingDecimals)) * 100) / 100
 }
 

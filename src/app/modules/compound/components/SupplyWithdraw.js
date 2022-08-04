@@ -1,7 +1,7 @@
 import Compound from "@compound-finance/compound-js";
 import { ethers } from "ethers";
 import { parseEther } from "ethers/lib/utils";
-import TokensAbi from 'src/app/modules/compound/abi/TokensAbi.json'
+import cTokensAbi from 'src/app/modules/compound/abi/cTokensAbi.json'
 
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 
@@ -12,8 +12,8 @@ const provider = new ethers.providers.Web3Provider(window.ethereum)
 
 const Supply = async (account, cTokenAddress, ticker, amount, cToken) => {
     const underlyingDecimals = Compound.decimals[cToken.slice(1, 10)];
-    const abi = TokensAbi[`${ticker}`].abi
-    const addressT = TokensAbi[`${ticker}`].address
+    const abi = cTokensAbi[`${ticker}`].abi
+    const addressT = cTokensAbi[`${ticker}`].address
     const tokenContract = new ethers.Contract(addressT, abi, provider.getSigner());
     const feeData = await provider.getFeeData()
 
@@ -33,32 +33,51 @@ const Supply = async (account, cTokenAddress, ticker, amount, cToken) => {
 
 
     console.log(feeData, estimateGasSupply)
-
-    let tx = await tokenContract.mint({
-        gasLimit: estimateGasSupply._hex,
-        gasPrice: feeData.gasPrice._hex,
-        value: ethers.utils.hexlify(parseEther(`${amount}`))
-    })
-    await tx.wait(1);
+    if (ticker === "ETH") {
+        let tx = await tokenContract.mint({
+            gasLimit: estimateGasSupply._hex,
+            gasPrice: feeData.gasPrice._hex,
+            value: ethers.utils.hexlify(parseEther(`${amount}`))
+        })
+        await tx.wait(1);
+    } else {
+        let tx = await tokenContract.mint(amountToSupply.toString(), {
+            gasLimit: ethers.utils.hexlify(150000),
+            gasPrice: feeData.gasPrice._hex
+        })
+        await tx.wait(1);
+    }
 
 }
 
 
 const Withdraw = async (account, cTokenAddress, ticker, amount, cToken) => {
-    const abi = TokensAbi[`${ticker}`].abi
-    const addressT = TokensAbi[`${ticker}`].address
+    const abi = cTokensAbi[`${ticker}`].abi
+    const addressT = cTokensAbi[`${ticker}`].address
     const tokenContract = new ethers.Contract(addressT, abi, provider.getSigner());
     const feeData = await provider.getFeeData()
+    const underlyingDecimals = Compound.decimals[cToken.slice(1, 10)];
+    const amountToWithdraw = amount * Math.pow(10, underlyingDecimals)
 
-    const estimateGasWithdraw = await tokenContract.estimateGas.redeemUnderlying(parseEther(`${amount}`));
 
-    console.log(feeData, estimateGasWithdraw)
 
-    let tx = await tokenContract.redeemUnderlying(parseEther(`${amount}`), {
-        gasLimit: estimateGasWithdraw._hex,
-        gasPrice: feeData.gasPrice._hex,
-    })
-    await tx.wait(1);
+
+    if (ticker === "ETH") {
+        const estimateGasWithdraw = await tokenContract.estimateGas.redeemUnderlying(parseEther(`${amount}`));
+        console.log(feeData, estimateGasWithdraw);
+        let tx = await tokenContract.redeemUnderlying(parseEther(`${amount}`), {
+            gasLimit: estimateGasWithdraw._hex,
+            gasPrice: feeData.gasPrice._hex,
+        })
+        await tx.wait(1);
+    } else {
+        let tx = await tokenContract.redeemUnderlying(amountToWithdraw.toString(), {
+            gasLimit: ethers.utils.hexlify(150000),
+            gasPrice: feeData.gasPrice._hex,
+        })
+        await tx.wait(1);
+    }
+
 
 }
 
