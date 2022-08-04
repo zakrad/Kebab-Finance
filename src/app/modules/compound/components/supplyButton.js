@@ -90,7 +90,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                                     <div className='d-flex align-items-center justify-content-between'>
                                         <div className='d-flex align-items-center'>
                                             <input
-                                                type='number'
+                                                type='type'
                                                 className='form-control form-control-solid w-25'
                                                 placeholder='0'
                                                 value={supplyInput}

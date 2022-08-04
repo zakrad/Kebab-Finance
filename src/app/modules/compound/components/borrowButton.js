@@ -91,7 +91,7 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
                                     <div className='d-flex align-items-center justify-content-between'>
                                         <div className='d-flex align-items-center'>
                                             <input
-                                                type='number'
+                                                type='text'
                                                 className='form-control form-control-solid w-25'
                                                 placeholder='0'
                                                 value={borrowInput}
