@@ -2,6 +2,7 @@ import Compound from "@compound-finance/compound-js";
 import { ethers } from "ethers";
 import { parseEther } from "ethers/lib/utils";
 import cTokensAbi from 'src/app/modules/compound/abi/cTokensAbi.json'
+import TokensAbi from 'src/app/modules/compound/abi/TokensAbi.json'
 
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 
@@ -15,6 +16,9 @@ const Supply = async (account, cTokenAddress, ticker, amount, cToken) => {
     const abi = cTokensAbi[`${ticker}`].abi
     const addressT = cTokensAbi[`${ticker}`].address
     const tokenContract = new ethers.Contract(addressT, abi, provider.getSigner());
+    const abiU = TokensAbi[`${ticker}`].abi
+    const addressTU = TokensAbi[`${ticker}`].address
+    const tokenContractU = new ethers.Contract(addressTU, abiU, provider.getSigner());
     const feeData = await provider.getFeeData()
 
     const amountToSupply = amount * Math.pow(10, underlyingDecimals)
@@ -25,22 +29,24 @@ const Supply = async (account, cTokenAddress, ticker, amount, cToken) => {
 
     // const estimateGasApprove = await tokenContract.estimateGas.approve(account.data, parseEther(`${amount}`));
 
-    const estimateGasSupply = await provider.estimateGas({
-        to: addressT,
-        data: "0x1249c58b",
-        value: amountToSupply.toString()
-    });
+    // const estimateGasSupply = await provider.estimateGas({
+    //     to: addressT,
+    //     data: "0x1249c58b",
+    //     value: amountToSupply.toString()
+    // });
 
 
-    console.log(feeData, estimateGasSupply)
+    // console.log(feeData, estimateGasSupply)
     if (ticker === "ETH") {
         let tx = await tokenContract.mint({
-            gasLimit: estimateGasSupply._hex,
+            gasLimit: ethers.utils.hexlify(150000),
             gasPrice: feeData.gasPrice._hex,
             value: ethers.utils.hexlify(parseEther(`${amount}`))
         })
         await tx.wait(1);
     } else {
+        // let tx = await tokenContractU.allowance(account.data, addressT)
+        // console.log(tx._hex);
         let tx = await tokenContract.mint(amountToSupply.toString(), {
             gasLimit: ethers.utils.hexlify(150000),
             gasPrice: feeData.gasPrice._hex

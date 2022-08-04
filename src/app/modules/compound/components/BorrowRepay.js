@@ -66,18 +66,22 @@ const Repay = async (account, cTokenAddress, ticker, amount, cToken) => {
 
     }
     else {
-        // (async function () {
-        //     const tx = await compound.repayBorrow(Compound.DAI, 32, null);
-        //     console.log('Ethers.js transaction object', tx);
-        // }
-        // )().catch(console.error);
+
+        let tx = await tokenContractU.allowance(account.data, addressT)
+        console.log(tx._hex);
+
         // let txApprove = await tokenContract.approve(
         //     addressT, underlyingToRepay.toString()
         // );
         // await txApprove.wait(1);
 
-        let tx = await tokenContractU.allowance(account.data, addressT)
-        console.log(tx._hex);
+        let trx = await tokenContract.repayBorrow(underlyingToRepay.toString(), {
+            gasLimit: ethers.utils.hexlify(150000),
+            gasPrice: feeData.gasPrice._hex
+        })
+        await trx.wait(1);
+
+
 
     }
 
