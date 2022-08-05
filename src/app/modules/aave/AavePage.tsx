@@ -3,6 +3,7 @@ import React, {FC} from 'react'
 import {useWeb3} from 'src/app/providers/web3'
 import {toAbsoluteUrl} from 'src/_metronic/helpers'
 import {Link, Outlet} from 'react-router-dom'
+import {PageTitle} from 'src/_metronic/layout/core'
 
 const AaveWrapper: FC = () => {
   const {provider} = useWeb3()
@@ -18,6 +19,7 @@ const AaveWrapper: FC = () => {
 
   return (
     <>
+      <PageTitle children={'Aave Protocol'} />
       <div className='d-flex flex-column flex-root'>
         <div
           className='d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed'

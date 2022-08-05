@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useEffect, useState} from 'react'
-import {useAccount} from 'src/app/modules/web3'
+import {useAccount, useNetwork} from 'src/app/modules/web3'
 import {BigNumber, ethers} from 'ethers'
 import {AppServiceE} from '../../../../app/modules/services/etherscan.service'
 
@@ -10,6 +10,7 @@ type Props = {
 
 const ListsWidget5: React.FC<Props> = ({className}) => {
   const {account} = useAccount()
+  const {network} = useNetwork()
   const [txs, setTxs] = useState<number | null>(null)
   const [last, setLast] = useState<
     Array<{
@@ -36,8 +37,6 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
 
   const appServiceE = new AppServiceE()
 
-  const address = account.data
-
   useEffect(() => {
     async function getHistory(address: string) {
       await appServiceE.etherscanProvider.getHistory(address).then((history) => {
@@ -57,9 +56,14 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
   }, [])
 
   return (
-    <div className={`card ${className}`}>
+    <div
+      className={`card ${className} ${
+        (!account.data || !account.isInstalled || network.isLoading || account.isLoading) &&
+        'overlay overlay-block'
+      }`}
+    >
       {/* begin::Header */}
-      <div className='card-header align-items-center border-0 mt-4'>
+      <div className='card-header align-items-center border-0 mt-4 overlay-wrapper'>
         <h3 className='card-title align-items-start flex-column'>
           <span className='fw-bolder mb-2 text-dark'>Last Transactions</span>
           <span className='text-muted fw-bold fs-7'>Total {txs} Transactions</span>
@@ -67,7 +71,7 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
       </div>
       {/* end::Header */}
       {/* begin::Body */}
-      <div className='card-body pt-5'>
+      <div className='card-body pt-5 overlay-wrapper'>
         {/* begin::Timeline */}
         <div className='timeline-label'>
           {last.map((tx, i) => {
@@ -126,6 +130,43 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
         {/* end::Timeline */}
       </div>
       {/* end: Card Body */}
+      {!account.data && (
+        <div className='overlay-layer bg-dark bg-opacity-50 card-rounded'>
+          <button
+            type='button'
+            className='btn btn-success'
+            onClick={() => {
+              account.connect()
+            }}
+          >
+            Connect Wallet
+          </button>
+        </div>
+      )}
+      {!account.isInstalled && (
+        <div className='overlay-layer bg-dark bg-opacity-50 card-rounded'>
+          <button
+            type='button'
+            className='btn btn-primary'
+            onClick={() => {
+              window.open('https://metamask.io', '_blank')
+            }}
+          >
+            Install MetaMask
+          </button>
+        </div>
+      )}
+      {(network.isLoading || account.isLoading) && (
+        <div className='overlay-layer bg-dark bg-opacity-50 card-rounded'>
+          <button
+            type='button'
+            className='btn btn-bg-light btn-active-color-muted indicator-label'
+            onClick={() => {}}
+          >
+            Loading... <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+          </button>
+        </div>
+      )}
     </div>
   )
 }

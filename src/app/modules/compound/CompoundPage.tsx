@@ -5,6 +5,7 @@ import {Card3} from '../../../_metronic/partials/content/cards/Card3'
 import Compound from '@compound-finance/compound-js'
 import calculateApy, {getInfo} from '../services/compound.js'
 import {ProfileHeader} from '../profile/ProfileHeader'
+import {PageTitle} from 'src/_metronic/layout/core'
 
 let totalBorrow = 0
 let totalSupply = 0
@@ -77,6 +78,7 @@ const CompoundPage: FC = () => {
 
   return (
     <>
+      <PageTitle children={'Compound Protocol'} />
       {console.log(apys)}
       {console.log(info)}
       <ProfileHeader

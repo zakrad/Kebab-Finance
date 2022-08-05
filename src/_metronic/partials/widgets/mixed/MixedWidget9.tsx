@@ -4,6 +4,7 @@ import ApexCharts, {ApexOptions} from 'apexcharts'
 import {KTSVG} from '../../../helpers'
 import {getCSSVariableValue} from '../../../assets/ts/_utils'
 import {AppService} from '../../../../app/modules/services/covalent.service'
+import {useAccount, useNetwork} from 'src/app/modules/web3'
 
 type Props = {
   className: string
@@ -15,6 +16,9 @@ const appService = new AppService()
 const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => {
   const chartRef = useRef<HTMLDivElement | null>(null)
   const [mbd, setMbd] = useState<Array<any>>([])
+
+  const {account} = useAccount()
+  const {network} = useNetwork()
 
   let monthlyBalance: any[] = []
   let etherBalance: number = 0
@@ -81,9 +85,14 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
   }, [chartRef, mbd])
 
   return (
-    <div className={`card ${className}`}>
+    <div
+      className={`card ${className} ${
+        (!account.data || !network.isSupported || network.isLoading || account.isLoading) &&
+        'overlay overlay-block'
+      }`}
+    >
       {/* begin::Beader */}
-      <div className='card-header border-0 py-5'>
+      <div className='card-header border-0 py-5 overlay-wrapper'>
         <h3 className='card-title align-items-start flex-column'>
           <span className='card-label fw-bolder fs-3 mb-1'>Last Month</span>
 
@@ -93,7 +102,7 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
       {/* end::Header */}
 
       {/* begin::Body */}
-      <div className='card-body p-0 d-flex flex-column'>
+      <div className='card-body p-0 d-flex flex-column overlay-wrapper'>
         {/* begin::Stats */}
         <div className='card-px pt-5 pb-10 flex-grow-1'>
           {/* begin::Row */}
@@ -204,6 +213,43 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
         {/* end::Chart */}
       </div>
       {/* end::Body */}
+      {!account.data && (
+        <div className='overlay-layer bg-dark bg-opacity-50 card-rounded'>
+          <button
+            type='button'
+            className='btn btn-success'
+            onClick={() => {
+              account.connect()
+            }}
+          >
+            Connect Wallet
+          </button>
+        </div>
+      )}
+      {!account.isInstalled && (
+        <div className='overlay-layer bg-dark bg-opacity-50 card-rounded'>
+          <button
+            type='button'
+            className='btn btn-primary'
+            onClick={() => {
+              window.open('https://metamask.io', '_blank')
+            }}
+          >
+            Install MetaMask
+          </button>
+        </div>
+      )}
+      {(network.isLoading || account.isLoading) && (
+        <div className='overlay-layer bg-dark bg-opacity-50 card-rounded'>
+          <button
+            type='button'
+            className='btn btn-bg-light btn-active-color-muted indicator-label'
+            onClick={() => {}}
+          >
+            Loading... <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+          </button>
+        </div>
+      )}
     </div>
   )
 }

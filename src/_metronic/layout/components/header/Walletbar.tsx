@@ -1,7 +1,6 @@
 import {FunctionComponent, useEffect, useState} from 'react'
 import clsx from 'clsx'
 import {HeaderUserMenu} from 'src/_metronic/partials'
-import {toAbsoluteUrl} from 'src/_metronic/helpers'
 import Avatar from 'boring-avatars'
 
 type WalletbarProps = {
@@ -141,7 +140,7 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
               colors={['#9DC9AC', '#936A5B', '#9D75F1', '#FCC06A', '#F1FAFF']}
             />
           </div>
-          <HeaderUserMenu account={account} />
+          <HeaderUserMenu account={account} network={network} />
         </div>
       </>
     )

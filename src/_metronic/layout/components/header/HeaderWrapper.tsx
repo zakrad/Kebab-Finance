@@ -2,6 +2,7 @@
 import clsx from 'clsx'
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {useAccount, useNetwork} from 'src/app/modules/web3'
 import {KTSVG, toAbsoluteUrl} from '../../../helpers'
 import {useLayout} from '../../core'
 import {Header} from './Header'
@@ -11,6 +12,8 @@ import {Topbar} from './Topbar'
 export function HeaderWrapper() {
   const {config, classes, attributes} = useLayout()
   const {header, aside} = config
+  const {network} = useNetwork()
+  const {account} = useAccount()
 
   return (
     <div
@@ -62,13 +65,27 @@ export function HeaderWrapper() {
               <Header />
             </div>
           )}
-
           {header.left === 'page-title' && (
             <div className='d-flex align-items-center' id='kt_header_nav'>
               <DefaultTitle />
             </div>
           )}
+          {account && !network.isSupported && !network.isLoading && (
+            <div className='alert alert-danger d-flex align-items-center my-2'>
+              <KTSVG
+                path='/media/icons/duotune/coding/cod008.svg'
+                className='svg-icon-muted svg-icon-2hx svg-icon-danger me-3'
+              />
 
+              <div className='d-flex flex-column'>
+                <h5 className='mb-1'>Connected to Wrong Network</h5>
+                <span>
+                  Kebab just support Ethereum for now, Please change your network to Ethereum
+                  mainnet.
+                </span>
+              </div>
+            </div>
+          )}
           <div className='d-flex align-items-stretch flex-shrink-0'>
             <Topbar />
           </div>
