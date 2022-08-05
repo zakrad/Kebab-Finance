@@ -20,6 +20,7 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
   const {account} = useAccount()
   const {network} = useNetwork()
 
+  const address = account.data
   let monthlyBalance: any[] = []
   let etherBalance: number = 0
   // let USDValue: number = 0
@@ -40,7 +41,9 @@ const MixedWidget9: React.FC<Props> = ({className, chartColor, chartHeight}) => 
         console.log(e)
       }
     }
-    AddressHistoricalValue('0x5D072ea46C9297777734e1Cc030565702824b5A4')
+    if (address) {
+      AddressHistoricalValue(address)
+    }
   }, [])
 
   mbd.forEach((token: any) => {

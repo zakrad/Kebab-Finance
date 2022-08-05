@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useEffect, useState} from 'react'
-import {KTSVG} from '../../../helpers'
 import {AppService} from '../../../../app/modules/services/covalent.service'
 import {useAccount, useNetwork} from 'src/app/modules/web3'
 
@@ -16,7 +15,9 @@ const MixedWidget1: React.FC<Props> = ({className, color}) => {
   const {network} = useNetwork()
   const [gta, setGta] = useState<Array<any>>([])
   let addressBalance: number = 0
+
   const address = account.data
+
   useEffect(() => {
     async function getAddressTokens(address: string) {
       try {
@@ -28,7 +29,9 @@ const MixedWidget1: React.FC<Props> = ({className, color}) => {
         console.log(e)
       }
     }
-    getAddressTokens(address!)
+    if (address) {
+      getAddressTokens(address)
+    }
   }, [])
 
   gta.forEach((token: any) => {

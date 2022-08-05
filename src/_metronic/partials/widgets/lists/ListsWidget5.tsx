@@ -11,6 +11,7 @@ type Props = {
 const ListsWidget5: React.FC<Props> = ({className}) => {
   const {account} = useAccount()
   const {network} = useNetwork()
+  const address = account.data
   const [txs, setTxs] = useState<number | null>(null)
   const [last, setLast] = useState<
     Array<{
@@ -52,7 +53,9 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
           .reverse()
       )
     }
-    getHistory('0x2f877d11c8A7dccdd78F408106D126b065A4BDcF')
+    if (address) {
+      getHistory(address)
+    }
   }, [])
 
   return (
@@ -85,7 +88,7 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
                     <i
                       className={
                         'fa ' +
-                        (tx.to === '0x2f877d11c8A7dccdd78F408106D126b065A4BDcF'
+                        (tx.to === address
                           ? 'fa-arrow-circle-down text-success '
                           : 'fa-arrow-circle-up text-danger ') +
                         'fs-1'
@@ -95,9 +98,7 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
                   <div
                     className={
                       'fw-mormal timeline-content ps-3 ' +
-                      (tx.to === '0x2f877d11c8A7dccdd78F408106D126b065A4BDcF'
-                        ? 'fw-bolder text-gray-800'
-                        : 'text-muted')
+                      (tx.to === address ? 'fw-bolder text-gray-800' : 'text-muted')
                     }
                   >
                     {Math.round(
@@ -105,14 +106,8 @@ const ListsWidget5: React.FC<Props> = ({className}) => {
                         ethers.utils.formatEther(BigNumber.from(parseInt(tx.value._hex).toString()))
                       ) * 1e4
                     ) / 1e4}{' '}
-                    Ether from{' '}
-                    {tx.from === '0x2f877d11c8A7dccdd78F408106D126b065A4BDcF'
-                      ? 'you'
-                      : `"${tx.from.substring(0, 7)}..."`}{' '}
-                    to{' '}
-                    {tx.to === '0x2f877d11c8A7dccdd78F408106D126b065A4BDcF'
-                      ? 'you'
-                      : `"${tx.to.substring(0, 7)}..."`}
+                    Ether from {tx.from === address ? 'you' : `"${tx.from.substring(0, 7)}..."`} to{' '}
+                    {tx.to === address ? 'you' : `"${tx.to.substring(0, 7)}..."`}
                   </div>
                   <a
                     href={'https://etherscan.io/tx/' + tx.hash}
