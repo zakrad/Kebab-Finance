@@ -2,6 +2,7 @@ import {FunctionComponent, useEffect, useState} from 'react'
 import clsx from 'clsx'
 import {HeaderUserMenu} from 'src/_metronic/partials'
 import {toAbsoluteUrl} from 'src/_metronic/helpers'
+import Avatar from 'boring-avatars'
 
 type WalletbarProps = {
   isLoading: boolean
@@ -31,7 +32,6 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
   }
 
   useEffect(() => {
-    console.log(selectedNetwork)
     if (selectedNetwork === 'Polygon') {
       try {
         window.ethereum.request({
@@ -124,19 +124,6 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
   if (account) {
     return (
       <>
-        <div className={clsx('d-flex align-items-center ', toolbarButtonMarginClass)}>
-          <select
-            className='form-select form-select-solid'
-            onChange={handleSelect}
-            defaultValue={selectedNetwork}
-          >
-            <option value='Ethereum'>Ethereum</option>
-            <option value='Polygon'>Polygon</option>
-            <option value='Binance Smart Chain'>Binance Smart Chain</option>
-            <option value='Avalanche'>Avalanche</option>
-            <option value='Ropsten Test Network'>Ropsten Test Network</option>
-          </select>
-        </div>
         <div
           className={clsx('d-flex align-items-center ', toolbarButtonMarginClass)}
           id='kt_header_user_menu_toggle'
@@ -148,9 +135,13 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
             data-kt-menu-placement='bottom-end'
             data-kt-menu-flip='bottom'
           >
-            <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='metronic' />
+            <Avatar
+              name={account}
+              variant='beam'
+              colors={['#9DC9AC', '#936A5B', '#9D75F1', '#FCC06A', '#F1FAFF']}
+            />
           </div>
-          <HeaderUserMenu />
+          <HeaderUserMenu account={account} />
         </div>
       </>
     )

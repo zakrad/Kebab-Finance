@@ -2,8 +2,8 @@
 import {FC} from 'react'
 import {KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
 import ClaimComp from '../compound/components/claim'
-import { useAccount } from '../web3'
-
+import {useAccount} from '../web3'
+import Avatar from 'boring-avatars'
 
 type Props = {
   leftToBorrow?: number
@@ -16,8 +16,7 @@ type Props = {
 }
 
 const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, usedPower, CF}) => {
-
-const { account } = useAccount()
+  const {account} = useAccount()
 
   return (
     <div className='card mb-5 mb-xl-10'>
@@ -25,8 +24,13 @@ const { account } = useAccount()
         <div className='d-flex flex-wrap flex-sm-nowrap mb-3'>
           <div className='me-7 mb-4'>
             <div className='symbol symbol-100px symbol-lg-160px symbol-fixed position-relative'>
-              <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='Metornic' />
-              <div className='position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px'></div>
+              {/* <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='Metornic' /> */}
+              <Avatar
+                size={160}
+                name={account.data}
+                variant='beam'
+                colors={['#9DC9AC', '#936A5B', '#9D75F1', '#FCC06A', '#F1FAFF']}
+              />
             </div>
           </div>
 

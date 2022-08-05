@@ -1,14 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {FC, useEffect, useState} from 'react'
-import {useIntl} from 'react-intl'
-import {PageTitle} from '../../../_metronic/layout/core'
 import {useWeb3} from 'src/app/providers/web3'
 import {Card3} from '../../../_metronic/partials/content/cards/Card3'
 import Compound from '@compound-finance/compound-js'
 import calculateApy, {getInfo} from '../services/compound.js'
 import {ProfileHeader} from '../profile/ProfileHeader'
-import {KTSVG} from 'src/_metronic/helpers'
-import SupplyApyModal from './components/supplyApyModal'
 
 let totalBorrow = 0
 let totalSupply = 0
@@ -126,7 +122,6 @@ const CompoundPage: FC = () => {
 }
 
 const CompoundWrapper: FC = () => {
-  const intl = useIntl()
   const {provider} = useWeb3()
 
   const getAccounts = async () => {
@@ -140,7 +135,6 @@ const CompoundWrapper: FC = () => {
 
   return (
     <>
-      <PageTitle breadcrumbs={[]}>{intl.formatMessage({id: 'MENU.DASHBOARD'})}</PageTitle>
       <CompoundPage />
     </>
   )

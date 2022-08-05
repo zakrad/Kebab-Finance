@@ -1,13 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {FC, useEffect, useState} from 'react'
-import {useIntl} from 'react-intl'
-import {PageTitle} from '../../../_metronic/layout/core'
+import React, {FC} from 'react'
 import {useWeb3} from 'src/app/providers/web3'
 import {toAbsoluteUrl} from 'src/_metronic/helpers'
 import {Link, Outlet} from 'react-router-dom'
 
 const AaveWrapper: FC = () => {
-  const intl = useIntl()
   const {provider} = useWeb3()
 
   const getAccounts = async () => {
@@ -64,20 +61,6 @@ const AaveWrapper: FC = () => {
               }}
             ></div>
           </div>
-
-          {/* <div className='d-flex flex-center flex-column-auto p-10'>
-          <div className='d-flex align-items-center fw-bold fs-6'>
-            <a href='https://keenthemes.com' className='text-muted text-hover-primary px-2'>
-              About
-            </a>
-            <a href='mailto:support@keenthemes.com' className='text-muted text-hover-primary px-2'>
-              Contact
-            </a>
-            <a href='https://1.envato.market/EA4JP' className='text-muted text-hover-primary px-2'>
-              Contact Us
-            </a>
-          </div>
-        </div> */}
         </div>
       </div>
     </>
