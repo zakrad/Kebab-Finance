@@ -2,6 +2,7 @@
 import React, {useEffect, useState} from 'react'
 import {AppService} from '../../../../app/modules/services/covalent.service'
 import {useAccount, useNetwork} from 'src/app/modules/web3'
+import { Link } from 'react-router-dom'
 
 type Props = {
   className: string
@@ -84,9 +85,9 @@ const MixedWidget1: React.FC<Props> = ({className, color}) => {
             <div className='d-flex align-items-center flex-wrap w-100'>
               {/* begin::Title */}
               <div className='mb-1 pe-3 flex-grow-1'>
-                <a href='#' className='fs-5 text-gray-800 text-hover-primary fw-bolder'>
+                <Link to='/compound' className='fs-5 text-gray-800 text-hover-primary fw-bolder'>
                   Compound
-                </a>
+                </Link>
                 <div className='text-gray-400 fw-bold fs-7'>Supplied Value</div>
               </div>
               {/* end::Title */}
@@ -116,9 +117,9 @@ const MixedWidget1: React.FC<Props> = ({className, color}) => {
             <div className='d-flex align-items-center flex-wrap w-100'>
               {/* begin::Title */}
               <div className='mb-1 pe-3 flex-grow-1'>
-                <a href='#' className='fs-5 text-gray-800 text-hover-primary fw-bolder'>
+                <Link to='/aave' className='fs-5 text-gray-800 text-hover-primary fw-bolder'>
                   AAVE
-                </a>
+                </Link>
                 <div className='text-gray-400 fw-bold fs-7'>Supplied Value</div>
               </div>
               {/* end::Title */}
@@ -149,9 +150,9 @@ const MixedWidget1: React.FC<Props> = ({className, color}) => {
             <div className='d-flex align-items-center flex-wrap w-100'>
               {/* begin::Title */}
               <div className='mb-1 pe-3 flex-grow-1'>
-                <a href='#' className='fs-5 text-gray-800 text-hover-primary fw-bolder'>
+                <Link to='/app' className='fs-5 text-gray-800 text-hover-primary fw-bolder'>
                   Kebab Finance
-                </a>
+                </Link>
                 <div className='text-gray-400 fw-bold fs-7'>Supplied Value</div>
               </div>
               {/* end::Title */}

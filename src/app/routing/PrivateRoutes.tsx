@@ -7,10 +7,16 @@ import {DashboardWrapper} from '../pages/dashboard/DashboardWrapper'
 import {AaveWrapper} from '../modules/aave/AavePage'
 import {MenuTestPage} from '../pages/MenuTestPage'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
+import {KebabWrapper} from '../modules/kebab/KebabPage'
+import {InstadappWrapper} from '../modules/instadapp/InstadappPage'
 
 const PrivateRoutes = () => {
   const BuilderPageWrapper = lazy(() => import('../pages/layout-builder/BuilderPageWrapper'))
-  const CompoundPage = lazy(() => import('../modules/compound/CompoundPage').then(({ CompoundWrapper }) => ({ default: CompoundWrapper })),)
+  const CompoundPage = lazy(() =>
+    import('../modules/compound/CompoundPage').then(({CompoundWrapper}) => ({
+      default: CompoundWrapper,
+    }))
+  )
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
   const WizardsPage = lazy(() => import('../modules/wizards/WizardsPage'))
   const AccountPage = lazy(() => import('../modules/accounts/AccountPage'))
@@ -25,6 +31,8 @@ const PrivateRoutes = () => {
         <Route path='menu-test' element={<MenuTestPage />} />
         <Route path='compound' element={<CompoundPage />} />
         <Route path='aave' element={<AaveWrapper />} />
+        <Route path='app' element={<KebabWrapper />} />
+        <Route path='instadapp' element={<InstadappWrapper />} />
         {/* Lazy Modules */}
         <Route
           path='crafted/pages/profile/*'

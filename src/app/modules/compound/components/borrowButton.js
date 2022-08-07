@@ -8,6 +8,7 @@ import { Approve } from "./Approve";
 
 
 
+
 let borUsdValue;
 let repayUsdValue;
 
@@ -20,6 +21,7 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
     const [usedRepayLiq, setUsedRepayLiq] = useState(usedPower)
     const [borLiq, setBorLiq] = useState(leftToBorrow)
     const [repayLiq, setRepayLiq] = useState(leftToBorrow)
+
 
     let usdValue = Math.round(balance * underlyingPrice * 100) / 100
 
@@ -213,12 +215,25 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
                             </button>
                             <button type='button' className='btn btn-primary' onClick={async () => {
                                 if (activeTab === 3) {
-                                    await Borrow(ticker, borrowInput, cToken)
+                                    try {
+                                        await Borrow(ticker, borrowInput, cToken)
+                                    } catch (error) {
+                                        console.error(error)
+                                    }
                                 } else if (activeTab === 4) {
                                     if (ticker !== "ETH" && allowance === 0) {
-                                        await Approve(cTokenAddress, ticker)
+                                        try {
+                                            await Approve(cTokenAddress, ticker)
+                                        } catch (error) {
+                                            console.error(error)
+                                        }
                                     } else {
-                                        await Repay(ticker, repayInput, cToken)
+                                        try {
+                                            await Repay(ticker, repayInput, cToken)
+                                        } catch (error) {
+                                            console.error(error)
+
+                                        }
                                     }
                                 }
                             }}>

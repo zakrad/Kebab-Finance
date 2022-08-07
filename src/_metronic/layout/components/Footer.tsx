@@ -22,17 +22,32 @@ const Footer: FC = () => {
         {/* begin::Nav */}
         <ul className='menu menu-gray-600 menu-hover-primary fw-bold order-1'>
           <li className='menu-item'>
-            <a href='#' className='menu-link ps-0 pe-2'>
+            <a
+              href='https://zakrad.ir'
+              rel='noreferrer'
+              target='_blank'
+              className='menu-link ps-0 pe-2'
+            >
               About
             </a>
           </li>
           <li className='menu-item'>
-            <a href='#' className='menu-link pe-0 pe-2'>
+            <a
+              href='https://twitter.com/wSaE76sDRc8NTRO'
+              target='_blank'
+              rel='noreferrer'
+              className='menu-link pe-0 pe-2'
+            >
               Twitter
             </a>
           </li>
           <li className='menu-item'>
-            <a href='#' className='menu-link pe-0'>
+            <a
+              href='https://github.com/zakrad'
+              rel='noreferrer'
+              target='_blank'
+              className='menu-link pe-0'
+            >
               Github
             </a>
           </li>

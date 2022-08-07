@@ -1,10 +1,8 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React from 'react'
 import {useIntl} from 'react-intl'
-import {KTSVG, toAbsoluteUrl} from '../../../helpers'
-import {AsideMenuItemWithSub} from './AsideMenuItemWithSub'
+import {KTSVG} from '../../../helpers'
 import {AsideMenuItem} from './AsideMenuItem'
-import {Link} from 'react-router-dom'
 
 export function AsideMenuMain() {
   const intl = useIntl()
@@ -106,7 +104,19 @@ export function AsideMenuMain() {
           <div className='separator mx-1 my-4'></div>
         </div>
       </div>
-      <div className='menu-item'>
+      <AsideMenuItem
+        to='/app'
+        icon='/media/logos/logo-222.svg'
+        title='Kebab Finance'
+        hasIcon={false}
+      />
+      <AsideMenuItem
+        to='/instadapp'
+        icon='/media/icons/duotune/instadapp/logo_sign.svg'
+        title='InstaDapp'
+        hasIcon={false}
+      />
+      {/* <div className='menu-item'>
         <a
           target='_blank'
           className='menu-link'
@@ -117,7 +127,7 @@ export function AsideMenuMain() {
           </span>
           <span className='menu-title'>Changelog {process.env.REACT_APP_VERSION}</span>
         </a>
-      </div>
+      </div> */}
     </>
   )
 }
