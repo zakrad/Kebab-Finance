@@ -80,7 +80,7 @@ const MixedWidget1: React.FC<Props> = ({className, color}) => {
                 />
               </span>
             </div>
-            {/* end::Symbol */}
+            {/* end::Symbol1111 */}
             {/* begin::Description */}
             <div className='d-flex align-items-center flex-wrap w-100'>
               {/* begin::Title */}
