@@ -2,8 +2,10 @@
 import {FC} from 'react'
 import {KTSVG, toAbsoluteUrl} from '../../../_metronic/helpers'
 import ClaimComp from '../compound/components/claim'
-import {useAccount} from '../web3'
+import {useAccount, useNetwork} from '../web3'
 import Avatar from 'boring-avatars'
+import {toast, ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 type Props = {
   leftToBorrow?: number
@@ -17,10 +19,26 @@ type Props = {
 
 const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, usedPower, CF}) => {
   const {account} = useAccount()
+  const {network} = useNetwork()
+
+  const notify = (error: any) =>
+    toast.error(error, {
+      position: toast.POSITION.TOP_RIGHT,
+    })
 
   return (
-    <div className='card mb-5 mb-xl-10'>
-      <div className='card-body pt-9 pb-0'>
+    <div
+      className={`card mb-5 mb-xl-10 ${
+        (!account.data ||
+          !account.isInstalled ||
+          network.isLoading ||
+          account.isLoading ||
+          !network.isSupported) &&
+        'overlay overlay-block'
+      }`}
+    >
+      <ToastContainer />
+      <div className='card-body pt-9 pb-0 overlay-wrapper'>
         <div className='d-flex flex-wrap flex-sm-nowrap mb-3'>
           <div className='me-7 mb-4'>
             <div className='symbol symbol-100px symbol-lg-160px symbol-fixed position-relative'>
@@ -74,7 +92,11 @@ const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, u
                       <button
                         type='button'
                         onClick={async () => {
-                          await ClaimComp(account)
+                          try {
+                            await ClaimComp(account)
+                          } catch (error) {
+                            notify(error)
+                          }
                         }}
                         className='btn btn-success btn-sm mx-10'
                       >
@@ -146,6 +168,83 @@ const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, u
           </div>
         </div>
       </div>
+      {!account.data && (
+        <div className='overlay-layer bg-dark bg-opacity-50 card-rounded'>
+          <button
+            type='button'
+            className='btn btn-success'
+            onClick={() => {
+              account.connect()
+            }}
+          >
+            Connect Wallet
+          </button>
+        </div>
+      )}
+      {!network.isSupported && account.data && (
+        <div className='overlay-layer bg-dark bg-opacity-50 card-rounded'>
+          <button
+            type='button'
+            className='btn btn-warning'
+            onClick={async () => {
+              try {
+                //@ts-ignore
+                await ethereum.request({
+                  method: 'wallet_switchEthereumChain',
+                  params: [{chainId: '0x1'}],
+                })
+              } catch (switchError) {
+                // This error code indicates that the chain has not been added to MetaMask.
+                //@ts-ignore
+                if (switchError.code === 4902) {
+                  try {
+                    //@ts-ignore
+                    await ethereum.request({
+                      method: 'wallet_addEthereumChain',
+                      params: [
+                        {
+                          chainId: '1',
+                          chainName: 'Ethereum',
+                          rpcUrls: ['https://mainnet.infura.io/v3/'],
+                        },
+                      ],
+                    })
+                  } catch (addError) {
+                    // handle "add" error
+                  }
+                }
+                // handle other "switch" errors
+              }
+            }}
+          >
+            Switch to Ethereum
+          </button>
+        </div>
+      )}
+      {!account.isInstalled && (
+        <div className='overlay-layer bg-dark bg-opacity-50 card-rounded'>
+          <button
+            type='button'
+            className='btn btn-primary'
+            onClick={() => {
+              window.open('https://metamask.io', '_blank')
+            }}
+          >
+            Install MetaMask
+          </button>
+        </div>
+      )}
+      {(network.isLoading || account.isLoading) && (
+        <div className='overlay-layer bg-dark bg-opacity-50 card-rounded'>
+          <button
+            type='button'
+            className='btn btn-bg-light btn-active-color-muted indicator-label'
+            onClick={() => {}}
+          >
+            Loading... <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+          </button>
+        </div>
+      )}
     </div>
   )
 }

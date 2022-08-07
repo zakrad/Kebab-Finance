@@ -9,7 +9,6 @@ import {useAccount} from 'src/app/modules/web3'
 import {toAbsoluteUrl, KTSVG} from '../../../helpers'
 
 type Props = {
-  online?: boolean
   positionValue?: number
   positionBalance?: number
   ticker: string
@@ -31,7 +30,6 @@ type Props = {
 }
 
 const Card3: FC<Props> = ({
-  online = false,
   positionValue,
   positionBalance,
   supplyApy,
@@ -74,9 +72,6 @@ const Card3: FC<Props> = ({
                       src={toAbsoluteUrl(`/media/icons/duotune/compound/${ticker}.svg`)}
                     />
                   }
-                  {online && (
-                    <div className='symbol-badge bg-success start-100 top-100 border-4 h-15px w-15px ms-n3 mt-n3'></div>
-                  )}
                 </div>
               </div>
               <div>
@@ -136,6 +131,7 @@ const Card3: FC<Props> = ({
           </div>
           <div className='d-flex'>
             <button
+              disabled={!hasEntered}
               className={`btn btn-sm ${hasEntered ? 'btn-primary' : 'btn-light'} d-flex mx-2`}
               data-bs-toggle='modal'
               data-bs-target={'#kt_modal_1' + ticker}

@@ -6,6 +6,7 @@ import Compound from '@compound-finance/compound-js'
 import calculateApy, {getInfo} from '../services/compound.js'
 import {ProfileHeader} from '../profile/ProfileHeader'
 import {PageTitle} from 'src/_metronic/layout/core'
+import {useAccount, useNetwork} from '../web3'
 
 let totalBorrow = 0
 let totalSupply = 0
@@ -13,6 +14,9 @@ let netApySum = 0
 let netApy = 0
 
 const CompoundPage: FC = () => {
+  const {account} = useAccount()
+  const {network} = useNetwork()
+
   const [apys, setApys] = useState<Array<any>>([])
   const [info, setInfo] = useState<any>({
     comp: 0,
@@ -45,12 +49,14 @@ const CompoundPage: FC = () => {
       totalBorrow = 0
       totalSupply = 0
     }
-    try {
-      getServerSideProps()
-    } catch (error) {
-      console.error(error)
+    if (account.data && network.isSupported) {
+      try {
+        getServerSideProps()
+      } catch (error) {
+        console.error(error)
+      }
     }
-  }, [])
+  }, [account.data, network.isSupported])
   useEffect(() => {
     const changeDetails = async () => {
       apys.forEach((token) => {
@@ -80,7 +86,6 @@ const CompoundPage: FC = () => {
     <>
       <PageTitle children={'Compound Protocol'} />
       {console.log(apys)}
-      {console.log(info)}
       <ProfileHeader
         leftToBorrow={info.leftToBorrow}
         lend={Math.round(totalSupply * 100) / 100}

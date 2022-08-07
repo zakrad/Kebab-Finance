@@ -124,7 +124,10 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
     return (
       <>
         <div
-          className={clsx('d-flex align-items-center ', toolbarButtonMarginClass)}
+          className={clsx(
+            'd-flex align-items-center pulse pulse-success',
+            toolbarButtonMarginClass
+          )}
           id='kt_header_user_menu_toggle'
         >
           <div
@@ -140,6 +143,7 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
               colors={['#9DC9AC', '#936A5B', '#9D75F1', '#FCC06A', '#F1FAFF']}
             />
           </div>
+          <span className='pulse-ring border-3'></span>
           <HeaderUserMenu account={account} network={network} />
         </div>
       </>
