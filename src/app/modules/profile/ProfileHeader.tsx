@@ -22,7 +22,7 @@ const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, u
   const {network} = useNetwork()
 
   const notify = (error: any) =>
-    toast.error(error, {
+    toast.error(error.error.message, {
       position: toast.POSITION.TOP_RIGHT,
     })
 

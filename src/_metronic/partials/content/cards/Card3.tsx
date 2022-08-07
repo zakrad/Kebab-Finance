@@ -7,6 +7,8 @@ import SupplyApy from 'src/app/modules/compound/components/supplyApy'
 import SupplyButton from 'src/app/modules/compound/components/supplyButton'
 import {useAccount} from 'src/app/modules/web3'
 import {toAbsoluteUrl, KTSVG} from '../../../helpers'
+import {toast, ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 type Props = {
   positionValue?: number
@@ -50,8 +52,13 @@ const Card3: FC<Props> = ({
   allowance = '',
 }) => {
   const {account} = useAccount()
+  const notify = (error: any) =>
+    toast.error(error.error.message, {
+      position: toast.POSITION.TOP_RIGHT,
+    })
   return (
     <>
+      <ToastContainer />
       <div className='card'>
         <div
           className={`card-body d-flex flex-column p-4 ${
@@ -90,9 +97,17 @@ const Card3: FC<Props> = ({
                 type='button'
                 onClick={async () => {
                   if (hasEntered) {
-                    await ExitMarket(account, cToken)
+                    try {
+                      await ExitMarket(account, cToken)
+                    } catch (error) {
+                      notify(error)
+                    }
                   } else {
-                    await EnterMarket(account, cToken)
+                    try {
+                      await EnterMarket(account, cToken)
+                    } catch (error) {
+                      notify(error)
+                    }
                   }
                 }}
                 className={`btn btn-sm ${
