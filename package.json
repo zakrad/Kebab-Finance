@@ -3,6 +3,7 @@
   "version": "8.0.36",
   "private": true,
   "homepage": "/metronic8/react/demo1",
+  "type": "commonjs",
   "dependencies": {
     "@compound-finance/compound-js": "^0.4.5",
     "@formatjs/intl-pluralrules": "^4.0.28",

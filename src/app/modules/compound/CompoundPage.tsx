@@ -17,6 +17,8 @@ const CompoundPage: FC = () => {
   const {account} = useAccount()
   const {network} = useNetwork()
 
+  const address = account.data
+
   const [apys, setApys] = useState<Array<any>>([])
   const [info, setInfo] = useState<any>({
     comp: 0,
@@ -28,24 +30,24 @@ const CompoundPage: FC = () => {
     async function getServerSideProps() {
       setApys(
         await Promise.all([
-          calculateApy(Compound.cETH, 'ETH'),
-          calculateApy(Compound.cDAI, 'DAI'),
-          calculateApy(Compound.cUSDC, 'USDC'),
-          calculateApy(Compound.cUSDT, 'USDT'),
-          // calculateApy(Compound.cZRX, 'ZRX'),
-          // calculateApy(Compound.cREP, 'REP'),
-          // calculateApy(Compound.cBAT, 'BAT'),
-          // calculateApy(Compound.cUNI, 'UNI'),
-          // calculateApy(Compound.cCOMP, 'COMP'),
-          // calculateApy(Compound.cTUSD, 'TUSD'),
-          calculateApy(Compound.cLINK, 'LINK'),
-          // calculateApy(Compound.cMKR, 'MKR'),
-          // calculateApy(Compound.cAAVE, 'AAVE'),
-          // calculateApy(Compound.cYFI, 'YFI'),
-          // calculateApy(Compound.cSUSHI, 'SUSHI'),
+          calculateApy(Compound.cETH, 'ETH', address),
+          calculateApy(Compound.cDAI, 'DAI', address),
+          calculateApy(Compound.cUSDC, 'USDC', address),
+          calculateApy(Compound.cUSDT, 'USDT', address),
+          calculateApy(Compound.cZRX, 'ZRX', address),
+          calculateApy(Compound.cREP, 'REP', address),
+          calculateApy(Compound.cBAT, 'BAT', address),
+          calculateApy(Compound.cUNI, 'UNI', address),
+          calculateApy(Compound.cCOMP, 'COMP', address),
+          calculateApy(Compound.cTUSD, 'TUSD', address),
+          calculateApy(Compound.cLINK, 'LINK', address),
+          calculateApy(Compound.cMKR, 'MKR', address),
+          calculateApy(Compound.cAAVE, 'AAVE', address),
+          calculateApy(Compound.cYFI, 'YFI', address),
+          calculateApy(Compound.cSUSHI, 'SUSHI', address),
         ])
       )
-      setInfo(await getInfo())
+      setInfo(await getInfo(address))
       totalBorrow = 0
       totalSupply = 0
     }

@@ -14,8 +14,6 @@ const wProvider = new ethers.providers.Web3Provider(window.ethereum)
 
 const comptroller = Compound.util.getAddress(Compound.Comptroller);
 const opf = Compound.util.getAddress(Compound.PriceFeed);
-const address = '0x70Aad08C58CB2aF386e742460122c8501578A8FD'.toLocaleLowerCase()
-const address2 = '0xb0df05c8832f0249ef5bfe8a720f27b3b059bd9e'.toLocaleLowerCase()
 
 
 
@@ -211,13 +209,13 @@ const getEthBalance = async (account, underlyingDecimals) => {
     return Math.round(Number(ethers.utils.formatUnits(BigNumber.from(parseInt((balanceR._hex)).toLocaleString('fullwide', { useGrouping: false })), underlyingDecimals)) * 100) / 100
 }
 
-const getBal = async (ticker, underlyingDecimals) => {
+const getBal = async (ticker, underlyingDecimals, address) => {
     if (ticker === "ETH") {
-        tokenBalance = await getEthBalance(address2, underlyingDecimals)
+        tokenBalance = await getEthBalance(address, underlyingDecimals)
         return tokenBalance
 
     } else {
-        tokenBalance = await getBalance(address2, ticker, underlyingDecimals)
+        tokenBalance = await getBalance(address, ticker, underlyingDecimals)
         return tokenBalance
     }
 }
@@ -245,7 +243,7 @@ const getAllowance = async (cTokenAddress, address, ticker, underlyingDecimals) 
 }
 
 
-async function calculateApy(cToken, ticker) {
+async function calculateApy(cToken, ticker, address) {
     const underlyingDecimals = Compound.decimals[cToken.slice(1, 10)];
     const cTokenAddress = Compound.util.getAddress(cToken);
     const [supplyAPY, borrowAPY, borrowed, supplied, suppliedValue, hasEntered, underlyingBalance, cF, allowance] = await Promise.all([
@@ -255,9 +253,9 @@ async function calculateApy(cToken, ticker) {
         getUnderlyingBalance(cTokenAddress, address, underlyingDecimals),
         getUnderlyingValue(cTokenAddress, address, ticker, underlyingDecimals),
         eneteredMarkets(cTokenAddress, address),
-        getBal(ticker, underlyingDecimals),
+        getBal(ticker, underlyingDecimals, address),
         getCF(cTokenAddress),
-        getAllowance(cTokenAddress, address2, ticker, underlyingDecimals)
+        getAllowance(cTokenAddress, address, ticker, underlyingDecimals)
     ]);
     const [compApy] = await Promise.all(
         [calculateCompApy(cTokenAddress, ticker, underlyingDecimals)]
@@ -270,7 +268,7 @@ async function calculateApy(cToken, ticker) {
     return { ticker, cToken, cTokenAddress, borrowed, supplied, suppliedValue, supplyApy, borrowApy, compSupplyApy, compBorrowApy, hasEntered, underlyingPrice, underlyingBalance, cF, allowance };
 }
 
-export async function getInfo() {
+export async function getInfo(address) {
     const compRaw = await Compound.comp.getCompAccrued(address)
     const comp = Math.round(compRaw / 1e18 * 100) / 100
     const [leftToBorrow] = await Promise.all([
