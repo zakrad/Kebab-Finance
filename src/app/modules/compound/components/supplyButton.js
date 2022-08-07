@@ -4,6 +4,8 @@ import SupplyApyModal from "./supplyApyModal";
 import { Supply, Withdraw } from './SupplyWithdraw'
 import { useAccount } from 'src/app/modules/web3'
 import { Approve } from "./Approve";
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
 
@@ -19,6 +21,11 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
     const [usedWithLiq, setUsedWithLiq] = useState(usedPower)
     const [supLiq, setSupLiq] = useState(leftToBorrow)
     const [withLiq, setWithLiq] = useState(leftToBorrow)
+
+    const notify = (error) =>
+        toast.error(error.message, {
+            position: toast.POSITION.TOP_RIGHT,
+        })
 
     let usdValue = Math.round(balance * underlyingPrice * 100) / 100
 
@@ -54,6 +61,7 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
 
     return (
         <div className='rounded-bottom modal fade' tabIndex={-1} id={'kt_modal_1' + ticker}>
+            <ToastContainer />
             <div className='modal-dialog'>
                 <div className='modal-content'>
                     <div className='d-flex justify-content-center flex-row'>
@@ -210,26 +218,26 @@ const SupplyButton = ({ underlyingPrice, supplyApy, compSupplyApy, supplied, lef
                             <button type='button' className='btn btn-light me-2' data-bs-dismiss='modal'>
                                 Close
                             </button>
-                            <button type='button' className='btn btn-primary' onClick={async () => {
+                            <button type='button' className='btn btn-primary' data-bs-dismiss='modal' onClick={async () => {
                                 if (activeTab === 1) {
                                     if (ticker !== "ETH" && allowance === 0) {
                                         try {
                                             await Approve(cTokenAddress, ticker)
                                         } catch (error) {
-                                            console.error(error)
+                                            notify(error)
                                         }
                                     } else {
                                         try {
                                             await Supply(ticker, supplyInput, cToken)
                                         } catch (error) {
-                                            console.error(error)
+                                            notify(error)
                                         }
                                     }
                                 } else if (activeTab === 2) {
                                     try {
                                         await Withdraw(ticker, withdrawInput, cToken)
                                     } catch (error) {
-                                        console.error(error)
+                                        notify(error)
                                     }
                                 }
                             }}>

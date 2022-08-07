@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react'
 import {AppService} from '../../../../app/modules/services/covalent.service'
 import {useAccount, useNetwork} from 'src/app/modules/web3'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 type Props = {
   className: string
@@ -76,7 +76,7 @@ const MixedWidget1: React.FC<Props> = ({className, color}) => {
                 <img
                   alt='Compound'
                   className='svg-icon-2x'
-                  src='/metronic8/react/demo1/media/icons/duotune/ecommerce/cmp.svg'
+                  src='/media/icons/duotune/ecommerce/cmp.svg'
                 />
               </span>
             </div>
@@ -108,7 +108,7 @@ const MixedWidget1: React.FC<Props> = ({className, color}) => {
                 <img
                   alt='Aave'
                   className='svg-icon-2x'
-                  src='/metronic8/react/demo1/media/icons/duotune/ecommerce/aave.svg'
+                  src='/media/icons/duotune/ecommerce/aave.svg'
                 />
               </span>
             </div>
@@ -138,11 +138,7 @@ const MixedWidget1: React.FC<Props> = ({className, color}) => {
             {/* begin::Symbol */}
             <div className='symbol symbol-45px w-40px me-5'>
               <span className='symbol-label bg-lighten'>
-                <img
-                  alt='Kebab'
-                  className='svg-icon-1'
-                  src='/metronic8/react/demo1/media/logos/logo-22.svg'
-                />
+                <img alt='Kebab' className='svg-icon-1' src='/media/logos/logo-22.svg' />
               </span>
             </div>
             {/* end::Symbol */}

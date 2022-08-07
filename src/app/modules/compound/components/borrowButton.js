@@ -5,6 +5,8 @@ import { useAccount } from 'src/app/modules/web3'
 import BorrowApyModal from "./borrowApyModal";
 import { Borrow, Repay } from "./BorrowRepay";
 import { Approve } from "./Approve";
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
 
@@ -13,7 +15,6 @@ let borUsdValue;
 let repayUsdValue;
 
 const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, leftToBorrow, usedPower, ticker, balance, cF, cTokenAddress, cToken, allowance }) => {
-    const { account } = useAccount()
     const [activeTab, setActiveTab] = useState(3)
     const [borrowInput, setBorrowInput] = useState(0)
     const [repayInput, setRepayInput] = useState(0)
@@ -21,6 +22,11 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
     const [usedRepayLiq, setUsedRepayLiq] = useState(usedPower)
     const [borLiq, setBorLiq] = useState(leftToBorrow)
     const [repayLiq, setRepayLiq] = useState(leftToBorrow)
+
+    const notify = (error) =>
+        toast.error(error.message, {
+            position: toast.POSITION.TOP_RIGHT,
+        })
 
 
     let usdValue = Math.round(balance * underlyingPrice * 100) / 100
@@ -57,6 +63,7 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
 
     return (
         <div className='rounded-bottom modal fade' tabIndex={-1} id={'kt_modal_2' + ticker}>
+            <ToastContainer />
             <div className='modal-dialog'>
                 <div className='modal-content'>
                     <div className='d-flex justify-content-center flex-row'>
@@ -213,25 +220,25 @@ const BorrowButton = ({ underlyingPrice, borrowApy, compBorrowApy, borrowed, lef
                             <button type='button' className='btn btn-light me-2' data-bs-dismiss='modal'>
                                 Close
                             </button>
-                            <button type='button' className='btn btn-primary' onClick={async () => {
+                            <button type='button' className='btn btn-primary' data-bs-dismiss='modal' onClick={async () => {
                                 if (activeTab === 3) {
                                     try {
                                         await Borrow(ticker, borrowInput, cToken)
                                     } catch (error) {
-                                        console.error(error)
+                                        notify(error)
                                     }
                                 } else if (activeTab === 4) {
                                     if (ticker !== "ETH" && allowance === 0) {
                                         try {
                                             await Approve(cTokenAddress, ticker)
                                         } catch (error) {
-                                            console.error(error)
+                                            notify(error)
                                         }
                                     } else {
                                         try {
                                             await Repay(ticker, repayInput, cToken)
                                         } catch (error) {
-                                            console.error(error)
+                                            notify(error)
 
                                         }
                                     }

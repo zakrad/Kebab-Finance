@@ -4,6 +4,8 @@ import {FC} from 'react'
 import {Link} from 'react-router-dom'
 
 import Avatar from 'boring-avatars'
+import {toast, ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 type WalletbarProps = {
   account: string | undefined
@@ -11,11 +13,17 @@ type WalletbarProps = {
 }
 
 const HeaderUserMenu: FC<WalletbarProps> = ({account, network}) => {
+  const notify = (error: any) =>
+    toast.error(error.message, {
+      position: toast.POSITION.TOP_RIGHT,
+    })
+
   return (
     <div
       className='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px'
       data-kt-menu='true'
     >
+      <ToastContainer />
       <div className='menu-item px-3'>
         <div className='menu-content d-flex align-items-center px-3 ribbon ribbon-end ribbon-clip'>
           <div className='symbol symbol-50px me-5'>
@@ -69,14 +77,18 @@ const HeaderUserMenu: FC<WalletbarProps> = ({account, network}) => {
       <div
         className='menu-item px-5 my-1'
         onClick={async () => {
-          await window.ethereum.request({
-            method: 'wallet_requestPermissions',
-            params: [
-              {
-                eth_accounts: {},
-              },
-            ],
-          })
+          try {
+            await window.ethereum.request({
+              method: 'wallet_requestPermissions',
+              params: [
+                {
+                  eth_accounts: {},
+                },
+              ],
+            })
+          } catch (error) {
+            notify(error)
+          }
         }}
       >
         <a href='#' className='menu-link px-5'>

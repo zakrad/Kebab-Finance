@@ -13,6 +13,24 @@ let totalSupply = 0
 let netApySum = 0
 let netApy = 0
 
+type cToken = {
+  cETH?: string
+  cDAI?: string
+  cUSDC?: string
+  cUSDT?: string
+  cZRX?: string
+  cREP?: string
+  cBAT?: string
+  cUNI?: string
+  cCOMP?: string
+  cTUSD?: string
+  cLINK?: string
+  cMKR?: string
+  cAAVE?: string
+  cYFI?: string
+  cSUSHI?: string
+}
+
 const CompoundPage: FC = () => {
   const {account} = useAccount()
   const {network} = useNetwork()
@@ -25,6 +43,26 @@ const CompoundPage: FC = () => {
     leftToBorrow: 0,
     underWater: false,
   })
+
+
+
+  const Compound: cToken = {
+    cETH: 'cETH',
+    cDAI: 'cDAI',
+    cUSDC: 'cUSDC',
+    cUSDT: 'cUSDT',
+    cZRX: 'cZRX',
+    cREP: 'cREP',
+    cBAT: 'cBAT',
+    cUNI: 'cUNI',
+    cCOMP: 'cCOMP',
+    cTUSD: 'cTUSD',
+    cLINK: 'cLINK',
+    cMKR: 'cMKR',
+    cAAVE: 'cAAVE',
+    cYFI: 'cYFI',
+    cSUSHI: 'cSUSHI',
+  }
 
   useEffect(() => {
     async function getServerSideProps() {
@@ -87,7 +125,6 @@ const CompoundPage: FC = () => {
   return (
     <>
       <PageTitle children={'Compound Protocol'} />
-      {console.log(apys)}
       <ProfileHeader
         leftToBorrow={info.leftToBorrow}
         lend={Math.round(totalSupply * 100) / 100}
