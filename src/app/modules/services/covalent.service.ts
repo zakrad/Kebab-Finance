@@ -9,6 +9,13 @@ export class AppService {
     return response.data
   }
 
+  public async getAddressNfts(address: string): Promise<any> {
+    const response = await axios.get(
+      `${baseUrl}/address/${address}/balances_v2/?quote-currency=USD&format=JSON&nft=true&no-nft-fetch=true&key=${APIKEY}`
+    )
+    return response.data
+  }
+
   public async getTx(txHash: string): Promise<any> {
     const response = await axios.get(`${baseUrl}/transaction_v2/${txHash}/?key=${APIKEY}`)
     return response.data
