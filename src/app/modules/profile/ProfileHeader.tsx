@@ -86,7 +86,7 @@ const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, u
                         className='mx-1'
                         alt='Pic'
                         width='30px'
-                        src={toAbsoluteUrl('/media/icons/duotune/compound/comp.svg')}
+                        src={toAbsoluteUrl('/media/icons/duotune/compound/COMP.svg')}
                       />
                       <div className='fs-2 fw-bolder'>{comp}</div>
                       <button
