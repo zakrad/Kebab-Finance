@@ -64,12 +64,12 @@ const HeaderUserMenu: FC<WalletbarProps> = ({account, network}) => {
       </div>
 
       <div className='menu-item px-5'>
-        <a href='#' className='menu-link px-5'>
+        <Link to='/nft-profile' className='menu-link px-5'>
           <span className='menu-text'>Owned NFTs</span>
           <span className='menu-badge'>
             <span className='badge badge-light-success badge-circle fw-bolder fs-7'>10</span>
           </span>
-        </a>
+        </Link>
       </div>
 
       <div className='separator my-2'></div>

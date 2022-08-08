@@ -9,6 +9,7 @@ import {MenuTestPage} from '../pages/MenuTestPage'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {KebabWrapper} from '../modules/kebab/KebabPage'
 import {InstadappWrapper} from '../modules/instadapp/InstadappPage'
+import {NftWrapper} from '../modules/nfts/NftPage'
 
 const PrivateRoutes = () => {
   const BuilderPageWrapper = lazy(() => import('../pages/layout-builder/BuilderPageWrapper'))
@@ -33,6 +34,7 @@ const PrivateRoutes = () => {
         <Route path='aave' element={<AaveWrapper />} />
         <Route path='app' element={<KebabWrapper />} />
         <Route path='instadapp' element={<InstadappWrapper />} />
+        <Route path='nft-profile' element={<NftWrapper />} />
         {/* Lazy Modules */}
         <Route
           path='crafted/pages/profile/*'
