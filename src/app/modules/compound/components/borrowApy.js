@@ -16,7 +16,7 @@ const BorrowApy = ({ borrowApy, compBorrowApy, hasEntered }) => {
                             className='mx-1'
                             alt='Pic'
                             width='20px'
-                            src={toAbsoluteUrl('/media/icons/duotune/compound/comp.svg')}
+                            src={toAbsoluteUrl('/media/icons/duotune/compound/COMP.svg')}
                         />
                     }
                 </div>
