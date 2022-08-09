@@ -7,12 +7,14 @@ import {PageTitle} from 'src/_metronic/layout/core'
 import {NftMeta} from 'types/nft'
 import nfts from './meta.json'
 import {AppService} from '../services/covalent.service'
+import getNfts from '../services/quicknode.js'
 
 const appService = new AppService()
 
 const NftWrapper: FC = () => {
   const {provider} = useWeb3()
   const [nfts, setNfts] = useState<Array<any>>([])
+  const [activePage, setActivePage] = useState<number>(1)
 
   const address = '0xc86B12d850FdBBF3260a7BAAE862F85857aAdBBa'
 
@@ -22,17 +24,18 @@ const NftWrapper: FC = () => {
   }
 
   useEffect(() => {
-    async function getNfts() {
+    async function getNft() {
       try {
-        const value = await appService.getAddressNfts(address)
+        // const value = await appService.getAddressNfts(address)
         // setNfts(value.data.items)
         // return value.data.items
-        console.log(value.data.items)
+        // console.log(value.data.items)
+        await getNfts()
       } catch (e) {
         console.log(e)
       }
     }
-    getNfts()
+    getNft()
   }, [])
 
   if (provider) {
@@ -42,7 +45,229 @@ const NftWrapper: FC = () => {
   return (
     <>
       <PageTitle children={'Your NFTs'} />
+      <ul className='pagination'>
+        <li className='page-item previous disabled'>
+          <a href='#' className='page-link'>
+            <i className='previous'></i>
+          </a>
+        </li>
+        <li className='page-item active'>
+          <a href='#' className='page-link'>
+            ...
+          </a>
+        </li>
+        <li className='page-item '>
+          <a href='#' className='page-link'>
+            2
+          </a>
+        </li>
+        <li className='page-item next'>
+          <a href='#' className='page-link'>
+            <i className='next'></i>
+          </a>
+        </li>
+      </ul>
       <div className='row'>
+        <div className='col-lg-3 p-1'>
+          <div className='card card-custom overlay overflow-hidden'>
+            <div className='card-body p-4'>
+              <div className='overlay-wrapper'>
+                <img
+                  src={toAbsoluteUrl(
+                    'https://eincode.mypinata.cloud/ipfs/QmaQYCrX9Fg2kGijqapTYgpMXV7QPPzMwGrSRfV9TvTsfM/Creature_1.png'
+                  )}
+                  alt=''
+                  className='w-100 rounded'
+                />
+              </div>
+              <div className='overlay-layer bg-dark bg-opacity-10 align-items-end justify-content-center'>
+                <div className='d-flex flex-grow-1 flex-center py-5'>
+                  <a href='#' className='btn btn-primary btn-shadow'>
+                    Explore
+                  </a>
+                  <a href='#' className='btn btn-light-primary btn-shadow ms-2'>
+                    Purchase
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-3 p-1'>
+          <div className='card card-custom overlay overflow-hidden'>
+            <div className='card-body p-4'>
+              <div className='overlay-wrapper'>
+                <img
+                  src={toAbsoluteUrl(
+                    'https://eincode.mypinata.cloud/ipfs/QmaQYCrX9Fg2kGijqapTYgpMXV7QPPzMwGrSRfV9TvTsfM/Creature_1.png'
+                  )}
+                  alt=''
+                  className='w-100 rounded'
+                />
+              </div>
+              <div className='overlay-layer bg-dark bg-opacity-10 align-items-end justify-content-center'>
+                <div className='d-flex flex-grow-1 flex-center py-5'>
+                  <a href='#' className='btn btn-primary btn-shadow'>
+                    Explore
+                  </a>
+                  <a href='#' className='btn btn-light-primary btn-shadow ms-2'>
+                    Purchase
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-3 p-1'>
+          <div className='card card-custom overlay overflow-hidden'>
+            <div className='card-body p-4'>
+              <div className='overlay-wrapper'>
+                <img
+                  src={toAbsoluteUrl(
+                    'https://eincode.mypinata.cloud/ipfs/QmaQYCrX9Fg2kGijqapTYgpMXV7QPPzMwGrSRfV9TvTsfM/Creature_1.png'
+                  )}
+                  alt=''
+                  className='w-100 rounded'
+                />
+              </div>
+              <div className='overlay-layer bg-dark bg-opacity-10 align-items-end justify-content-center'>
+                <div className='d-flex flex-grow-1 flex-center py-5'>
+                  <a href='#' className='btn btn-primary btn-shadow'>
+                    Explore
+                  </a>
+                  <a href='#' className='btn btn-light-primary btn-shadow ms-2'>
+                    Purchase
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-3 p-1'>
+          <div className='card card-custom overlay overflow-hidden'>
+            <div className='card-body p-4'>
+              <div className='overlay-wrapper'>
+                <img
+                  src={toAbsoluteUrl(
+                    'https://eincode.mypinata.cloud/ipfs/QmaQYCrX9Fg2kGijqapTYgpMXV7QPPzMwGrSRfV9TvTsfM/Creature_1.png'
+                  )}
+                  alt=''
+                  className='w-100 rounded'
+                />
+              </div>
+              <div className='overlay-layer bg-dark bg-opacity-10 align-items-end justify-content-center'>
+                <div className='d-flex flex-grow-1 flex-center py-5'>
+                  <a href='#' className='btn btn-primary btn-shadow'>
+                    Explore
+                  </a>
+                  <a href='#' className='btn btn-light-primary btn-shadow ms-2'>
+                    Purchase
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-3 p-1'>
+          <div className='card card-custom overlay overflow-hidden'>
+            <div className='card-body p-4'>
+              <div className='overlay-wrapper'>
+                <img
+                  src={toAbsoluteUrl(
+                    'https://eincode.mypinata.cloud/ipfs/QmaQYCrX9Fg2kGijqapTYgpMXV7QPPzMwGrSRfV9TvTsfM/Creature_1.png'
+                  )}
+                  alt=''
+                  className='w-100 rounded'
+                />
+              </div>
+              <div className='overlay-layer bg-dark bg-opacity-10 align-items-end justify-content-center'>
+                <div className='d-flex flex-grow-1 flex-center py-5'>
+                  <a href='#' className='btn btn-primary btn-shadow'>
+                    Explore
+                  </a>
+                  <a href='#' className='btn btn-light-primary btn-shadow ms-2'>
+                    Purchase
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-3 p-1'>
+          <div className='card card-custom overlay overflow-hidden'>
+            <div className='card-body p-4'>
+              <div className='overlay-wrapper'>
+                <img
+                  src={toAbsoluteUrl(
+                    'https://eincode.mypinata.cloud/ipfs/QmaQYCrX9Fg2kGijqapTYgpMXV7QPPzMwGrSRfV9TvTsfM/Creature_1.png'
+                  )}
+                  alt=''
+                  className='w-100 rounded'
+                />
+              </div>
+              <div className='overlay-layer bg-dark bg-opacity-10 align-items-end justify-content-center'>
+                <div className='d-flex flex-grow-1 flex-center py-5'>
+                  <a href='#' className='btn btn-primary btn-shadow'>
+                    Explore
+                  </a>
+                  <a href='#' className='btn btn-light-primary btn-shadow ms-2'>
+                    Purchase
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-3 p-1'>
+          <div className='card card-custom overlay overflow-hidden'>
+            <div className='card-body p-4'>
+              <div className='overlay-wrapper'>
+                <img
+                  src={toAbsoluteUrl(
+                    'https://eincode.mypinata.cloud/ipfs/QmaQYCrX9Fg2kGijqapTYgpMXV7QPPzMwGrSRfV9TvTsfM/Creature_1.png'
+                  )}
+                  alt=''
+                  className='w-100 rounded'
+                />
+              </div>
+              <div className='overlay-layer bg-dark bg-opacity-10 align-items-end justify-content-center'>
+                <div className='d-flex flex-grow-1 flex-center py-5'>
+                  <a href='#' className='btn btn-primary btn-shadow'>
+                    Explore
+                  </a>
+                  <a href='#' className='btn btn-light-primary btn-shadow ms-2'>
+                    Purchase
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='col-lg-3 p-1'>
+          <div className='card card-custom overlay overflow-hidden'>
+            <div className='card-body p-4'>
+              <div className='overlay-wrapper'>
+                <img
+                  src={toAbsoluteUrl(
+                    'https://eincode.mypinata.cloud/ipfs/QmaQYCrX9Fg2kGijqapTYgpMXV7QPPzMwGrSRfV9TvTsfM/Creature_1.png'
+                  )}
+                  alt=''
+                  className='w-100 rounded'
+                />
+              </div>
+              <div className='overlay-layer bg-dark bg-opacity-10 align-items-end justify-content-center'>
+                <div className='d-flex flex-grow-1 flex-center py-5'>
+                  <a href='#' className='btn btn-primary btn-shadow'>
+                    Explore
+                  </a>
+                  <a href='#' className='btn btn-light-primary btn-shadow ms-2'>
+                    Purchase
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className='col-lg-3 p-1'>
           <div className='card card-custom overlay overflow-hidden'>
             <div className='card-body p-4'>
