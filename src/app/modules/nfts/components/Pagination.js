@@ -1,16 +1,15 @@
 import React from 'react';
 import classnames from 'classnames';
-import { usePagination } from './usePagination';
-import './pagination.scss';
+import { usePagination } from '../../../hooks/usePagination';
 const Pagination = props => {
     const {
         onPageChange,
         totalCount,
         siblingCount = 1,
         currentPage,
-        pageSize,
-        className
+        pageSize
     } = props;
+
 
     const paginationRange = usePagination({
         currentPage,
@@ -35,7 +34,7 @@ const Pagination = props => {
     let lastPage = paginationRange[paginationRange.length - 1];
     return (
         <ul
-            className={classnames('pagination', { [className]: className })}
+            className='pagination'
         >
             {/* Left navigation arrow */}
             <li
@@ -63,7 +62,7 @@ const Pagination = props => {
                 return (
                     <li
                         className={classnames('page-item', {
-                            selected: pageNumber === currentPage
+                            active: pageNumber === currentPage
                         })}
                         onClick={() => onPageChange(pageNumber)}
                     >
