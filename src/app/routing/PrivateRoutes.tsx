@@ -9,13 +9,18 @@ import {MenuTestPage} from '../pages/MenuTestPage'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {KebabWrapper} from '../modules/kebab/KebabPage'
 import {InstadappWrapper} from '../modules/instadapp/InstadappPage'
-import {NftWrapper} from '../modules/nfts/NftPage'
+// import {NftPage} from '../modules/nfts/NftPage'
 
 const PrivateRoutes = () => {
   const BuilderPageWrapper = lazy(() => import('../pages/layout-builder/BuilderPageWrapper'))
   const CompoundPage = lazy(() =>
     import('../modules/compound/CompoundPage').then(({CompoundWrapper}) => ({
       default: CompoundWrapper,
+    }))
+  )
+  const NftPage = lazy(() =>
+    import('../modules/nfts/NftPage').then(({NftPage}) => ({
+      default: NftPage,
     }))
   )
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -34,7 +39,7 @@ const PrivateRoutes = () => {
         <Route path='aave' element={<AaveWrapper />} />
         <Route path='app' element={<KebabWrapper />} />
         <Route path='instadapp' element={<InstadappWrapper />} />
-        <Route path='nft-profile' element={<NftWrapper />} />
+        <Route path='nft-profile' element={<NftPage />} />
         {/* Lazy Modules */}
         <Route
           path='crafted/pages/profile/*'

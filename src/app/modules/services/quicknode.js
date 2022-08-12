@@ -23,7 +23,6 @@ export const getTotalItem = async () => {
         page: 1,
         perPage: 12,
     });
-    console.log(totalItems);
     const totalItem = totalItems.totalItems
     return totalItem
 }
