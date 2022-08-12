@@ -1,6 +1,9 @@
 import {ethers} from 'ethers'
 
-const ApiKey = process.env.ETHERSCAN_API_KEY
+
 export class AppServiceE {
-  etherscanProvider = new ethers.providers.EtherscanProvider('homestead', ApiKey)
+  etherscanProvider = new ethers.providers.EtherscanProvider(
+    'homestead',
+    'HVP7WPKI5VGRM42W9RPDNWGTICDFTQ48HS'
+  )
 }

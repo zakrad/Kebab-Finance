@@ -4,6 +4,8 @@
  */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path')
+const webpack = require('webpack')
+const dotenv = require('dotenv')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -18,10 +20,11 @@ const distPath = rootPath + '/src/_metronic/assets'
 const entries = {
   'css/style': './src/_metronic/assets/sass/style.scss',
 }
+dotenv.config();
 
 // remove older folders and files
-;(async () => {
-  await del.sync(distPath + '/css', {force: true})
+; (async () => {
+  await del.sync(distPath + '/css', { force: true })
 })()
 
 function mainConfig() {
@@ -45,6 +48,13 @@ function mainConfig() {
       extensions: ['.scss'],
     },
     plugins: [
+      new dotenv(),
+      new webpack.ProvidePlugin({
+        process: "process/browser",
+      }),
+      new webpack.DefinePlugin({
+        'process.env': JSON.stringify(process.env)
+      }),
       new MiniCssExtractPlugin({
         filename: '[name].css',
       }),
@@ -55,8 +65,8 @@ function mainConfig() {
         apply: (compiler) => {
           // hook name
           compiler.hooks.afterEmit.tap('AfterEmitPlugin', () => {
-            ;(async () => {
-              await del.sync(distPath + '/css/*.js', {force: true})
+            ; (async () => {
+              await del.sync(distPath + '/css/*.js', { force: true })
             })()
           })
         },
@@ -82,6 +92,6 @@ function mainConfig() {
   }
 }
 
-module.exports = function () {
-  return [mainConfig()]
+module.exports = function (env) {
+  return [mainConfig(env)]
 }

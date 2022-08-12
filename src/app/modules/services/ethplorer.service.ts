@@ -1,5 +1,5 @@
 const axios = require('axios')
-
+require('dotenv').config()
 const baseUrl = 'https://api.ethplorer.io/'
 const APIKEY = process.env.ETHPLORER_API_KEY
 

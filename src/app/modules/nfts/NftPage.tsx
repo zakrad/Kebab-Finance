@@ -79,6 +79,7 @@ const NftWrapper: FC = () => {
   )
 }
 const NftPage: FC = () => {
+
   return (
     <>
       <NftWrapper />

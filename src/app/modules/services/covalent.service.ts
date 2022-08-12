@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 const baseUrl = 'https://api.covalenthq.com/v1/1'
-const APIKEY = process.env.COVALENT_API_KEY
+const APIKEY = 'ckey_3ba0924394b1481284c158d7b11'
 
 export class AppService {
   public async getAddressTokens(address: string): Promise<any> {

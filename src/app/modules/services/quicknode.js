@@ -1,8 +1,7 @@
 import { ethers } from 'ethers';
 
-const quickNodeRpc = process.abort.QUICKNODE_RPC
 
-const provider = new ethers.providers.JsonRpcProvider(quickNodeRpc);
+const provider = new ethers.providers.JsonRpcProvider("https://morning-divine-glade.discover.quiknode.pro/a0af953409c1d0f244e39c81662f783424b06922/");
 
 const getNfts = async (pageNumber, address) => {
 
