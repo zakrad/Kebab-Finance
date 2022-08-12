@@ -17,6 +17,7 @@ type Props = {
   CF?: number
 }
 
+
 const ProfileHeader: FC<Props> = ({leftToBorrow, lend, borrowed, netApy, comp, usedPower, CF}) => {
   const {account} = useAccount()
   const {network} = useNetwork()

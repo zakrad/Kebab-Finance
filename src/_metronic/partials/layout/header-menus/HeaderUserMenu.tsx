@@ -1,23 +1,51 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {FC} from 'react'
+import {FC, useEffect, useState} from 'react'
 
 import {Link} from 'react-router-dom'
-
 import Avatar from 'boring-avatars'
 import {toast, ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import {getTotalItem} from 'src/app/modules/services/quicknode'
+import {AppService} from 'src/app/modules/services/covalent.service'
 
 type WalletbarProps = {
   account: string | undefined
   network: string | undefined
 }
 
-const HeaderUserMenu: FC<WalletbarProps> = ({account, network}) => {
+const appService = new AppService()
+
+const HeaderUserMenu: FC<WalletbarProps> = ({account = '', network = ''}) => {
+  const [length, setLength] = useState<any>(0)
+  const [mbd, setMbd] = useState<Array<any>>([])
+
   const notify = (error: any) =>
     toast.error(error.message, {
       position: toast.POSITION.TOP_RIGHT,
     })
 
+  useEffect(() => {
+    async function AddressHistoricalValue(address: string) {
+      try {
+        const value = await appService.getHistoricalValue(account)
+        setMbd(value.data.items)
+        return value.data.items
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    async function getTotalItems() {
+      try {
+        setLength(await getTotalItem(account))
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    if (account) {
+      AddressHistoricalValue(account)
+      getTotalItems()
+    }
+  }, [])
   return (
     <div
       className='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px'
@@ -58,7 +86,9 @@ const HeaderUserMenu: FC<WalletbarProps> = ({account, network}) => {
         <Link to='/tokens' className='menu-link px-5'>
           <span className='menu-text'>Owned Tokens</span>
           <span className='menu-badge'>
-            <span className='badge badge-light-warning badge-circle fw-bolder fs-7'>3</span>
+            <span className='badge badge-light-warning badge-circle fw-bolder fs-7'>
+              {mbd.length}
+            </span>
           </span>
         </Link>
       </div>
@@ -67,7 +97,9 @@ const HeaderUserMenu: FC<WalletbarProps> = ({account, network}) => {
         <Link to='/nft-profile' className='menu-link px-5'>
           <span className='menu-text'>Owned NFTs</span>
           <span className='menu-badge'>
-            <span className='badge badge-light-success badge-circle fw-bolder fs-7'>10</span>
+            <span className='badge badge-light-success badge-circle fw-bolder fs-7 p-1'>
+              {length}
+            </span>
           </span>
         </Link>
       </div>

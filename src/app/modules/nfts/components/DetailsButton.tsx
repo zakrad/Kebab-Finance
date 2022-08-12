@@ -19,7 +19,6 @@ const DetailsButton: FC<Props> = ({
   useEffect(() => {
     setTraitss(traits)
   }, [])
-  console.log(traits)
   return (
     <div
       className='rounded-bottom modal fade'
