@@ -83,7 +83,7 @@ const HeaderUserMenu: FC<WalletbarProps> = ({account = '', network = ''}) => {
       </div>
 
       <div className='menu-item px-5'>
-        <Link to='/tokens' className='menu-link px-5'>
+        <Link to='#' className='menu-link px-5'>
           <span className='menu-text'>Owned Tokens</span>
           <span className='menu-badge'>
             <span className='badge badge-light-warning badge-circle fw-bolder fs-7'>
