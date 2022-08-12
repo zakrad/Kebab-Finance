@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 const baseUrl = 'https://api.ethplorer.io/'
-const APIKEY = 'EK-uiUQU-Vyi8omb-CAsAw'
+const APIKEY = process.env.ETHPLORER_API_KEY
 
 export class AppService {
   public async getAddressTokens(address: string): Promise<any> {

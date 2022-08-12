@@ -2,13 +2,10 @@ import Compound from '@compound-finance/compound-js';
 import { BigNumber, ethers } from 'ethers';
 import TokensAbi from 'src/app/modules/compound/abi/TokensAbi.json'
 
-
-// const provider = 'https://speedy-nodes-nyc.moralis.io/453da2a22cc39051bdeaaeb2/eth/mainnet';
-// const provider = 'https://eth-mainnet.gateway.pokt.network/v1/lb/62cfd5feb37b8e00392ac751'
-// const provider = 'https://eth-mainnet.g.alchemy.com/v2/ObJhlL6vyv-RhsM7MQF7xW-4QuZCX5hF'
-// const provider = 'https://mainnet.infura.io/v3/e420812a57104e7990fa4af22683bd36'
-const provider = 'https://rpc.ankr.com/eth'
-// const provider = 'https://morning-divine-glade.discover.quiknode.pro/a0af953409c1d0f244e39c81662f783424b06922/'
+// const provider = process.env.POKT_RPC
+// const provider = process.env.ALCHEMY_RPC
+// const provider = process.env.INFURA_RPC
+const provider = process.env.ANKR_RPC
 
 const wProvider = new ethers.providers.Web3Provider(window.ethereum)
 
