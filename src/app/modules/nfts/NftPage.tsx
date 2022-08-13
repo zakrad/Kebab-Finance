@@ -5,6 +5,7 @@ import getNfts, {getTotalItem} from '../services/quicknode.js'
 import Pagination from './components/Pagination'
 import {NftCard} from './components/Nft'
 import {useAccount} from '../web3/'
+import {useWeb3} from 'src/app/providers/web3/index'
 
 let PageSize = 12
 
@@ -15,27 +16,27 @@ const NftWrapper: FC = () => {
   const [length, setLength] = useState<any>(0)
 
   useEffect(() => {
-    async function getTotalItems() {
+    async function getTotalItems(address: string | undefined) {
       try {
-        setLength(await getTotalItem())
+        setLength(await getTotalItem(address))
       } catch (e) {
         console.log(e)
       }
     }
-    getTotalItems()
+    getTotalItems(account.data)
   }, [])
 
   // const address = '0xc86B12d850FdBBF3260a7BAAE862F85857aAdBBa'
 
   useEffect(() => {
-    async function getNft(currentPage: any) {
+    async function getNft(currentPage: any, address: string | undefined) {
       try {
-        setNfts(await getNfts(currentPage, account.data))
+        setNfts(await getNfts(currentPage, address))
       } catch (e) {
         console.log(e)
       }
     }
-    getNft(currentPage)
+    getNft(currentPage, account.data)
   }, [currentPage])
 
   return (
@@ -78,7 +79,16 @@ const NftWrapper: FC = () => {
   )
 }
 const NftPage: FC = () => {
+  const {provider} = useWeb3()
 
+  const getAccounts = async () => {
+    const accounts = await provider!.listAccounts()
+    console.log(accounts[0])
+  }
+
+  if (provider) {
+    getAccounts()
+  }
   return (
     <>
       <NftWrapper />
