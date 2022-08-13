@@ -2,7 +2,6 @@
 import React, {FC, useEffect, useState} from 'react'
 import {useWeb3} from 'src/app/providers/web3'
 import {Card3} from '../../../_metronic/partials/content/cards/Card3'
-import Compound from '@compound-finance/compound-js'
 import calculateApy, {getInfo} from '../services/compound.js'
 import {ProfileHeader} from '../profile/ProfileHeader'
 import {PageTitle} from 'src/_metronic/layout/core'
