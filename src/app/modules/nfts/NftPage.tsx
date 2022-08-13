@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {FC, useEffect, useState} from 'react'
-import {useWeb3} from 'src/app/providers/web3'
 import {PageTitle} from 'src/_metronic/layout/core'
 import getNfts, {getTotalItem} from '../services/quicknode.js'
 import Pagination from './components/Pagination'

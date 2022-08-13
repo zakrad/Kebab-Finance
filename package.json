@@ -112,6 +112,7 @@
     "@types/prismjs": "1.16.5",
     "@types/react-copy-to-clipboard": "5.0.0",
     "@types/react-redux": "7.1.16",
+    "node-env-run": "^4.0.2",
     "v": "^0.3.0",
     "webpack-cli": "^4.8.0"
   },

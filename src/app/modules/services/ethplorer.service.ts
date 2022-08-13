@@ -1,7 +1,6 @@
 const axios = require('axios')
-require('dotenv').config()
 const baseUrl = 'https://api.ethplorer.io/'
-const APIKEY = process.env.ETHPLORER_API_KEY
+const APIKEY = process.env.REACT_APP_ETHPLORER_API_KEY
 
 export class AppService {
   public async getAddressTokens(address: string): Promise<any> {

@@ -1,15 +1,14 @@
 import Compound from '@compound-finance/compound-js';
 import { BigNumber, ethers } from 'ethers';
 import TokensAbi from 'src/app/modules/compound/abi/TokensAbi.json'
-require('dotenv').config();
 
-// const infuraRpc = process.env.INFURA_RPC
+// const infuraRpc = process.env.REACT_APP_INFURA_RPC
 // const provider = `https://mainnet.infura.io/v3/${infuraRpc}`
-// const alchemyRpc = process.env.ALCHEMY_RPC
+// const alchemyRpc = process.env.REACT_APP_ALCHEMY_RPC
 // const provider = `https://eth-mainnet.g.alchemy.com/v2/${alchemyRpc}`
-// const poktRpc = process.env.POKT_RPC
+// const poktRpc = process.env.REACT_APP_POKT_RPC
 // const provider = `https://eth-mainnet.gateway.pokt.network/v1/lb/${poktRpc}`
-// const ankrRpc = process.env.ANKR_RPC
+// const ankrRpc = process.env.REACT_APP_ANKR_RPC
 const provider = `https://rpc.ankr.com/eth`
 
 const wProvider = new ethers.providers.Web3Provider(window.ethereum)
